@@ -1,5 +1,5 @@
 <!-- menu.html -->
-<nav class="navbar navbar-expand-lg" style="background-color: #212529; width: 100vw;">
+<nav class="navbar navbar-expand-lg bg-white" style="width: 100vw;">
   <div class="container-fluid">
     <!-- 左側品牌 -->
     <a class="navbar-brand fw-bold text-white ms-4 d-flex align-items-center" href="1.index.html" style="font-weight: 700;">
@@ -19,13 +19,13 @@
           <a class="nav-link text-secondary px-3" href="./index.html" data-page="./index.html">手繪小品</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary px-3" href="./about.html" data-page="./about.html">品牌故事</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link text-secondary px-3" href="./product-tea.html" data-page="./product.html">茶葉</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-secondary px-3" href="./product-tea_set.html" data-page="./product.html">茶具</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary px-3" href="./about.html" data-page="./about.html">關於我們</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-secondary px-3" href="./product-gift_box.html" data-page="./product.html">禮盒</a>
@@ -60,27 +60,33 @@
       height: 25px;
     }
   }
-  /* 針對目前頁面的選項 */
+
+  /* 目前頁面選項 */
   .nav-link.active {
-    color: #fff !important; /* 白色 */
+    color: #000 !important; /* 黑色 */
     font-weight: 600;
     font-size: 1.1rem;
   }
 
-  /* 預設非選取的文字顏色 */
+  /* 預設非選取的文字顏色（黑色） */
   .nav-link.text-secondary {
-    color: #888888 !important;
+    color: #000000 !important;
     transition: color 0.3s, font-size 0.3s;
   }
 
-  /* 滑鼠移入變白色 */
+  /* 滑鼠移入變綠色 */
   .nav-link.text-secondary:hover {
-    color: #fff !important;
+    color: #28a745 !important; /* Bootstrap 的成功綠色 */
     font-weight: 600;
-    font-size: 1.5rem; /* 調整字體大小 */
+    font-size: 1.5rem;
+  }
 
+  /* 調整漢堡 icon 顏色為黑色（原本反白用在深底） */
+  .navbar-toggler-icon {
+    filter: none !important;
   }
 </style>
+
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -95,4 +101,3 @@
     });
   });
 </script>
-aghsdthsejh
