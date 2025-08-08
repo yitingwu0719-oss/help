@@ -1,0 +1,14 @@
+﻿body {
+    font-family:'Microsoft JhengHei';
+}
+#banner {
+    background-image: url(../css/images/web-h.png);
+    background-position: center center;
+    background-size: cover;
+    height:300px;
+    margin-top:3.5em;
+}
+.title{
+    color:	#949449;
+    font-weight:bold;
+}
