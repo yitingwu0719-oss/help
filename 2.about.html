@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- 自訂樣式 -->
+    <link rel="stylesheet" href="css/product.css" />
+
+    <!-- AOS 動畫 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* 文字對齊與內距 */
+        .content-text {
+            text-align: left;
+            padding: 1rem;
+        }
+
+        /* 行動版文字大小優化 */
+        @media (max-width: 576px) {
+            .content-text p {
+                font-size: 1rem;
+            }
+            .content-text h3 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar"></nav>
+    </header>
+
+    <script>
+        // JavaScript 載入 menu.html
+        fetch('menu.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+            });
+    </script>
+
+    <div id="banner"></div>
+    <div class="container mb-3">
+
+        <!-- 第一段品牌故事 -->
+         <br/><br/>
+        <div class="row g-0">
+            <div class="col-lg align-self-center content-text" data-aos="fade-up" data-aos-delay="0">
+                <h3 class="title mt-3">|品牌故事<small>Brand Story</small></h3>
+                <p>吳宜庭茶繪，醞釀自我對生活美學的探索，與對細膩感知的追求。</p>
+                <p>從小握起畫筆，繪畫成了我表達情感與收藏記憶的方式。</p>
+                <p>長大後，我接觸了茶文化，發現泡茶與品茗的過程不只是味覺的體驗，更是一種調整步調、與自己對話的藝術。</p>
+                <p>於是，我開始將繪畫與茶融合，用筆觸描繪生活的溫度，用茶香串連回憶的片段。</p>
+            </div>
+            <div class="col-lg" data-aos="zoom-in" data-aos-delay="100">
+                <img src="css/images/web-p-4.jpg" class="img-fluid" />
+            </div>
+        </div>
+
+        <!-- 第二段品牌故事 -->
+        <div class="row g-0">
+            <div class="col-lg align-self-center content-text" data-aos="fade-up" data-aos-delay="100">
+                <p>吳宜庭茶繪，不只是作品的呈現，更是一段段關於生活、感受與故事的延伸。</p>
+                <p>我來自苗栗公館，客庄的田園風景與濃厚人情，是我記憶中的原點。</p>
+                <p>我將這些生活片段轉化為插畫與茶香，邀請一同感受土地與心的溫度。</p>
+                <p>對於千禧年世代而言，地方人文早已悄悄融入生活節奏。</p>
+            </div>
+            <div class="col-lg order-lg-first" data-aos="zoom-in" data-aos-delay="200">
+                <img src="css/images/web-p-5.jpg" class="img-fluid" />
+            </div>
+        </div>
+
+        <!-- 第三段品牌故事 -->
+        <div class="row g-0">
+            <div class="col-lg align-self-center content-text" data-aos="fade-up" data-aos-delay="200">
+                <p>在台灣這片四季宜人的土地上，一處庭院、一盞清茶，就是與自然連結的方式，也是我們感受文化溫度的日常。</p>
+                <p>
+                    <strong>吳</strong><br />
+                    不是姓氏的界線，而是畫筆、茶香、與心意交會的起點。
+                </p>
+                <p>
+                    <strong>宜</strong><br />
+                    恰如一筆流暢的線條、一杯溫熱的茶，<br />
+                    是生活中不多不少的幸福。
+                </p>
+                <p>
+                    <strong>庭</strong><br />
+                    生活的庭院，讓畫與茶自然流轉，<br />
+                    容納故事、畫意與茶韻，<br />
+                    讓人慢下來、品味生活。
+                </p>
+            </div>
+            <div class="col-lg" data-aos="zoom-in" data-aos-delay="300">
+                <img src="css/images/web-p-6.jpg" class="img-fluid" />
+            </div>
+        </div>
+
+        <!-- 店家資訊 -->
+        <div class="row g-0">
+            <div class="col-lg align-self-center content-text" data-aos="fade-up" data-aos-delay="300">
+                <h3 class="title mt-3">|店家資訊<small>About Us</small></h3>
+                <p>
+                    營業時間：12:00 p.m. ~ 8:00 p.m.<br />
+                    電話：0912372277<br />
+                    IG：wuyiting1207
+                </p>
+            </div>
+            <div class="col-lg order-lg-first" data-aos="zoom-in" data-aos-delay="400">
+                <img src="css/images/web-p-ig.jpg" class="img-fluid" style="max-width: 400px;" />
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center bg-dark text-white py-2">
+        All Rights Reserved &copy; 2025 Yiting Wu Tea Painting.
+    </footer>
+
+    <!-- AOS 動畫 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,   // 動畫持續時間稍微縮短
+            once: false      // 滾動時會重複觸發動畫
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>購物車</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
+  <div id="toast-validation" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="toast-validation-body">
+        請填寫所有必填欄位
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="關閉"></button>
+    </div>
+  </div>
+</div>
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar"></nav>
+  </header>
+
+  <script>
+    fetch('menu.html')
+      .then(res => res.text())
+      .then(data => document.getElementById('navbar').innerHTML = data);
+  </script>
+
+  <br/>
+  <br/>
+  <div class="container my-5 pt-4">
+    <h3 class="mb-4" style="color:#949449";>| 購物車 <small>Shopping Cart</small></h3>
+
+    <div id="checkout-msg" class="alert alert-success text-center" style="display:none;" role="alert"></div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered text-center align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>圖片</th>
+            <th>商品名稱</th>
+            <th>單價</th>
+            <th>數量</th>
+            <th>小計</th>
+            <th>移除</th>
+          </tr>
+        </thead>
+        <tbody id="cart-body"></tbody>
+      </table>
+    </div>
+
+    <div id="empty-cart-message" class="text-center text-muted my-4" style="display:none;">
+      <i class="bi bi-cart-x fs-1"></i>
+      <p class="mt-2">目前購物車沒有商品</p>
+    </div>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-outline-danger" onclick="clearCart()">清空購物車</button>
+    </div>
+
+    <div class="row justify-content-end mt-4" id="summary-section">
+      <div class="col-md-4">
+        <div class="border p-3 bg-light rounded">
+          <h5 class="mb-3">訂單摘要</h5>
+          <p class="d-flex justify-content-between">
+            <span>商品總計：</span>
+            <span id="subtotal">$0</span>
+          </p>
+          <p class="d-flex justify-content-between">
+            <span>運費：</span>
+            <span id="shipping">$0</span>
+          </p>
+          <p class="text-info small" id="free-shipping-msg"></p>
+          <hr>
+          <p class="d-flex justify-content-between fs-5">
+            <span>總金額：</span>
+            <span class="text-danger fw-bold" id="grand-total">$0</span>
+          </p>
+          <button class="btn btn-danger w-100 mt-2" id="checkout-btn">前往結帳</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Modal 結帳及填寫資料 -->
+  <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="checkout-form" novalidate>
+        <div class="modal-header">
+          <h5 class="modal-title" id="checkoutModalLabel">結帳資訊</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+        </div>
+        <div class="modal-body">
+             <div class="mb-3">
+              <label for="name" class="form-label">姓名 <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="name" placeholder="請輸入姓名" required>
+              <div class="invalid-feedback">請填寫姓名</div>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">電話 <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="phone" placeholder="請輸入電話" required pattern="^[0-9\-+\s]{6,15}$">
+              <div class="invalid-feedback">請填寫有效電話</div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">電子郵件 <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" id="email" placeholder="請輸入電子郵件" required>
+              <div class="invalid-feedback">請填寫有效電子郵件
+              </div>
+            </div>
+          <div class="mb-3">
+            <label for="address" class="form-label">收貨地址 <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="address" rows="3" required placeholder="請輸入收貨地址"></textarea>
+            <div class="invalid-feedback">
+              請填寫收貨地址
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label d-block">付款方式 <span class="text-danger">*</span></label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="paymentMethod" id="payATM" value="ATM" required>
+              <label class="form-check-label" for="payATM">ATM轉帳</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="paymentMethod" id="payCOD" value="貨到付款" required>
+              <label class="form-check-label" for="payCOD">貨到付款</label>
+            </div>
+            <div class="invalid-feedback d-block" id="payment-invalid-feedback" style="display:none;">
+              請選擇付款方式
+            </div>
+          </div>
+
+          <!-- ATM 轉帳資訊與倒數計時 -->
+          <div id="atm-info" class="border p-3 mt-3" style="display:none; background:#f8f9fa;">
+            <h6>ATM 轉帳資訊</h6>
+            <p>銀行：AB銀行<br>代碼：000<br>帳戶：123456789000</p>
+            <p>請在 <span id="atm-timer">15:00</span> 內完成付款，逾時訂單將自動取消。<br/>如未付款直接點擊送出訂單，也視為取消訂單</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-danger">送出訂單</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Render 購物車
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const tbody = document.getElementById('cart-body');
+      const emptyMsg = document.getElementById('empty-cart-message');
+      const summary = document.getElementById('summary-section');
+
+      tbody.innerHTML = '';
+
+      if (cart.length === 0) {
+        emptyMsg.style.display = 'block';
+        summary.style.display = 'none';
+        return;
+      } else {
+        emptyMsg.style.display = 'none';
+        summary.style.display = 'block';
+      }
+
+      let total = 0;
+      cart.forEach((item, index) => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><img src="${item.image}" alt="${item.name}" width="100"></td>
+          <td>${item.name}</td>
+          <td>$${item.price}</td>
+          <td><input type="number" value="${item.quantity}" min="1" class="form-control text-center" onchange="updateQty(${index}, this.value)"></td>
+          <td>$${subtotal}</td>
+          <td><button class="btn btn-sm btn-danger" onclick="removeItem(${index})"><i class="bi bi-trash"></i></button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('subtotal').innerText = `$${total}`;
+
+      const shippingThreshold = 1500;
+      const shipping = total >= shippingThreshold ? 0 : 100;
+      document.getElementById('shipping').innerText = `$${shipping}`;
+      document.getElementById('grand-total').innerText = `$${total + shipping}`;
+
+      const msgEl = document.getElementById('free-shipping-msg');
+      if (total >= shippingThreshold) {
+        msgEl.innerText = '✅ 已達免運門檻';
+      } else {
+        const remaining = shippingThreshold - total;
+        msgEl.innerText = `⚠ 還差 $${remaining} 可免運費`;
+      }
+    }
+
+    function updateQty(index, qty) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart[index].quantity = parseInt(qty);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function removeItem(index) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function clearCart() {
+      if (confirm('確定清空購物車？')) {
+        localStorage.removeItem('cart');
+        renderCart();
+      }
+    }
+
+    // 顯示結帳 Modal
+    function checkout() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart.length === 0) {
+        alert('購物車是空的，無法結帳');
+        return;
+      }
+      const checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+      checkoutModal.show();
+    }
+
+    // ATM 倒數計時管理
+    const atmInfoDiv = document.getElementById('atm-info');
+    const atmTimerSpan = document.getElementById('atm-timer');
+    let atmCountdownInterval = null;
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const s = (seconds % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function startAtmCountdown(minutes = 15) {
+      let timeLeft = minutes * 60; // 秒數
+      atmTimerSpan.textContent = formatTime(timeLeft);
+
+      if (atmCountdownInterval) clearInterval(atmCountdownInterval);
+
+      atmCountdownInterval = setInterval(() => {
+        timeLeft--;
+        atmTimerSpan.textContent = formatTime(timeLeft);
+
+        if (timeLeft <= 0) {
+          clearInterval(atmCountdownInterval);
+          alert('ATM付款時間已超過15分鐘，訂單已取消。');
+          // 清除購物車並關閉結帳Modal
+          localStorage.removeItem('cart');
+          renderCart();
+          const checkoutModalEl = document.getElementById('checkoutModal');
+          const modalInstance = bootstrap.Modal.getInstance(checkoutModalEl);
+          if(modalInstance) modalInstance.hide();
+        }
+      }, 1000);
+    }
+
+    function stopAtmCountdown() {
+      if (atmCountdownInterval) {
+        clearInterval(atmCountdownInterval);
+        atmCountdownInterval = null;
+      }
+    }
+
+    // 監聽付款方式改變，顯示或隱藏ATM資訊及啟動/停止計時
+    const paymentRadios = document.getElementsByName('paymentMethod');
+    paymentRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (document.getElementById('payATM').checked) {
+          atmInfoDiv.style.display = 'block';
+          startAtmCountdown(15);
+        } else {
+          atmInfoDiv.style.display = 'none';
+          stopAtmCountdown();
+        }
+      });
+    });
+
+    // 送出訂單表單事件
+    document.getElementById('checkout-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const nameInput = document.getElementById('name');
+      const phoneInput = document.getElementById('phone');
+      const emailInput = document.getElementById('email');
+      const addressInput = document.getElementById('address');
+      const paymentRadios = document.getElementsByName('paymentMethod');
+      const paymentInvalidFeedback = document.getElementById('payment-invalid-feedback');
+
+      // 驗證姓名
+      if (!nameInput.value.trim()) {
+        nameInput.classList.add('is-invalid');
+      } else {
+        nameInput.classList.remove('is-invalid');
+      }
+
+      // 驗證電話（pattern同input設定）
+      const phonePattern = /^[0-9\-+\s]{6,15}$/;
+      if (!phonePattern.test(phoneInput.value.trim())) {
+        phoneInput.classList.add('is-invalid');
+      } else {
+        phoneInput.classList.remove('is-invalid');
+      }
+
+      // 驗證電子郵件（利用 input type=email 預設驗證）
+      if (!emailInput.value.trim() || !emailInput.checkValidity()) {
+        emailInput.classList.add('is-invalid');
+      } else {
+        emailInput.classList.remove('is-invalid');
+      }
+
+      // 驗證地址
+      if (!addressInput.value.trim()) {
+        addressInput.classList.add('is-invalid');
+      } else {
+        addressInput.classList.remove('is-invalid');
+      }
+
+      // 驗證付款方式
+      let paymentSelected = false;
+      for (const radio of paymentRadios) {
+        if (radio.checked) {
+          paymentSelected = true;
+          break;
+        }
+      }
+      if (!paymentSelected) {
+        paymentInvalidFeedback.style.display = 'block';
+      } else {
+        paymentInvalidFeedback.style.display = 'none';
+      }
+
+      // 若有任一欄位沒過，阻止送出
+      if (
+        !nameInput.value.trim() ||
+        !phonePattern.test(phoneInput.value.trim()) ||
+        !emailInput.value.trim() || !emailInput.checkValidity() ||
+        !addressInput.value.trim() ||
+        !paymentSelected
+      ) {
+        return;
+      }
+
+      // 驗證通過，停止 ATM 倒數（若有）
+      stopAtmCountdown();
+
+      // 清空購物車
+      localStorage.removeItem('cart');
+      renderCart();
+
+      // 顯示成功訊息
+      const msgEl = document.getElementById('checkout-msg');
+      msgEl.innerText = '感謝您的訂購！訂單已送出。';
+      msgEl.style.display = 'block';
+
+      // 關閉 Modal
+      const checkoutModalEl = document.getElementById('checkoutModal');
+      const modalInstance = bootstrap.Modal.getInstance(checkoutModalEl);
+      if(modalInstance) modalInstance.hide();
+
+      // 重置表單
+      this.reset();
+      nameInput.classList.remove('is-invalid');
+      phoneInput.classList.remove('is-invalid');
+      emailInput.classList.remove('is-invalid');
+      addressInput.classList.remove('is-invalid');
+      paymentInvalidFeedback.style.display = 'none';
+
+      setTimeout(() => {
+        msgEl.style.display = 'none';
+      }, 4000);
+    });
+
+    // 綁定前往結帳按鈕
+    document.getElementById('checkout-btn').addEventListener('click', checkout);
+
+    // 頁面關閉或重新整理時清空購物車
+    window.addEventListener('beforeunload', () => {
+      localStorage.removeItem('cart');
+    });
+
+    renderCart();
+  </script>
+</body>
+</html>
