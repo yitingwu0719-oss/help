@@ -2,7 +2,7 @@
     font-family:'Microsoft JhengHei';
 }
 #banner {
-    background-image: url(../css/images/web-h.png);
+    background-image: url(/images/web-h.png);
     background-position: center center;
     background-size: cover;
     height:300px;
