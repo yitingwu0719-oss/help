@@ -4,37 +4,74 @@
     <meta charset="utf-8" />
     <title></title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-
-    <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-    <!-- 自訂樣式 -->
-    <link rel="stylesheet" href="./css/product.css" />
-
-    <!-- AOS 動畫 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
+    <!-- ✅ 圖片固定高度 + cover 裁切！ -->
     <style>
-        .content-text {
-            text-align: left;
-            padding: 1rem;
-        }
+    /* 卡片與圖片固定尺寸 */
+      .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;               /* 卡片間距 */
+        justify-content: flex-start; /* 靠左排列 */
+      }
 
-        @media (max-width: 576px) {
-            .content-text p {
-                font-size: 1rem;
-            }
-            .content-text h3 {
-                font-size: 1.25rem;
-            }
-        }
+      .product-card {
+        width: 250px;            /* 卡片寬度配合圖片 */
+        flex: 0 0 250px;         /* 不放大、不縮小，固定基準 250px */
+      }
+
+      .product-card .card-img-top {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        display: block;
+        border-radius: 6px 6px 0 0; /* 可選，讓圖片與卡片銜接角弧 */
+      }
+
+      /* 卡片內 body 可自由伸縮 */
+      .product-card .card-body {
+        padding: .75rem;
+      }
+
+      /* RWD：螢幕很小時讓卡片變為 45% 寬（兩欄）或 100% */
+      @media (max-width: 576px) {
+        .product-card { width: 100%; flex: 0 0 100%; }
+      }
+      @media (min-width: 577px) and (max-width: 900px) {
+        .product-card { width: 45%; flex: 0 0 45%; }
+      }
+
+      #text-content {
+        overflow: hidden;
+        max-height: 3.6em;
+        transition: max-height 0.3s ease;
+      }
+      #text-content.expanded {
+        max-height: 1000px;
+      }
+      #toggle-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        color: #007bff;
+        cursor: pointer;
+        font-size: 1em;
+        font-family: inherit;
+        text-decoration: underline;
+      }
+      #toggle-btn:focus {
+        outline: none;
+      }
     </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar"></nav>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar">
+            <!-- menu.html 將被載入 -->
+        </nav>
     </header>
 
     <script>
@@ -46,59 +83,70 @@
     </script>
 
     <div id="banner"></div>
-    <div class="container mb-3">
-
-        <!-- 第一段品牌故事 -->
-         <br/><br/>
-        <div class="row g-0 mb-5">
-            <div class="col-lg order-lg-last align-self-center content-text" data-aos="fade-up" data-aos-delay="0">
-                <h3 class="title mt-3">|手繪小品<small>Hand Drawn Sketch</small></h3><br/><br/><br/>
-                <p>吳宜庭茶繪，醞釀自我對生活美學的探索，與對細膩感知的追求。</p>
-                <p>從小握起畫筆，繪畫成了我表達情感與收藏記憶的方式。</p>
-                <p>長大後，我接觸了茶文化，發現泡茶與品茗的過程不只是味覺的體驗，更是一種調整步調、與自己對話的藝術。</p>
-                <p>於是，我開始將繪畫與茶融合，用筆觸描繪生活的溫度，用茶香串連回憶的片段。</p>
-            </div>
-            <div class="col-lg order-lg-first" data-aos="zoom-in" data-aos-delay="100">
-                <img src="./images/web-p-1.jpg" class="img-fluid img-gap" />
-            </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="container my-3">
+        <div class="row g-0">
+            <h3 class="title my-3"style="color: #949449;">|產品介紹<small>Product</small></h3>
         </div>
 
-        <!-- 第二段品牌故事 -->
-        <div class="row g-0 mb-5">
-            <div class="col-lg order-lg-last align-self-center content-text" data-aos="fade-up" data-aos-delay="100">
-                <p>吳宜庭茶繪，不只是作品的呈現，更是一段段關於生活、感受與故事的延伸。</p>
-                <p>我來自苗栗公館，客庄的田園風景與濃厚人情，是我記憶中的原點。</p>
-                <p>我將這些生活片段轉化為插畫與茶香，邀請一同感受土地與心的溫度。</p>
-                <p>對於千禧年世代而言，地方人文早已悄悄融入生活節奏。</p>
+        <!-- 把 product-grid 放這裡，直接放在 container 內，不包 col-* -->
+        <div class="product-grid">
+            <!-- 商品 1 -->
+          <div class="product-card card">
+            <div id="carousel-teaset01" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="./images/web-c1.jpg" class="d-block w-100" alt="神奇魔幻茶壺 圖1" style="height:250px; object-fit:cover; border-radius: 6px 6px 0 0;">
+                </div>
+                <div class="carousel-item">
+                  <img src="./images/web-c2.jpg" class="d-block w-100" alt="神奇魔幻茶壺 圖2" style="height:250px; object-fit:cover; border-radius: 6px 6px 0 0;">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carousel-teaset01" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">上一張</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carousel-teaset01" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">下一張</span>
+              </button>
             </div>
-            <div class="col-lg order-lg-first" data-aos="zoom-in" data-aos-delay="200">
-                <img src="./images/web-p-2.jpg" class="img-fluid" />
-            </div>
-        </div>
 
-        <!-- 第三段品牌故事 -->
-        <div class="row g-0 mb-5">
-            <div class="col-lg order-lg-last align-self-center content-text" data-aos="fade-up" data-aos-delay="200">
-                <p>在台灣這片四季宜人的土地上，一處庭院、一盞清茶，就是與自然連結的方式，也是我們感受文化溫度的日常。</p>
-                <p>
-                    <strong>吳</strong><br />
-                        不是姓氏的界線，而是畫筆、茶香、與心意交會的起點。
-                </p>
-                <p>
-                    <strong>宜</strong><br />
-                    恰如<br/>一筆流暢的線條<br/>一杯溫熱的茶，<br />
-                    是生活中不多不少的幸福。
-                </p>
-                <p>
-                    <strong>庭</strong><br />
-                    生活的庭院，讓畫與茶自然流轉，<br />
-                    容納故事、畫意與茶韻，<br />
-                    讓人慢下來、品味生活。
-                </p>
+            <div class="card-body">
+              <h5 class="card-title">神奇魔幻茶壺</h5>
+              <p class="card-text" id="text-content">壺身呈現出波濤洶湧的氣勢，宛如雲朵般柔和流暢，彷彿在積聚雨水
+                ，為茶道添彩。雲紋銅壺柄精美絕倫，瓶身紋路純手工打造，獨一無二。
+                我們非常榮幸能將這些雲紋壺奉獻給吳宜庭茶友。
+                它們造型優美，出水如夢且清澈，容量約為1公升。</p>
+                <button id="toggle-btn">顯示更多</button>
+
+              <script>
+              const btn = document.getElementById('toggle-btn');
+              const text = document.getElementById('text-content');
+
+              btn.addEventListener('click', () => {
+                if (text.classList.contains('expanded')) {
+                  text.classList.remove('expanded');
+                  btn.textContent = '顯示更多';
+                } else {
+                  text.classList.add('expanded');
+                  btn.textContent = '收起';
+                }
+              });
+            </script>
+              <p class="text-danger">價格：$5000</p>
+              <button class="btn btn-outline-primary float-end add-to-cart-btn"  data-id="teaset01"
+                data-name="神奇魔幻茶壺"
+                data-price="5000"
+                data-img="./images/web-c3.jpg">
+                加入購物車
+              </button>
             </div>
-            <div class="col-lg order-lg-first" data-aos="zoom-in" data-aos-delay="300">
-                <img src="./images/web-p-3.jpg" class="img-fluid" />
-            </div>
+          </div>
         </div>
     </div>
 
@@ -106,13 +154,84 @@
         All Rights Reserved &copy; 2025 Yiting Wu Tea Painting.
     </footer>
 
-    <!-- AOS 動畫 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <!-- ✅ 購物車 Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <p id="modalMessage" class="fs-5"></p>
+                    <button type="button" class="btn btn-primary mt-2" data-bs-dismiss="modal">確定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ 數量選擇 Modal -->
+    <div class="modal fade" id="quantityModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">選擇購買數量</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p id="productName" class="fw-bold"></p>
+            <div class="input-group">
+              <span class="input-group-text">數量</span>
+              <input type="number" id="quantityInput" class="form-control" min="1" value="1">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+            <button class="btn btn-primary" id="confirmAddBtn">加入購物車</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ 修改後的加入購物車功能 -->
     <script>
-        AOS.init({
-            duration: 800,
-            once: false
+    document.addEventListener('DOMContentLoaded', () => {
+      let selectedProduct = null;
+
+      document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          selectedProduct = {
+            id: button.dataset.id,
+            name: button.dataset.name,
+            price: parseInt(button.dataset.price),
+            image: button.dataset.img
+          };
+
+          document.getElementById('productName').innerText = `商品：${selectedProduct.name}`;
+          document.getElementById('quantityInput').value = 1;
+
+          const quantityModal = new bootstrap.Modal(document.getElementById('quantityModal'));
+          quantityModal.show();
         });
+      });
+
+      document.getElementById('confirmAddBtn').addEventListener('click', () => {
+        const quantity = parseInt(document.getElementById('quantityInput').value);
+        if (isNaN(quantity) || quantity <= 0) return;
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const found = cart.find(item => item.id === selectedProduct.id);
+        if (found) {
+          found.quantity += quantity;
+        } else {
+          cart.push({ ...selectedProduct, quantity });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        bootstrap.Modal.getInstance(document.getElementById('quantityModal')).hide();
+
+        document.getElementById('modalMessage').innerText = `已將「${selectedProduct.name}」的 ${quantity} 件加入購物車！`;
+        const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+        cartModal.show();
+      });
+    });
     </script>
 </body>
 </html>

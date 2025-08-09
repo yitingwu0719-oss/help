@@ -10,15 +10,66 @@
 
     <!-- ✅ 圖片固定高度 + cover 裁切！ -->
     <style>
-      .card-img-top {
-        height: 200px;
+    /* 卡片與圖片固定尺寸 */
+      .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;               /* 卡片間距 */
+        justify-content: flex-start; /* 靠左排列 */
+      }
+
+      .product-card {
+        width: 250px;            /* 卡片寬度配合圖片 */
+        flex: 0 0 250px;         /* 不放大、不縮小，固定基準 250px */
+      }
+
+      .product-card .card-img-top {
+        width: 100%;
+        height: 250px;
         object-fit: cover;
+        display: block;
+        border-radius: 6px 6px 0 0; /* 可選，讓圖片與卡片銜接角弧 */
+      }
+
+      /* 卡片內 body 可自由伸縮 */
+      .product-card .card-body {
+        padding: .75rem;
+      }
+
+      /* RWD：螢幕很小時讓卡片變為 45% 寬（兩欄）或 100% */
+      @media (max-width: 576px) {
+        .product-card { width: 100%; flex: 0 0 100%; }
+      }
+      @media (min-width: 577px) and (max-width: 900px) {
+        .product-card { width: 45%; flex: 0 0 45%; }
+      }
+
+      #text-content {
+        overflow: hidden;
+        max-height: 3.6em;
+        transition: max-height 0.3s ease;
+      }
+      #text-content.expanded {
+        max-height: 1000px;
+      }
+      #toggle-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        color: #007bff;
+        cursor: pointer;
+        font-size: 1em;
+        font-family: inherit;
+        text-decoration: underline;
+      }
+      #toggle-btn:focus {
+        outline: none;
       }
     </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar">
             <!-- menu.html 將被載入 -->
         </nav>
     </header>
@@ -39,65 +90,63 @@
     <br/>
     <div class="container my-3">
         <div class="row g-0">
-            <h3 class="title my-3">|產品介紹<small>Product</small></h3>
+            <h3 class="title my-3"style="color: #949449;">|產品介紹<small>Product</small></h3>
         </div>
-        <div class="row">
-            <!-- ✅ 商品 1 -->
-            <div class="col-lg-4 col-md-6 col-12 mb-3">
-                <div class="card">
-                    <img src="./images/cake01.jpg" class="card-img-top" alt="神奇魔幻茶壺">
-                    <div class="card-body">
-                        <h5 class="card-title">神奇魔幻茶壺</h5>
-                        <p class="card-text">香甜順口的經典紅茶。</p>
-                        <p class="text-danger">價格：$420</p>
-                        <button class="btn btn-outline-primary float-end add-to-cart-btn"
-                            data-id="teaset01"
-                            data-name="神奇魔幻茶壺"
-                            data-price="420"
-                            data-img="./images/cake01.jpg">
-                            加入購物車
-                        </button>
-                    </div>
+
+        <!-- 把 product-grid 放這裡，直接放在 container 內，不包 col-* -->
+        <div class="product-grid">
+            <!-- 商品 1 -->
+          <div class="product-card card">
+            <div id="carousel-teaset01" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="./images/web-c3.jpg" class="d-block w-100" alt="神奇魔幻茶壺 圖1" style="height:250px; object-fit:cover; border-radius: 6px 6px 0 0;">
                 </div>
+                <div class="carousel-item">
+                  <img src="./images/web-c4.jpg" class="d-block w-100" alt="神奇魔幻茶壺 圖2" style="height:250px; object-fit:cover; border-radius: 6px 6px 0 0;">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carousel-teaset01" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">上一張</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carousel-teaset01" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">下一張</span>
+              </button>
             </div>
 
-            <!-- ✅ 商品 2 -->
-            <div class="col-lg-4 col-md-6 col-12 mb-3">
-                <div class="card">
-                    <img src="./images/cake02.jpg" class="card-img-top" alt="劈哩啪啦茶壺">
-                    <div class="card-body">
-                        <h5 class="card-title">劈哩啪啦茶壺</h5>
-                        <p class="card-text">香甜順口的經典紅茶。</p>
-                        <p class="text-danger">價格：$120</p>
-                        <button class="btn btn-outline-primary float-end add-to-cart-btn"
-                            data-id="teaset02"
-                            data-name="劈哩啪啦茶壺"
-                            data-price="120"
-                            data-img="./images/cake02.jpg">
-                            加入購物車
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <div class="card-body">
+              <h5 class="card-title">雲朵茶壺</h5>
+              <p class="card-text" id="text-content">壺身呈現出波濤洶湧的氣勢，宛如雲朵般柔和流暢，彷彿在積聚雨水
+                ，為茶道添彩。雲紋銅壺柄精美絕倫，瓶身紋路純手工打造，獨一無二。
+                我們非常榮幸能將這些雲紋壺奉獻給吳宜庭茶友。
+                它們造型優美，出水如夢且清澈，容量約為1公升。</p>
+                <button id="toggle-btn">顯示更多</button>
 
-            <!-- ✅ 商品 3 -->
-            <div class="col-lg-4 col-md-6 col-12 mb-3">
-                <div class="card">
-                    <img src="./images/cake03.jpg" class="card-img-top" alt="咕呱咕呱茶壺">
-                    <div class="card-body">
-                        <h5 class="card-title">咕呱咕呱茶壺</h5>
-                        <p class="card-text">香甜順口的經典紅茶。</p>
-                        <p class="text-danger">價格：$320</p>
-                        <button class="btn btn-outline-primary float-end add-to-cart-btn"
-                            data-id="teaset03"
-                            data-name="咕呱咕呱茶壺"
-                            data-price="320"
-                            data-img="./images/cake03.jpg">
-                            加入購物車
-                        </button>
-                    </div>
-                </div>
+              <script>
+              const btn = document.getElementById('toggle-btn');
+              const text = document.getElementById('text-content');
+
+              btn.addEventListener('click', () => {
+                if (text.classList.contains('expanded')) {
+                  text.classList.remove('expanded');
+                  btn.textContent = '顯示更多';
+                } else {
+                  text.classList.add('expanded');
+                  btn.textContent = '收起';
+                }
+              });
+            </script>
+              <p class="text-danger">價格：$5000</p>
+              <button class="btn btn-outline-primary float-end add-to-cart-btn"  data-id="teaset01"
+                data-name="神奇魔幻茶壺"
+                data-price="5000"
+                data-img="./images/web-c3.jpg">
+                加入購物車
+              </button>
             </div>
+          </div>
         </div>
     </div>
 

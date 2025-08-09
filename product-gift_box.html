@@ -8,10 +8,45 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+  <style>
+  /* 卡片與圖片固定尺寸 */
+  .product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;               /* 卡片間距 */
+    justify-content: flex-start; /* 置中排列 */
+  }
+
+  .product-card {
+    width: 250px;            /* 卡片寬度配合圖片 */
+    flex: 0 0 250px;         /* 不放大、不縮小，固定基準 250px */
+  }
+
+  .product-card .card-img-top {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    border-radius: 6px 6px 0 0; /* 可選，讓圖片與卡片銜接角弧 */
+  }
+
+  /* 卡片內 body 可自由伸縮 */
+  .product-card .card-body {
+    padding: .75rem;
+  }
+
+  /* RWD：螢幕很小時讓卡片變為 45% 寬（兩欄）或 100% */
+  @media (max-width: 576px) {
+    .product-card { width: 100%; flex: 0 0 100%; }
+  }
+  @media (min-width: 577px) and (max-width: 900px) {
+    .product-card { width: 45%; flex: 0 0 45%; }
+  }
+    </style>
 </head>
 <body>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar">
       <!-- menu.html 將被載入 -->
     </nav>
   </header>
@@ -33,105 +68,97 @@
   <br/>
   <div class="container my-3">
     <div class="row g-0">
-      <h3 class="title my-3">|產品介紹<small>Product</small></h3>
+      <h3 class="title my-3"style="color: #949449;">|產品介紹<small>Product</small></h3>
     </div>
 
-    <div class="row">
-  <!-- 商品 1 -->
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-    <div class="card">
-      <img src="./images/cake01.jpg" class="card-img-top" alt="商品1">
-      <div class="card-body">
-        <h5 class="card-title text-danger">紅茶+劈哩啪啦茶壺</h5>
-        <p class="card-text">清爽香醇紅茶搭配精緻劈哩啪啦茶壺。</p>
-        <p class="text-danger">價格：$850</p>
-        <button class="btn btn-outline-primary float-end add-to-cart-btn"
-          data-id="set01"
-          data-name="紅茶+劈哩啪啦茶壺"
-          data-price="850"
-          data-img="./images/cake01.jpg">
-          加入購物車
-        </button>
-      </div>
-    </div>
-  </div>
+    <!-- 把 product-grid 放這裡，直接放在 container 內，不包 col-* -->
+        <div class="product-grid">
+            <!-- 商品 1 -->
+            <div class="product-card card">
+              <img src="./images/cake01.jpg" class="card-img-top" alt="神奇魔幻茶壺">
+              <div class="card-body">
+                <h5 class="card-title">神奇魔幻茶壺</h5>
+                <p class="card-text">香甜順口的經典紅茶。</p>
+                <p class="text-danger">價格：$420</p>
+                <button class="btn btn-outline-primary float-end add-to-cart-btn"
+                  data-id="teaset01"
+                  data-name="神奇魔幻茶壺"
+                  data-price="420"
+                  data-img="./images/cake01.jpg">
+                  加入購物車
+                </button>
+              </div>
+            </div>
 
-  <!-- 商品 2 -->
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-    <div class="card">
-      <img src="./images/cake02.jpg" class="card-img-top" alt="商品2">
-      <div class="card-body">
-        <h5 class="card-title text-danger">美人茶+咕呱咕呱茶壺</h5>
-        <p class="card-text">優雅美人茶與可愛造型壺的完美組合。</p>
-        <p class="text-danger">價格：$890</p>
-        <button class="btn btn-outline-primary float-end add-to-cart-btn"
-          data-id="set02"
-          data-name="美人茶+咕呱咕呱茶壺"
-          data-price="890"
-          data-img="./images/cake02.jpg">
-          加入購物車
-        </button>
-      </div>
-    </div>
-  </div>
+            <!-- 商品 2 -->
+            <div class="product-card card">
+              <img src="./images/cake02.jpg" class="card-img-top" alt="劈哩啪啦茶壺">
+              <div class="card-body">
+                <h5 class="card-title">劈哩啪啦茶壺</h5>
+                <p class="card-text">香甜順口的經典紅茶。</p>
+                <p class="text-danger">價格：$120</p>
+                <button class="btn btn-outline-primary float-end add-to-cart-btn"
+                  data-id="teaset02"
+                  data-name="劈哩啪啦茶壺"
+                  data-price="120"
+                  data-img="./images/cake02.jpg">
+                  加入購物車
+                </button>
+              </div>
+            </div>
 
-  <!-- 商品 3 -->
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-    <div class="card">
-      <img src="./images/cake03.jpg" class="card-img-top" alt="商品3">
-      <div class="card-body">
-        <h5 class="card-title text-danger">美人茶+咕呱咕呱茶壺+劈哩啪啦茶壺</h5>
-        <p class="card-text">超值三件組，送禮自用皆宜。</p>
-        <p class="text-danger">價格：$1680</p>
-        <button class="btn btn-outline-primary float-end add-to-cart-btn"
-          data-id="set03"
-          data-name="美人茶+咕呱咕呱茶壺+劈哩啪啦茶壺"
-          data-price="1680"
-          data-img="./images/cake03.jpg">
-          加入購物車
-        </button>
-      </div>
-    </div>
-  </div>
+            <!-- 商品 3 -->
+            <div class="product-card card">
+              <img src="./images/cake03.jpg" class="card-img-top" alt="咕呱咕呱茶壺">
+              <div class="card-body">
+                <h5 class="card-title">咕呱咕呱茶壺</h5>
+                <p class="card-text">香甜順口的經典紅茶。</p>
+                <p class="text-danger">價格：$320</p>
+                <button class="btn btn-outline-primary float-end add-to-cart-btn"
+                  data-id="teaset03"
+                  data-name="咕呱咕呱茶壺"
+                  data-price="320"
+                  data-img="./images/cake03.jpg">
+                  加入購物車
+                </button>
+              </div>
+            </div>
 
-  <!-- 商品 4 -->
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-    <div class="card">
-      <img src="./images/cake04.jpg" class="card-img-top" alt="商品4">
-      <div class="card-body">
-        <h5 class="card-title text-danger">美人茶+紅茶+劈哩啪啦茶壺</h5>
-        <p class="card-text">超值三件組，送禮自用皆宜。</p>
-        <p class="text-danger">價格：$1080</p>
-        <button class="btn btn-outline-primary float-end add-to-cart-btn"
-          data-id="set03"
-          data-name="美人茶+紅茶+劈哩啪啦茶壺"
-          data-price="1080"
-          data-img="./images/cake04.jpg">
-          加入購物車
-        </button>
-      </div>
-    </div>
-  </div>
+            <!-- 商品 4 -->
+            <div class="product-card card">
+              <img src="./images/cake03.jpg" class="card-img-top" alt="咕呱咕呱茶壺">
+              <div class="card-body">
+                <h5 class="card-title">咕呱咕呱茶壺</h5>
+                <p class="card-text">香甜順口的經典紅茶。</p>
+                <p class="text-danger">價格：$320</p>
+                <button class="btn btn-outline-primary float-end add-to-cart-btn"
+                  data-id="teaset03"
+                  data-name="咕呱咕呱茶壺"
+                  data-price="320"
+                  data-img="./images/cake03.jpg">
+                  加入購物車
+                </button>
+              </div>
+            </div>
 
-  <!-- 商品 5 -->
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-    <div class="card">
-      <img src="./images/cake05.jpg" class="card-img-top" alt="商品5">
-      <div class="card-body">
-        <h5 class="card-title text-danger">美人茶+紅茶+神奇魔幻茶壺</h5>
-        <p class="card-text">超值三件組，送禮自用皆宜。</p>
-        <p class="text-danger">價格：$1080</p>
-        <button class="btn btn-outline-primary float-end add-to-cart-btn"
-          data-id="set03"
-          data-name="美人茶+紅茶+神奇魔幻茶壺"
-          data-price="1080"
-          data-img="./images/cake05.jpg">
-          加入購物車
-        </button>
-      </div>
-    </div>
+            <!-- 商品 5 -->
+            <div class="product-card card">
+              <img src="./images/cake03.jpg" class="card-img-top" alt="咕呱咕呱茶壺">
+              <div class="card-body">
+                <h5 class="card-title">咕呱咕呱茶壺</h5>
+                <p class="card-text">香甜順口的經典紅茶。</p>
+                <p class="text-danger">價格：$320</p>
+                <button class="btn btn-outline-primary float-end add-to-cart-btn"
+                  data-id="teaset03"
+                  data-name="咕呱咕呱茶壺"
+                  data-price="320"
+                  data-img="./images/cake03.jpg">
+                  加入購物車
+                </button>
+              </div>
+            </div>
+        </div>
   </div>
-</div>
 
   <footer class="text-center bg-dark text-white py-2">
     All Rights Reserved &copy; 2025 Yiting Wu Tea Painting.
