@@ -22,6 +22,11 @@
             text-align: left;
             padding: 1rem;
         }
+        /* 第一個自我介紹區塊，去掉左右 padding，圖片和文字更貼近 */
+    .intro-row > .col-lg {
+        padding-left: 0;
+        padding-right: 0;
+    }
 
         /* 行動版文字大小優化 */
         @media (max-width: 576px) {
@@ -95,88 +100,49 @@
                     容納故事、畫意與茶韻，<br />
                     讓人慢下來、品味生活。
                 </p>
+                <h3 class="title mt-3">|自我介紹<small>Introduce Yourself</small></h3>
             </div>
             <!-- <div class="col-lg" data-aos="zoom-in" data-aos-delay="100">
                 <img src="./images/web-p-4.jpg" class="img-fluid" />
             </div> -->
         </div>
 
-        <!-- 第二段品牌故事 -->
-        <!-- <div class="row g-0">
-            <div class="col-lg align-self-center content-text">
-                <p>
-                    <strong>吳</strong><br />
-                    不是姓氏的界線，而是畫筆、茶香、與心意交會的起點。
-                </p>
-                <p>
-                    <strong>宜</strong><br />
-                    恰如一筆流暢的線條、一杯溫熱的茶，<br />
-                    是生活中不多不少的幸福。
-                </p>
-                <p>
-                    <strong>庭</strong><br />
-                    生活的庭院，讓畫與茶自然流轉，<br />
-                    容納故事、畫意與茶韻，<br />
-                    讓人慢下來、品味生活。
-                </p>
-            </div>
-            <div class="col-lg order-lg-first">
-                <img src="./images/web-p-5.jpg" class="img-fluid square-img" />
-            </div>
-            
-                data-aos="fade-up" data-aos-delay="100"
-                data-aos="zoom-in" data-aos-delay="200" 
-            
-        </div> -->
-        <!-- 自我介紹1 -->
-        <h3 class="title mt-3">|自我介紹<small>Introduce Yourself</small></h3>
-        <br/>
-        <div class="row g-0">
-            <div class="col-lg align-self-center content-text">
-                
+        <!-- 自我介紹1 (圖片+文字，整組靠左) -->
+        <div class="d-flex justify-content-start align-items-center mb-4">
+            <img src="./images/web-p-p1.jpg" class="square-img" style="margin-right: 1rem;" />
+            <div class="content-text" style="max-width: 500px;">
                 <p>
                     我是吳宜庭，我幫忙繪製插畫，以及圖文翻譯，
                     並協助發想企劃，閒暇時我也熱愛與外國朋友們聊天。
                 </p>
-                
             </div>
-            <div class="col-lg order-lg-first">
-                <img src="./images/web-p-p1.jpg" class="img-fluid square-img" />
-            </div>
-            <!-- 
-                data-aos="fade-up" data-aos-delay="100"
-                data-aos="zoom-in" data-aos-delay="200" 
-            -->
         </div>
 
-        <!-- 自我介紹2 -->
-        <div class="row g-0">
-            <div class="col-lg align-self-center content-text">
-                <p>我是吳威樽，我負責設計及撰寫故事並協助吳宜庭思考題材。<br/>
-                    我也喜歡畫畫喝茶，我覺得以茶「繪」友是很好的習慣。<br/>
-                    我平時喜歡閱讀，我喜歡徜徉在文字海中，每當我閱讀小說的時候都會無法自拔。</p>
+        <!-- 自我介紹2 (文字+圖片，整組靠右) -->
+        <div class="d-flex justify-content-end align-items-center mb-4">
+            <div class="content-text" style="max-width: 500px; margin-right: 1rem;">
+                <p>
+                    我是吳威樽，我負責設計及撰寫故事並協助吳宜庭思考題材。<br />
+                    我也喜歡畫畫喝茶，我覺得以茶「繪」友是很好的習慣。<br />
+                    我平時喜歡閱讀，我喜歡徜徉在文字海中，每當我閱讀小說的時候都會無法自拔。
+                </p>
             </div>
-            <div class="col-lg text-center">
-                <img src="./images/web-p-p2.jpg" class="img-fluid square-img" />
-            </div>
-            <!-- 
-                data-aos="fade-up" data-aos-delay="200"
-                data-aos="zoom-in" data-aos-delay="300" 
-            -->
+            <img src="./images/web-p-p2.jpg" class="square-img" />
         </div>
+
 
         <!-- 店家資訊 -->
         <div class="row g-0">
             <div class="col-lg align-self-center content-text">
                 <h3 class="title mt-3">|店家資訊<small>Store Information</small></h3>
                 <p>
-                    電話：0912372277<br />
+                    電話：0921323311<br />
                     IG：wuyiting1207<br/>
                     Email：yitingwu1207@gmail.com
                 </p>
             </div>
             <div class="col-lg order-lg-first">
-                <img src="./images/web-p-ig.jpg" class="img-fluid" style="max-width:250px;" />
+                <img src="./images/web-p-ig.jpg" class="img-fluid" style="max-width:150px;" />
             </div>
             <!-- 
                 data-aos="fade-up" data-aos-delay="300"

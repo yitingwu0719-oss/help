@@ -1,217 +1,606 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <title></title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-  <style>
-  /* 卡片與圖片固定尺寸 */
-  .product-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;               /* 卡片間距 */
-    justify-content: flex-start; /* 置中排列 */
-  }
+    <!-- ✅ 圖片固定高度 + cover 裁切！ -->
+    <style>
+    /* 卡片與圖片固定尺寸 */
+      .product-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;               /* 卡片間距 */
+        justify-content: flex-start; /* 靠左排列 */
+      }
 
-  .product-card {
-    width: 250px;            /* 卡片寬度配合圖片 */
-    flex: 0 0 250px;         /* 不放大、不縮小，固定基準 250px */
-  }
+      .product-card {
+        width: 240px;            /* 卡片寬度配合圖片 */
+        flex: 0 0 240px;         /* 不放大、不縮小，固定基準 250px */
+      }
 
-  .product-card .card-img-top {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    display: block;
-    border-radius: 6px 6px 0 0; /* 可選，讓圖片與卡片銜接角弧 */
-  }
+      .product-card .card-img-top {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        display: block;
+        border-radius: 6px 6px 0 0; /* 可選，讓圖片與卡片銜接角弧 */
+      }
 
-  /* 卡片內 body 可自由伸縮 */
-  .product-card .card-body {
-    padding: .75rem;
-  }
+      /* 卡片內 body 可自由伸縮 */
+      .product-card .card-body {
+        padding: .75rem;
+      }
 
-  /* RWD：螢幕很小時讓卡片變為 45% 寬（兩欄）或 100% */
-  @media (max-width: 576px) {
-    .product-card { width: 100%; flex: 0 0 100%; }
-  }
-  @media (min-width: 577px) and (max-width: 900px) {
-    .product-card { width: 45%; flex: 0 0 45%; }
-  }
+      /* RWD：螢幕很小時讓卡片變為 45% 寬（兩欄）或 100% */
+      @media (max-width: 576px) {
+        .product-card { width: 100%; flex: 0 0 100%; }
+      }
+      @media (min-width: 577px) and (max-width: 900px) {
+        .product-card { width: 45%; flex: 0 0 45%; }
+      }
+
+      #text-content {
+        overflow: hidden;
+        max-height: 1.5em;
+        transition: max-height 0.3s ease;
+      }
+      #text-content.expanded {
+        max-height: 1000px;
+      }
+      #toggle-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        color: #007bff;
+        cursor: pointer;
+        font-size: 1em;
+        font-family: inherit;
+        text-decoration: underline;
+      }
+      #toggle-btn:focus {
+        outline: none;
+      }
     </style>
 </head>
 <body>
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar">
-      <!-- menu.html 將被載入 -->
-    </nav>
-  </header>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar">
+            <!-- menu.html 將被載入 -->
+        </nav>
+    </header>
 
-  <script>
-    // 載入 menu.html
-    fetch('menu.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('navbar').innerHTML = data;
-      });
-  </script>
+    <script>
+        fetch('menu.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+            });
+    </script>
 
-  <div id="banner"></div>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <div class="container my-3">
-    <div class="row g-0">
-      <h3 class="title my-3"style="color: #949449;">|產品介紹<small>Product</small></h3>
-    </div>
+    <div id="banner"></div>
     <br/>
-    <!-- 把 product-grid 放這裡，直接放在 container 內，不包 col-* -->
-        <div class="product-grid">
-            <!-- 商品 1 -->
-            <div class="product-card card">
-              <img src="./images/cake01.jpg" class="card-img-top" alt="神奇魔幻茶壺">
-              <div class="card-body">
-                <h5 class="card-title">神奇魔幻茶壺</h5>
-                <p class="card-text">香甜順口的經典紅茶。</p>
-                <p class="text-danger">價格：$420</p>
-                <button class="btn btn-outline-primary float-end add-to-cart-btn"
-                  data-id="teaset01"
-                  data-name="神奇魔幻茶壺"
-                  data-price="420"
-                  data-img="./images/cake01.jpg">
-                  加入購物車
-                </button>
-              </div>
-            </div>
-
-            <!-- 商品 2 -->
-            <div class="product-card card">
-              <img src="./images/cake02.jpg" class="card-img-top" alt="劈哩啪啦茶壺">
-              <div class="card-body">
-                <h5 class="card-title">劈哩啪啦茶壺</h5>
-                <p class="card-text">香甜順口的經典紅茶。</p>
-                <p class="text-danger">價格：$120</p>
-                <button class="btn btn-outline-primary float-end add-to-cart-btn"
-                  data-id="teaset02"
-                  data-name="劈哩啪啦茶壺"
-                  data-price="120"
-                  data-img="./images/cake02.jpg">
-                  加入購物車
-                </button>
-              </div>
-            </div>
-
-            <!-- 商品 3 -->
-            <div class="product-card card">
-              <img src="./images/cake03.jpg" class="card-img-top" alt="咕呱咕呱茶壺">
-              <div class="card-body">
-                <h5 class="card-title">咕呱咕呱茶壺</h5>
-                <p class="card-text">香甜順口的經典紅茶。</p>
-                <p class="text-danger">價格：$320</p>
-                <button class="btn btn-outline-primary float-end add-to-cart-btn"
-                  data-id="teaset03"
-                  data-name="咕呱咕呱茶壺"
-                  data-price="320"
-                  data-img="./images/cake03.jpg">
-                  加入購物車
-                </button>
-              </div>
-            </div>
-
-            <!-- 商品 4 -->
-            <div class="product-card card">
-              <img src="./images/cake03.jpg" class="card-img-top" alt="咕呱咕呱茶壺">
-              <div class="card-body">
-                <h5 class="card-title">咕呱咕呱茶壺</h5>
-                <p class="card-text">香甜順口的經典紅茶。</p>
-                <p class="text-danger">價格：$320</p>
-                <button class="btn btn-outline-primary float-end add-to-cart-btn"
-                  data-id="teaset03"
-                  data-name="咕呱咕呱茶壺"
-                  data-price="320"
-                  data-img="./images/cake03.jpg">
-                  加入購物車
-                </button>
-              </div>
-            </div>
-
-            <!-- 商品 5 -->
-            <div class="product-card card">
-              <img src="./images/cake03.jpg" class="card-img-top" alt="咕呱咕呱茶壺">
-              <div class="card-body">
-                <h5 class="card-title">咕呱咕呱茶壺</h5>
-                <p class="card-text">香甜順口的經典紅茶。</p>
-                <p class="text-danger">價格：$320</p>
-                <button class="btn btn-outline-primary float-end add-to-cart-btn"
-                  data-id="teaset03"
-                  data-name="咕呱咕呱茶壺"
-                  data-price="320"
-                  data-img="./images/cake03.jpg">
-                  加入購物車
-                </button>
-              </div>
-            </div>
-        </div>
-  </div>
-
-  <footer class="text-center bg-dark text-white py-2">
-    All Rights Reserved &copy; 2025 Yiting Wu Tea Painting.
-  </footer>
-
-  <!-- ✅ 購物車成功提示 Modal -->
-  <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-body text-center">
-          <p id="modalMessage" class="fs-5 mb-3"></p>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">確定</button>
-        </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="container my-3">
+      <div class="row g-0">
+        <h3 class="title my-3" style="color: #949449;">
+          |產品介紹<small>Product</small>
+        </h3>
       </div>
-    </div>
-  </div>
+      <br />
+      <div class="product-grid">
+        <!-- 商品 1 -->
+        <div class="product-card card">
+          <!-- 輪播圖片外層加 modal 觸發 -->
+          <div id="carousel-wood01" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000"
+                data-bs-toggle="modal" data-bs-target="#detailModal"
+                style="cursor:pointer;">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="./images/web-cw1.jpg" class="d-block w-100" alt="木雕 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+              </div>
+              <div class="carousel-item">
+                <img src="./images/web-cw2.jpg" class="d-block w-100" alt="木雕  圖2" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+              </div>
+              <div class="carousel-item">
+                <img src="./images/web-cw3.jpg" class="d-block w-100" alt="木雕  圖3" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-wood01" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">上一張</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel-wood01" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">下一張</span>
+            </button>
+          </div>
 
-  <!-- ✅ 數量選擇 Modal -->
-  <div class="modal fade" id="quantityModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">選擇購買數量</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <p id="productName" class="fw-bold"></p>
-          <div class="input-group">
-            <span class="input-group-text">數量</span>
-            <input type="number" id="quantityInput" class="form-control" min="1" value="1">
+          <div class="card-body">
+            <h5 class="card-title">木雕</h5>
+            <p class="text-danger">價格：聯絡我們取得報價</p>
           </div>
         </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-          <button class="btn btn-primary" id="confirmAddBtn">加入購物車</button>
+
+      </div>
+    </div>
+
+    <!-- 商品 1 詳細內容 Modal -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="detailModalLabel">商品詳細內容</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+          </div>
+          <div class="modal-body">
+
+            <!-- 商品介紹 -->
+            <h5>木雕</h5>
+            <p>家中珍藏的木雕，靜靜矗立櫃中多年。如今再次與你相伴，成為屬於你最佳的後盾。</p>
+            <p class="text-danger fs-4">價格：聯絡我們獲得報價</p>
+
+            <!-- 數量選擇 -->
+            <div class="input-group mb-3" style="max-width: 150px;">
+              <span class="input-group-text">數量</span>
+              <input type="number" id="modalQuantity" class="form-control" min="1" value="1">
+            </div>
+
+            <button id="modalAddToCart" class="btn btn-primary">加入購物車</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ✅ 加入購物車功能（新增選擇數量邏輯） -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // 商品一加入購物車
+        const modalAddBtn = document.getElementById('modalAddToCart');
+        modalAddBtn.addEventListener('click', () => {
+          const quantity = parseInt(document.getElementById('modalQuantity').value);
+          if (isNaN(quantity) || quantity <= 0) return alert('請輸入正確數量');
+
+          const product = {
+            id: 'teacup01',
+            name: '雲朵茶壺',
+            price: 5000,
+            image: './images/web-c3.jpg',
+            quantity: quantity
+          };
+
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const found = cart.find(item => item.id === product.id);
+          if (found) {
+            found.quantity += quantity;
+          } else {
+            cart.push(product);
+          }
+          localStorage.setItem('cart', JSON.stringify(cart));
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('detailModal'));
+          modal.hide();
+
+          const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+          document.getElementById('modalMessage').textContent = `已將「${product.name}」的 ${quantity} 件加入購物車！`;
+          cartModal.show();
+        });
+
+        // 商品二加入購物車
+        document.getElementById('modalAddToCart2').addEventListener('click', () => {
+          const quantity = parseInt(document.getElementById('modalQuantity2').value);
+          if (isNaN(quantity) || quantity <= 0) return alert('請輸入正確數量');
+
+          const product = {
+            id: 'teacup02',
+            name: '晨曦暖語',
+            price: 8000,
+            image: './images/web-c5.jpg',
+            quantity: quantity
+          };
+
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const found = cart.find(item => item.id === product.id);
+          if (found) {
+            found.quantity += quantity;
+          } else {
+            cart.push(product);
+          }
+          localStorage.setItem('cart', JSON.stringify(cart));
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('detailModal2'));
+          modal.hide();
+
+          const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+          document.getElementById('modalMessage').textContent = `已將「${product.name}」的 ${quantity} 件加入購物車！`;
+          cartModal.show();
+        });
+
+        
+        // 商品三加入購物車
+        document.getElementById('modalAddToCart4').addEventListener('click', () => {
+          const quantity = parseInt(document.getElementById('modalQuantity4').value);
+          if (isNaN(quantity) || quantity <= 0) return alert('請輸入正確數量');
+
+          const product = {
+            id: 'teacup04',
+            name: 'B',
+            price: 0,
+            image: './images/web-c11.jpg',
+            quantity: quantity
+          };
+
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const found = cart.find(item => item.id === product.id);
+          if (found) {
+            found.quantity += quantity;
+          } else {
+            cart.push(product);
+          }
+          localStorage.setItem('cart', JSON.stringify(cart));
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('detailModal4'));
+          modal.hide();
+
+          const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+          document.getElementById('modalMessage').textContent = `已將「${product.name}」的 ${quantity} 件加入購物車！`;
+          cartModal.show();
+        });
+
+        // 商品四加入購物車
+        document.getElementById('modalAddToCart5').addEventListener('click', () => {
+          const quantity = parseInt(document.getElementById('modalQuantity5').value);
+          if (isNaN(quantity) || quantity <= 0) return alert('請輸入正確數量');
+
+          const product = {
+            id: 'teacup05',
+            name: 'C',
+            price: 0,
+            image: './images/web-c14.jpg',
+            quantity: quantity
+          };
+
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const found = cart.find(item => item.id === product.id);
+          if (found) {
+            found.quantity += quantity;
+          } else {
+            cart.push(product);
+          }
+          localStorage.setItem('cart', JSON.stringify(cart));
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('detailModal5'));
+          modal.hide();
+
+          const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+          document.getElementById('modalMessage').textContent = `已將「${product.name}」的 ${quantity} 件加入購物車！`;
+          cartModal.show();
+        });
+
+        // 商品五加入購物車
+        document.getElementById('modalAddToCart6').addEventListener('click', () => {
+          const quantity = parseInt(document.getElementById('modalQuantity6').value);
+          if (isNaN(quantity) || quantity <= 0) return alert('請輸入正確數量');
+
+          const product = {
+            id: 'teacup06',
+            name: 'D',
+            price: 0,
+            image: './images/web-c17.jpg',
+            quantity: quantity
+          };
+
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const found = cart.find(item => item.id === product.id);
+          if (found) {
+            found.quantity += quantity;
+          } else {
+            cart.push(product);
+          }
+          localStorage.setItem('cart', JSON.stringify(cart));
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('detailModal6'));
+          modal.hide();
+
+          const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+          document.getElementById('modalMessage').textContent = `已將「${product.name}」的 ${quantity} 件加入購物車！`;
+          cartModal.show();
+        });
+
+        // 商品六加入購物車
+        document.getElementById('modalAddToCart7').addEventListener('click', () => {
+          const quantity = parseInt(document.getElementById('modalQuantity7').value);
+          if (isNaN(quantity) || quantity <= 0) return alert('請輸入正確數量');
+
+          const product = {
+            id: 'teacup07',
+            name: 'E',
+            price: 0,
+            image: './images/web-c20.jpg',
+            quantity: quantity
+          };
+
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const found = cart.find(item => item.id === product.id);
+          if (found) {
+            found.quantity += quantity;
+          } else {
+            cart.push(product);
+          }
+          localStorage.setItem('cart', JSON.stringify(cart));
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('detailModal7'));
+          modal.hide();
+
+          const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+          document.getElementById('modalMessage').textContent = `已將「${product.name}」的 ${quantity} 件加入購物車！`;
+          cartModal.show();
+        });
+
+        // 商品七加入購物車
+        document.getElementById('modalAddToCart8').addEventListener('click', () => {
+          const quantity = parseInt(document.getElementById('modalQuantity8').value);
+          if (isNaN(quantity) || quantity <= 0) return alert('請輸入正確數量');
+
+          const product = {
+            id: 'teacup08',
+            name: 'F',
+            price: 0,
+            image: './images/web-c23.jpg',
+            quantity: quantity
+          };
+
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const found = cart.find(item => item.id === product.id);
+          if (found) {
+            found.quantity += quantity;
+          } else {
+            cart.push(product);
+          }
+          localStorage.setItem('cart', JSON.stringify(cart));
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('detailModal8'));
+          modal.hide();
+
+          const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+          document.getElementById('modalMessage').textContent = `已將「${product.name}」的 ${quantity} 件加入購物車！`;
+          cartModal.show();
+        });
+
+        // 商品八加入購物車
+        document.getElementById('modalAddToCart9').addEventListener('click', () => {
+          const quantity = parseInt(document.getElementById('modalQuantity9').value);
+          if (isNaN(quantity) || quantity <= 0) return alert('請輸入正確數量');
+
+          const product = {
+            id: 'teacup09',
+            name: 'G',
+            price: 0,
+            image: './images/web-c26.jpg',
+            quantity: quantity
+          };
+
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const found = cart.find(item => item.id === product.id);
+          if (found) {
+            found.quantity += quantity;
+          } else {
+            cart.push(product);
+          }
+          localStorage.setItem('cart', JSON.stringify(cart));
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('detailModal9'));
+          modal.hide();
+
+          const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+          document.getElementById('modalMessage').textContent = `已將「${product.name}」的 ${quantity} 件加入購物車！`;
+          cartModal.show();
+        });
+
+        // 商品九加入購物車
+        document.getElementById('modalAddToCart10').addEventListener('click', () => {
+          const quantity = parseInt(document.getElementById('modalQuantity10').value);
+          if (isNaN(quantity) || quantity <= 0) return alert('請輸入正確數量');
+
+          const product = {
+            id: 'teacup10',
+            name: 'H',
+            price: 0,
+            image: './images/web-c29.jpg',
+            quantity: quantity
+          };
+
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const found = cart.find(item => item.id === product.id);
+          if (found) {
+            found.quantity += quantity;
+          } else {
+            cart.push(product);
+          }
+          localStorage.setItem('cart', JSON.stringify(cart));
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('detailModal10'));
+          modal.hide();
+
+          const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+          document.getElementById('modalMessage').textContent = `已將「${product.name}」的 ${quantity} 件加入購物車！`;
+          cartModal.show();
+        });
+
+        // 商品十加入購物車
+        document.getElementById('modalAddToCart11').addEventListener('click', () => {
+          const quantity = parseInt(document.getElementById('modalQuantity11').value);
+          if (isNaN(quantity) || quantity <= 0) return alert('請輸入正確數量');
+
+          const product = {
+            id: 'teacup11',
+            name: 'I',
+            price: 0,
+            image: './images/web-c32.jpg',
+            quantity: quantity
+          };
+
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const found = cart.find(item => item.id === product.id);
+          if (found) {
+            found.quantity += quantity;
+          } else {
+            cart.push(product);
+          }
+          localStorage.setItem('cart', JSON.stringify(cart));
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('detailModal11'));
+          modal.hide();
+
+          const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+          document.getElementById('modalMessage').textContent = `已將「${product.name}」的 ${quantity} 件加入購物車！`;
+          cartModal.show();
+        });
+
+      });
+    </script>
+
+    <!-- ✅ 購物車 Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body text-center">
+            <p id="modalMessage" class="fs-5"></p>
+            <button type="button" class="btn btn-primary mt-2" data-bs-dismiss="modal">確定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ 數量選擇 Modal (保留，原本功能不變) -->
+    <div class="modal fade" id="quantityModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">選擇購買數量</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p id="productName" class="fw-bold"></p>
+            <div class="input-group">
+              <span class="input-group-text">數量</span>
+              <input type="number" id="quantityInput" class="form-control" min="1" value="1">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+            <button class="btn btn-primary" id="confirmAddBtn">加入購物車</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let selectedProduct = null;
+
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        selectedProduct = {
+          id: button.dataset.id,
+          name: button.dataset.name,
+          price: parseInt(button.dataset.price),
+          image: button.dataset.img
+        };
+
+        document.getElementById('productName').innerText = `商品：${selectedProduct.name}`;
+        document.getElementById('quantityInput').value = 1;
+
+        const quantityModal = new bootstrap.Modal(document.getElementById('quantityModal'));
+        quantityModal.show();
+      });
+    });
+
+    document.getElementById('confirmAddBtn').addEventListener('click', () => {
+      const quantity = parseInt(document.getElementById('quantityInput').value);
+      if (isNaN(quantity) || quantity <= 0) {
+        alert('請輸入正確數量');
+        return;
+      }
+
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const found = cart.find(item => item.id === selectedProduct.id);
+      if (found) {
+        found.quantity += quantity;
+      } else {
+        cart.push({ ...selectedProduct, quantity });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      bootstrap.Modal.getInstance(document.getElementById('quantityModal')).hide();
+
+      document.getElementById('modalMessage').innerText = `已將「${selectedProduct.name}」的 ${quantity} 件加入購物車！`;
+      const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+      cartModal.show();
+    });
+  });
+</script>
+
+
+    <footer class="text-center bg-dark text-white py-2">
+        All Rights Reserved &copy; 2025 Yiting Wu Tea Painting.
+    </footer>
+
+    <!-- ✅ 購物車 Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <p id="modalMessage" class="fs-5"></p>
+                    <button type="button" class="btn btn-primary mt-2" data-bs-dismiss="modal">確定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ 數量選擇 Modal -->
+    <div class="modal fade" id="quantityModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">選擇購買數量</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p id="productName" class="fw-bold"></p>
+            <div class="input-group">
+              <span class="input-group-text">數量</span>
+              <input type="number" id="quantityInput" class="form-control" min="1" value="1">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+            <button class="btn btn-primary" id="confirmAddBtn">加入購物車</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ 修改後的加入購物車功能 -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
       let selectedProduct = null;
 
-      const buttons = document.querySelectorAll('.add-to-cart-btn');
-      buttons.forEach(btn => {
-        btn.addEventListener('click', function () {
+      document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', () => {
           selectedProduct = {
-            id: this.dataset.id,
-            name: this.dataset.name,
-            price: parseInt(this.dataset.price),
-            image: this.dataset.img
+            id: button.dataset.id,
+            name: button.dataset.name,
+            price: parseInt(button.dataset.price),
+            image: button.dataset.img
           };
 
           document.getElementById('productName').innerText = `商品：${selectedProduct.name}`;
@@ -227,9 +616,9 @@
         if (isNaN(quantity) || quantity <= 0) return;
 
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const existing = cart.find(item => item.id === selectedProduct.id);
-        if (existing) {
-          existing.quantity += quantity;
+        const found = cart.find(item => item.id === selectedProduct.id);
+        if (found) {
+          found.quantity += quantity;
         } else {
           cart.push({ ...selectedProduct, quantity });
         }
@@ -239,10 +628,10 @@
         bootstrap.Modal.getInstance(document.getElementById('quantityModal')).hide();
 
         document.getElementById('modalMessage').innerText = `已將「${selectedProduct.name}」的 ${quantity} 件加入購物車！`;
-        const modal = new bootstrap.Modal(document.getElementById('cartModal'));
-        modal.show();
+        const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+        cartModal.show();
       });
     });
-  </script>
+    </script>
 </body>
 </html>
