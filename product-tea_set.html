@@ -479,32 +479,22 @@
       </div>
     </div>
 
-<!-- 商品 1 詳細內容 Modal -->
-<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="detailModalLabel">商品詳細內容</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <!-- 左側圖片 + 放大鏡 -->
-          <div class="col-md-6 text-center">
-            <div class="img-magnifier-container">
-              <img id="productImage" src="./images/web-c3.jpg" alt="雲朵茶壺" class="img-fluid">
-            </div>
+    <!-- 商品 1 詳細內容 Modal -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="detailModalLabel">商品詳細內容</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
           </div>
+          <div class="modal-body">
 
-          <!-- 右側文字 + 功能 -->
-          <div class="col-md-6">
+            <!-- 商品介紹 -->
             <h5>雲朵茶壺</h5>
-            <p>
-              壺身呈現出波濤洶湧的氣勢，宛如雲朵般柔和流暢，彷彿在積聚雨水，為茶道添彩。
+            <p>壺身呈現出波濤洶湧的氣勢，宛如雲朵般柔和流暢，彷彿在積聚雨水，為茶道添彩。
               雲紋銅壺柄精美絕倫，瓶身紋路純手工打造，獨一無二。
               我們非常榮幸能將這些雲紋壺奉獻給吳宜庭茶友。
-              它們造型優美，出水如夢且清澈，容量約為1公升。
-            </p>
+              它們造型優美，出水如夢且清澈，容量約為1公升。</p>
             <p class="text-danger fs-4">價格：$5000</p>
 
             <!-- 數量選擇 -->
@@ -518,85 +508,6 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<style>
-/* 放大鏡樣式 */
-.img-magnifier-container {
-  position: relative;
-}
-.img-magnifier-glass {
-  position: absolute;
-  border: 3px solid #000;
-  border-radius: 50%;
-  cursor: none;
-  /* 調整放大鏡大小 */
-  width: 100px;
-  height: 100px;
-}
-</style>
-
-<script>
-// 放大鏡功能
-function magnify(imgID, zoom) {
-  var img, glass, w, h, bw;
-  img = document.getElementById(imgID);
-
-  /* 建立放大鏡 */
-  glass = document.createElement("DIV");
-  glass.setAttribute("class", "img-magnifier-glass");
-
-  /* 插入到圖片前 */
-  img.parentElement.insertBefore(glass, img);
-
-  /* 背景設為圖片並放大 */
-  glass.style.backgroundImage = "url('" + img.src + "')";
-  glass.style.backgroundRepeat = "no-repeat";
-  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
-  bw = 3;
-  w = glass.offsetWidth / 2;
-  h = glass.offsetHeight / 2;
-
-  /* 滑鼠與觸控監聽 */
-  glass.addEventListener("mousemove", moveMagnifier);
-  img.addEventListener("mousemove", moveMagnifier);
-  glass.addEventListener("touchmove", moveMagnifier);
-  img.addEventListener("touchmove", moveMagnifier);
-
-  function moveMagnifier(e) {
-    var pos, x, y;
-    e.preventDefault();
-    pos = getCursorPos(e);
-    x = pos.x;
-    y = pos.y;
-    if (x > img.width - (w / zoom)) { x = img.width - (w / zoom); }
-    if (x < w / zoom) { x = w / zoom; }
-    if (y > img.height - (h / zoom)) { y = img.height - (h / zoom); }
-    if (y < h / zoom) { y = h / zoom; }
-    glass.style.left = (x - w) + "px";
-    glass.style.top = (y - h) + "px";
-    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
-  }
-
-  function getCursorPos(e) {
-    var a, x = 0, y = 0;
-    e = e || window.event;
-    a = img.getBoundingClientRect();
-    x = e.pageX - a.left;
-    y = e.pageY - a.top;
-    x = x - window.pageXOffset;
-    y = y - window.pageYOffset;
-    return {x: x, y: y};
-  }
-}
-
-/* 當 Modal 開啟後啟用放大鏡 */
-document.getElementById('detailModal').addEventListener('shown.bs.modal', function () {
-  magnify("productImage", 2); // 2倍放大
-});
-</script>
-
 
     <!-- 商品 2 詳細內容 Modal -->
     <div class="modal fade" id="detailModal2" tabindex="-1" aria-labelledby="detailModal2Label" aria-hidden="true">
@@ -847,6 +758,87 @@ document.getElementById('detailModal').addEventListener('shown.bs.modal', functi
         </div>
       </div>
     </div>
+
+    <style>
+.img-magnifier-container {
+  position: relative;
+}
+.img-magnifier-glass {
+  position: absolute;
+  border: 2px solid rgba(0,0,0,0.3);
+  border-radius: 50%;
+  cursor: none;
+  width: 120px;  /* 放大鏡大小 */
+  height: 120px;
+  background-color: rgba(255,255,255,0.1); /* 半透明背景 */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* 陰影效果 */
+  transition: left 0.05s ease-out, top 0.05s ease-out; /* 平滑移動 */
+}
+</style>
+
+<script>
+// 放大鏡功能（優化版）
+function magnify(imgID, zoom) {
+  var img, glass, w, h, bw;
+  img = document.getElementById(imgID);
+  if (!img) return;
+
+  // 避免重複建立放大鏡
+  var oldGlass = img.parentElement.querySelector(".img-magnifier-glass");
+  if (oldGlass) oldGlass.remove();
+
+  glass = document.createElement("DIV");
+  glass.setAttribute("class", "img-magnifier-glass");
+  img.parentElement.insertBefore(glass, img);
+
+  glass.style.backgroundImage = "url('" + img.src + "')";
+  glass.style.backgroundRepeat = "no-repeat";
+  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+  bw = 2;
+  w = glass.offsetWidth / 2;
+  h = glass.offsetHeight / 2;
+
+  glass.addEventListener("mousemove", moveMagnifier);
+  img.addEventListener("mousemove", moveMagnifier);
+  glass.addEventListener("touchmove", moveMagnifier);
+  img.addEventListener("touchmove", moveMagnifier);
+
+  function moveMagnifier(e) {
+    var pos, x, y;
+    e.preventDefault();
+    pos = getCursorPos(e);
+    x = pos.x; y = pos.y;
+    if (x > img.width - (w / zoom)) x = img.width - (w / zoom);
+    if (x < w / zoom) x = w / zoom;
+    if (y > img.height - (h / zoom)) y = img.height - (h / zoom);
+    if (y < h / zoom) y = h / zoom;
+    glass.style.left = (x - w) + "px";
+    glass.style.top = (y - h) + "px";
+    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+  }
+
+  function getCursorPos(e) {
+    var a, x = 0, y = 0;
+    e = e || window.event;
+    a = img.getBoundingClientRect();
+    x = e.pageX - a.left;
+    y = e.pageY - a.top;
+    x -= window.pageXOffset;
+    y -= window.pageYOffset;
+    return {x: x, y: y};
+  }
+}
+
+// 自動偵測所有 Modal 開啟
+document.querySelectorAll('.modal').forEach(modal => {
+  modal.addEventListener('shown.bs.modal', function () {
+    const img = modal.querySelector('img[id^="productImage"]');
+    if (img) {
+      magnify(img.id, 2); // 放大 2 倍，可自行改成 3
+    }
+  });
+});
+</script>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
