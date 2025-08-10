@@ -88,14 +88,19 @@
     <br/>
     <br/>
     <br/>
+    
+
+
+
+
     <div class="container my-3">
       <div class="row g-0">
         <h3 class="title my-3" style="color: #949449;">
-          時光為它們鍍上了光澤，<br/>
-          三十年的茶壺各有性格與風味，<br/>
-          壺上落款，皆為工藝匠心的簽名。<br/>
+          時光為它們添上溫潤的光澤，也覆蓋了久遠的塵影。<br/>
+          三十餘年的老壺，各自蘊藏著獨有的氣息與故事。<br/>
+          壺上落款，是匠人留下的歲月簽名。<br/>
           <br/>
-          <p>底價七萬元，靜候有緣人鑑藏。</p>
+          <p>靜候茗香共賞的有緣人。</p>
         </h3>
       </div>
       <br />
@@ -474,22 +479,32 @@
       </div>
     </div>
 
-    <!-- 商品 1 詳細內容 Modal -->
-    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="detailModalLabel">商品詳細內容</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+<!-- 商品 1 詳細內容 Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailModalLabel">商品詳細內容</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <!-- 左側圖片 + 放大鏡 -->
+          <div class="col-md-6 text-center">
+            <div class="img-magnifier-container">
+              <img id="productImage" src="./images/web-c3.jpg" alt="雲朵茶壺" class="img-fluid">
+            </div>
           </div>
-          <div class="modal-body">
 
-            <!-- 商品介紹 -->
+          <!-- 右側文字 + 功能 -->
+          <div class="col-md-6">
             <h5>雲朵茶壺</h5>
-            <p>壺身呈現出波濤洶湧的氣勢，宛如雲朵般柔和流暢，彷彿在積聚雨水，為茶道添彩。
+            <p>
+              壺身呈現出波濤洶湧的氣勢，宛如雲朵般柔和流暢，彷彿在積聚雨水，為茶道添彩。
               雲紋銅壺柄精美絕倫，瓶身紋路純手工打造，獨一無二。
               我們非常榮幸能將這些雲紋壺奉獻給吳宜庭茶友。
-              它們造型優美，出水如夢且清澈，容量約為1公升。</p>
+              它們造型優美，出水如夢且清澈，容量約為1公升。
+            </p>
             <p class="text-danger fs-4">價格：$5000</p>
 
             <!-- 數量選擇 -->
@@ -503,6 +518,85 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<style>
+/* 放大鏡樣式 */
+.img-magnifier-container {
+  position: relative;
+}
+.img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  /* 調整放大鏡大小 */
+  width: 100px;
+  height: 100px;
+}
+</style>
+
+<script>
+// 放大鏡功能
+function magnify(imgID, zoom) {
+  var img, glass, w, h, bw;
+  img = document.getElementById(imgID);
+
+  /* 建立放大鏡 */
+  glass = document.createElement("DIV");
+  glass.setAttribute("class", "img-magnifier-glass");
+
+  /* 插入到圖片前 */
+  img.parentElement.insertBefore(glass, img);
+
+  /* 背景設為圖片並放大 */
+  glass.style.backgroundImage = "url('" + img.src + "')";
+  glass.style.backgroundRepeat = "no-repeat";
+  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+  bw = 3;
+  w = glass.offsetWidth / 2;
+  h = glass.offsetHeight / 2;
+
+  /* 滑鼠與觸控監聽 */
+  glass.addEventListener("mousemove", moveMagnifier);
+  img.addEventListener("mousemove", moveMagnifier);
+  glass.addEventListener("touchmove", moveMagnifier);
+  img.addEventListener("touchmove", moveMagnifier);
+
+  function moveMagnifier(e) {
+    var pos, x, y;
+    e.preventDefault();
+    pos = getCursorPos(e);
+    x = pos.x;
+    y = pos.y;
+    if (x > img.width - (w / zoom)) { x = img.width - (w / zoom); }
+    if (x < w / zoom) { x = w / zoom; }
+    if (y > img.height - (h / zoom)) { y = img.height - (h / zoom); }
+    if (y < h / zoom) { y = h / zoom; }
+    glass.style.left = (x - w) + "px";
+    glass.style.top = (y - h) + "px";
+    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+  }
+
+  function getCursorPos(e) {
+    var a, x = 0, y = 0;
+    e = e || window.event;
+    a = img.getBoundingClientRect();
+    x = e.pageX - a.left;
+    y = e.pageY - a.top;
+    x = x - window.pageXOffset;
+    y = y - window.pageYOffset;
+    return {x: x, y: y};
+  }
+}
+
+/* 當 Modal 開啟後啟用放大鏡 */
+document.getElementById('detailModal').addEventListener('shown.bs.modal', function () {
+  magnify("productImage", 2); // 2倍放大
+});
+</script>
+
 
     <!-- 商品 2 詳細內容 Modal -->
     <div class="modal fade" id="detailModal2" tabindex="-1" aria-labelledby="detailModal2Label" aria-hidden="true">
@@ -825,7 +919,7 @@
 
           const product = {
             id: 'teacup04',
-            name: 'B',
+            name: 'A',
             price: 0,
             image: './images/web-c11.jpg',
             quantity: quantity
@@ -855,7 +949,7 @@
 
           const product = {
             id: 'teacup05',
-            name: 'C',
+            name: 'B',
             price: 0,
             image: './images/web-c14.jpg',
             quantity: quantity
@@ -885,7 +979,7 @@
 
           const product = {
             id: 'teacup06',
-            name: 'D',
+            name: 'C',
             price: 0,
             image: './images/web-c17.jpg',
             quantity: quantity
@@ -915,7 +1009,7 @@
 
           const product = {
             id: 'teacup07',
-            name: 'E',
+            name: 'D',
             price: 0,
             image: './images/web-c20.jpg',
             quantity: quantity
@@ -945,7 +1039,7 @@
 
           const product = {
             id: 'teacup08',
-            name: 'F',
+            name: 'E',
             price: 0,
             image: './images/web-c23.jpg',
             quantity: quantity
@@ -975,7 +1069,7 @@
 
           const product = {
             id: 'teacup09',
-            name: 'G',
+            name: 'F',
             price: 0,
             image: './images/web-c26.jpg',
             quantity: quantity
@@ -1005,7 +1099,7 @@
 
           const product = {
             id: 'teacup10',
-            name: 'H',
+            name: 'G',
             price: 0,
             image: './images/web-c29.jpg',
             quantity: quantity
@@ -1035,7 +1129,7 @@
 
           const product = {
             id: 'teacup11',
-            name: 'I',
+            name: 'H',
             price: 0,
             image: './images/web-c32.jpg',
             quantity: quantity
