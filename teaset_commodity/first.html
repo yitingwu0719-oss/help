@@ -5,11 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>商品詳細資訊</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('../menu-have-color.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('navbar').innerHTML = data;
+                })
+                .catch(err => console.error("載入 menu.html 錯誤:", err));
+        });
+  </script>
   <style>
     .square-img {
-      max-width: 600px;
-      max-height: 600px;
-      width: auto;
+      width: 100%;
       height: auto;
       object-fit: contain;
       border-radius: 8px;
@@ -17,6 +25,10 @@
       margin-left: auto;
       margin-right: auto;
       position: relative;
+    }
+    .carousel-control-prev,
+    .carousel-control-next {
+      width: 40px; /* 縮小按鈕寬度 */
     }
     .carousel-control-prev-icon,
     .carousel-control-next-icon {
@@ -55,7 +67,7 @@
       user-select: none;
     }
     .thumbnail-img.active {
-      border-color: #007bff;
+      border-color: #b1cbe7;
     }
     /* 放大鏡樣式 */
     .img-magnifier-glass {
@@ -63,13 +75,11 @@
       border: 3px solid #000;
       border-radius: 50%;
       cursor: none;
-      /* 放大鏡大小 */
       width: 120px;
       height: 120px;
-      /* 遮罩 */
       box-shadow: 0 0 8px 2px rgba(0,0,0,0.3);
       z-index: 10;
-      display: none; /* 初始隱藏 */
+      display: none;
     }
     .img-magnifier-container {
       position: relative;
@@ -77,11 +87,14 @@
     }
   </style>
 </head>
-<body class="container py-4">
+<body class="container-fluid py-4">
 
-  <a href="../index.html" class="btn btn-outline-secondary mb-3">← 回商品列表</a>
+  <!-- 導覽列位置 -->
+  <div id="navbar"></div>
+  <br/>
+  <a href="../product-tea_set.html" class="btn btn-outline-secondary mb-3">← 回商品列表</a>
 
-  <div class="row">
+  <div class="row gx-0"><!-- 取消欄間距 -->
     <!-- 左邊圖片輪播 -->
     <div class="col-md-6">
       <div id="carouselExample" class="carousel slide mb-2" data-bs-ride="carousel">
@@ -116,71 +129,55 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- 放大鏡功能 script，這裡用 inline 形式貼上你提供的 magnifier.js 內容 -->
   <script type="module">
-    export function setupMagnifier(img, zoomLevel = 3) {
+    function setupMagnifier(img, zoomLevel = 3) {
       if (!img) return;
-
       let oldGlass = img.parentElement.querySelector('.img-magnifier-glass');
       if (oldGlass) oldGlass.remove();
-
       const magnifierGlass = document.createElement('div');
       magnifierGlass.className = 'img-magnifier-glass';
-
       const container = img.parentElement;
       container.insertBefore(magnifierGlass, img);
-
       magnifierGlass.style.backgroundImage = `url('${img.src}')`;
       magnifierGlass.style.backgroundRepeat = 'no-repeat';
       magnifierGlass.style.backgroundSize = `${img.width * zoomLevel}px ${img.height * zoomLevel}px`;
-
       const bw = 3;
       const w = magnifierGlass.offsetWidth / 2;
       const h = magnifierGlass.offsetHeight / 2;
-
       function getCursorPos(e) {
         const a = img.getBoundingClientRect();
         let x = e.pageX - a.left - window.pageXOffset;
         let y = e.pageY - a.top - window.pageYOffset;
         return { x, y };
       }
-
       function moveMagnifier(e) {
         e.preventDefault();
         const pos = getCursorPos(e);
         let x = pos.x;
         let y = pos.y;
-
         if (x > img.width - (w / zoomLevel)) x = img.width - (w / zoomLevel);
         if (x < w / zoomLevel) x = w / zoomLevel;
         if (y > img.height - (h / zoomLevel)) y = img.height - (h / zoomLevel);
         if (y < h / zoomLevel) y = h / zoomLevel;
-
         magnifierGlass.style.left = `${x - w}px`;
         magnifierGlass.style.top = `${y - h}px`;
         magnifierGlass.style.backgroundPosition = `-${(x * zoomLevel) - w + bw}px -${(y * zoomLevel) - h + bw}px`;
         magnifierGlass.style.display = 'block';
       }
-
       img.addEventListener('mousemove', moveMagnifier);
       magnifierGlass.addEventListener('mousemove', moveMagnifier);
-
-      img.addEventListener('mouseleave', () => {
-        magnifierGlass.style.display = 'none';
-      });
-      magnifierGlass.addEventListener('mouseleave', () => {
-        magnifierGlass.style.display = 'none';
-      });
+      img.addEventListener('mouseleave', () => magnifierGlass.style.display = 'none');
+      magnifierGlass.addEventListener('mouseleave', () => magnifierGlass.style.display = 'none');
     }
 
-    // 商品資料與初始化
+    // 商品資料
     const products = {
       "teacup01": {
         id: "teacup01",
         name: "雲朵茶壺",
         price: 5000,
         priceText: "$5000",
-        desc: "壺身呈現出波濤洶湧的氣勢，宛如雲朵般柔和流暢，彷彿在積聚雨水，為茶道添彩。",
+        desc: "壺身呈現出波濤洶湧的氣勢，宛如雲朵般柔和流暢，彷彿在積聚雨水，為茶道添彩。雲紋銅壺柄精美絕倫，瓶身紋路純手工打造，獨一無二。我們非常榮幸能將這些雲紋壺奉獻給吳宜庭茶友。它們造型優美，出水如夢且清澈，容量約為1公升。",
         images: ["../images/web-c3.jpg", "../images/web-c4.jpg"]
       }
     };
@@ -199,12 +196,9 @@
       const carouselInner = document.getElementById('carouselInner');
       const thumbnailContainer = document.getElementById('thumbnailContainer');
 
-      // 輪播插入圖與放大鏡包裝
       product.images.forEach((src, index) => {
         const div = document.createElement('div');
         div.className = 'carousel-item' + (index === 0 ? ' active' : '');
-
-        // 圖片包 div 用於放大鏡定位
         const imgContainer = document.createElement('div');
         imgContainer.className = 'img-magnifier-container';
         const img = document.createElement('img');
@@ -215,25 +209,20 @@
         div.appendChild(imgContainer);
         carouselInner.appendChild(div);
 
-        // 縮圖
         const thumb = document.createElement('img');
         thumb.src = src;
         thumb.className = 'thumbnail-img' + (index === 0 ? ' active' : '');
         thumb.alt = `${product.name} 預覽圖${index + 1}`;
         thumb.dataset.bsSlideTo = index;
-
         thumb.addEventListener('click', () => {
-          const carouselEl = document.getElementById('carouselExample');
-          const carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
+          const carousel = bootstrap.Carousel.getOrCreateInstance(document.getElementById('carouselExample'));
           carousel.to(index);
-
           document.querySelectorAll('.thumbnail-img').forEach(img => img.classList.remove('active'));
           thumb.classList.add('active');
         });
         thumbnailContainer.appendChild(thumb);
       });
 
-      // 同步縮圖active狀態
       const carouselEl = document.getElementById('carouselExample');
       carouselEl.addEventListener('slid.bs.carousel', (e) => {
         const idx = Array.from(carouselInner.children).indexOf(e.relatedTarget);
@@ -241,28 +230,22 @@
         if (idx >= 0) document.querySelectorAll('.thumbnail-img')[idx].classList.add('active');
       });
 
-      // 初次設定放大鏡（只對第一張active圖）
       const firstImg = carouselInner.querySelector('.carousel-item.active img');
       setupMagnifier(firstImg, 3);
 
-      // 當輪播切換時，更新放大鏡圖片
       carouselEl.addEventListener('slid.bs.carousel', e => {
         const activeImg = e.relatedTarget.querySelector('img');
         setupMagnifier(activeImg, 3);
       });
 
-      // 加入購物車功能
       document.getElementById('addToCartBtn').addEventListener('click', () => {
-        const quantityInput = document.getElementById('quantityInput');
-        const quantity = parseInt(quantityInput.value);
+        const quantity = parseInt(document.getElementById('quantityInput').value);
         if (isNaN(quantity) || quantity < 1) {
           alert('請輸入有效的數量 (至少 1)');
           return;
         }
-
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
         const existingIndex = cart.findIndex(item => item.id === product.id);
-
         if (existingIndex >= 0) {
           cart[existingIndex].quantity += quantity;
         } else {
@@ -274,7 +257,6 @@
             image: product.images[0]
           });
         }
-
         localStorage.setItem('cart', JSON.stringify(cart));
         alert(`已加入購物車：${product.name} x ${quantity}`);
       });

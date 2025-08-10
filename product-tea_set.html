@@ -95,7 +95,7 @@
     </header>
 
     <script>
-        fetch('menu.html')
+        fetch('menu-have-color.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbar').innerHTML = data;
@@ -126,15 +126,7 @@
   <!-- 商品 1 -->
   <div class="product-card card" style="width: 250px;">
     <div id="carousel-teaset01" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-      <div class="carousel-inner"
-           data-id="teacup01"
-           data-name="雲朵茶壺"
-           data-price="5000"
-           data-price-text="$5000"
-           data-desc="壺身呈現出波濤洶湧的氣勢，宛如雲朵般柔和流暢，彷彿在積聚雨水，為茶道添彩。"
-           data-images='["./images/web-c3.jpg", "./images/web-c4.jpg"]'
-           data-bs-toggle="modal" data-bs-target="#productDetailModal"
-      >
+      <div class="carousel-inner">
         <div class="carousel-item active">
           <img src="./images/web-c3.jpg" class="d-block w-100" alt="雲朵茶壺 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
         </div>
@@ -155,22 +147,20 @@
     <div class="card-body">
       <h5 class="card-title">雲朵茶壺</h5>
       <p class="text-danger">價格：$5000</p>
-      <!-- 按鈕移除 -->
+      
     </div>
   </div>
+  <script>
+      // 點擊輪播區塊跳轉
+      document.getElementById('carousel-teaset01').addEventListener('click', () => {
+        window.location.href = 'teaset_commodity/first.html?id=teacup01';
+      });
+    </script>
 
   <!-- 商品 2 -->
   <div class="product-card card" style="width: 250px;">
     <div id="carousel-teaset02" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-      <div class="carousel-inner"
-           data-id="teacup02"
-           data-name="晨曦暖語"
-           data-price="8000"
-           data-price-text="$8000"
-           data-desc="釉色如晨光漸染大地，茶香溫暖每一個靜謐時刻。世代悠久，榮幸與您享樂。"
-           data-images='["./images/web-c5.jpg", "./images/web-c6.jpg", "./images/web-c7.jpg"]'
-           data-bs-toggle="modal" data-bs-target="#productDetailModal"
-      >
+      <div class="carousel-inner">
         <div class="carousel-item active">
           <img src="./images/web-c5.jpg" class="d-block w-100" alt="晨曦暖語 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
         </div>
@@ -194,22 +184,19 @@
     <div class="card-body">
       <h5 class="card-title">晨曦暖語</h5>
       <p class="text-danger">價格：$8000</p>
-      <!-- 按鈕移除 -->
     </div>
   </div>
+  <script>
+      // 點擊輪播區塊跳轉
+      document.getElementById('carousel-teaset02').addEventListener('click', () => {
+        window.location.href = 'teaset_commodity/second.html?id=teacup02';
+      });
+    </script>
 
   <!-- 商品 3 -->
   <div class="product-card card" style="width: 250px;">
     <div id="carousel-teaset03" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-      <div class="carousel-inner"
-           data-id="teacup03"
-           data-name="A"
-           data-price="0"
-           data-price-text="聯絡我們獲得報價"
-           data-desc="家中珍藏的茶壺，靜靜躺在櫃中多年，從未使用過。如今再度展現生命，願它第一次盛茶的溫度，屬於你。"
-           data-images='["./images/web-c11.jpg", "./images/web-c12.jpg", "./images/web-c13.jpg"]'
-           data-bs-toggle="modal" data-bs-target="#productDetailModal"
-      >
+      <div class="carousel-inner">
         <div class="carousel-item active">
           <img src="./images/web-c11.jpg" class="d-block w-100" alt="A 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
         </div>
@@ -229,26 +216,22 @@
         <span class="visually-hidden">下一張</span>
       </button>
     </div>
-
     <div class="card-body">
       <h5 class="card-title">A</h5>
       <p class="text-danger">價格：聯絡我們獲得報價</p>
-      <!-- 按鈕移除 -->
     </div>
   </div>
+  <script>
+      // 點擊輪播區塊跳轉
+      document.getElementById('carousel-teaset03').addEventListener('click', () => {
+        window.location.href = 'teaset_commodity/third.html?id=teacup03';
+      });
+    </script>
 
   <!-- 商品 4 -->
   <div class="product-card card" style="width: 250px;">
     <div id="carousel-teaset04" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-      <div class="carousel-inner"
-           data-id="teacup04"
-           data-name="B"
-           data-price="0"
-           data-price-text="聯絡我們獲得報價"
-           data-desc="家中珍藏的茶壺，靜靜躺在櫃中多年，從未使用過。如今再度展現生命，願它第一次盛茶的溫度，屬於你。"
-           data-images='["./images/web-c14.jpg", "./images/web-c15.jpg", "./images/web-c16.jpg", "./images/web-c14-1.jpg", "./images/web-c14-2.jpg"]'
-           data-bs-toggle="modal" data-bs-target="#productDetailModal"
-      >
+      <div class="carousel-inner">
         <div class="carousel-item active">
           <img src="./images/web-c14.jpg" class="d-block w-100" alt="B 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
         </div>
@@ -278,22 +261,19 @@
     <div class="card-body">
       <h5 class="card-title">B</h5>
       <p class="text-danger">價格：聯絡我們獲得報價</p>
-      <!-- 按鈕移除 -->
     </div>
   </div>
+  <script>
+      // 點擊輪播區塊跳轉
+      document.getElementById('carousel-teaset04').addEventListener('click', () => {
+        window.location.href = 'teaset_commodity/fourth.html?id=teacup04';
+      });
+    </script>
 
   <!-- 商品 5 -->
   <div class="product-card card" style="width: 250px;">
     <div id="carousel-teaset05" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-      <div class="carousel-inner"
-           data-id="teacup05"
-           data-name="C"
-           data-price="0"
-           data-price-text="聯絡我們獲得報價"
-           data-desc="家中珍藏的茶壺，靜靜躺在櫃中多年，從未使用過。如今再度展現生命，願它第一次盛茶的溫度，屬於你。"
-           data-images='["./images/web-c17.jpg", "./images/web-c18.jpg", "./images/web-c19.jpg", "./images/web-c17-1.jpg", "./images/web-c17-2.jpg"]'
-           data-bs-toggle="modal" data-bs-target="#productDetailModal"
-      >
+      <div class="carousel-inner">
         <div class="carousel-item active">
           <img src="./images/web-c17.jpg" class="d-block w-100" alt="C 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
         </div>
@@ -323,22 +303,19 @@
     <div class="card-body">
       <h5 class="card-title">C</h5>
       <p class="text-danger">價格：聯絡我們獲得報價</p>
-      <!-- 按鈕移除 -->
     </div>
   </div>
+  <script>
+      // 點擊輪播區塊跳轉
+      document.getElementById('carousel-teaset05').addEventListener('click', () => {
+        window.location.href = 'teaset_commodity/fifth.html?id=teacup05';
+      });
+    </script>
 
   <!-- 商品 6 -->
 <div class="product-card card" style="width: 250px;">
   <div id="carousel-teaset06" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-    <div class="carousel-inner"
-         data-id="teacup06"
-         data-name="D"
-         data-price="0"
-         data-price-text="聯絡我們獲得報價"
-         data-desc="家中珍藏的茶壺，靜靜躺在櫃中多年，從未使用過。如今再度展現生命，願它第一次盛茶的溫度，屬於你。"
-         data-images='["./images/web-c20.jpg", "./images/web-c21.jpg", "./images/web-c22.jpg", "./images/web-c20-1.jpg", "./images/web-c20-2.jpg"]'
-         data-bs-toggle="modal" data-bs-target="#productDetailModal"
-    >
+    <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="./images/web-c20.jpg" class="d-block w-100" alt="D 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
       </div>
@@ -371,19 +348,17 @@
     <p class="text-danger">價格：聯絡我們獲得報價</p>
   </div>
 </div>
+<script>
+      // 點擊輪播區塊跳轉
+      document.getElementById('carousel-teaset06').addEventListener('click', () => {
+        window.location.href = 'teaset_commodity/sixth.html?id=teacup06';
+      });
+    </script>
 
 <!-- 商品 7 -->
 <div class="product-card card" style="width: 250px;">
   <div id="carousel-teaset07" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-    <div class="carousel-inner"
-         data-id="teacup07"
-         data-name="E"
-         data-price="0"
-         data-price-text="聯絡我們獲得報價"
-         data-desc="家中珍藏的茶壺，靜靜躺在櫃中多年，從未使用過。如今再度展現生命，願它第一次盛茶的溫度，屬於你。"
-         data-images='["./images/web-c23.jpg", "./images/web-c24.jpg", "./images/web-c25.jpg", "./images/web-c23-1.jpg", "./images/web-c23-2.jpg"]'
-         data-bs-toggle="modal" data-bs-target="#productDetailModal"
-    >
+    <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="./images/web-c23.jpg" class="d-block w-100" alt="E 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
       </div>
@@ -415,19 +390,17 @@
     <p class="text-danger">價格：聯絡我們獲得報價</p>
   </div>
 </div>
+<script>
+      // 點擊輪播區塊跳轉
+      document.getElementById('carousel-teaset07').addEventListener('click', () => {
+        window.location.href = 'teaset_commodity/seventh.html?id=teacup07';
+      });
+    </script>
 
 <!-- 商品 8 -->
 <div class="product-card card" style="width: 250px;">
   <div id="carousel-teaset08" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-    <div class="carousel-inner"
-         data-id="teacup08"
-         data-name="F"
-         data-price="0"
-         data-price-text="聯絡我們獲得報價"
-         data-desc="家中珍藏的茶壺，靜靜躺在櫃中多年，從未使用過。如今再度展現生命，願它第一次盛茶的溫度，屬於你。"
-         data-images='["./images/web-c26.jpg", "./images/web-c27.jpg", "./images/web-c28.jpg", "./images/web-c26-1.jpg", "./images/web-c26-2.jpg"]'
-         data-bs-toggle="modal" data-bs-target="#productDetailModal"
-    >
+    <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="./images/web-c26.jpg" class="d-block w-100" alt="F 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
       </div>
@@ -459,19 +432,17 @@
     <p class="text-danger">價格：聯絡我們獲得報價</p>
   </div>
 </div>
+<script>
+      // 點擊輪播區塊跳轉
+      document.getElementById('carousel-teaset08').addEventListener('click', () => {
+        window.location.href = 'teaset_commodity/eighth.html?id=teacup08';
+      });
+    </script>
 
 <!-- 商品 9 -->
 <div class="product-card card" style="width: 250px;">
   <div id="carousel-teaset09" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-    <div class="carousel-inner"
-         data-id="teacup09"
-         data-name="G"
-         data-price="0"
-         data-price-text="聯絡我們獲得報價"
-         data-desc="家中珍藏的茶壺，靜靜躺在櫃中多年，從未使用過。如今再度展現生命，願它第一次盛茶的溫度，屬於你。"
-         data-images='["./images/web-c29.jpg", "./images/web-c30.jpg", "./images/web-c31.jpg", "./images/web-c29-1.jpg", "./images/web-c29-2.jpg"]'
-         data-bs-toggle="modal" data-bs-target="#productDetailModal"
-    >
+    <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="./images/web-c29.jpg" class="d-block w-100" alt="G 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
       </div>
@@ -503,19 +474,17 @@
     <p class="text-danger">價格：聯絡我們獲得報價</p>
   </div>
 </div>
+<script>
+      // 點擊輪播區塊跳轉
+      document.getElementById('carousel-teaset09').addEventListener('click', () => {
+        window.location.href = 'teaset_commodity/ninth.html?id=teacup09';
+      });
+    </script>
 
 <!-- 商品 10 -->
 <div class="product-card card" style="width: 250px;">
   <div id="carousel-teaset10" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-    <div class="carousel-inner"
-         data-id="teacup10"
-         data-name="H"
-         data-price="0"
-         data-price-text="聯絡我們獲得報價"
-         data-desc="家中珍藏的茶壺，靜靜躺在櫃中多年，從未使用過。如今再度展現生命，願它第一次盛茶的溫度，屬於你。"
-         data-images='["./images/web-c32.jpg", "./images/web-c33.jpg", "./images/web-c32-1.jpg", "./images/web-c32-2.jpg"]'
-         data-bs-toggle="modal" data-bs-target="#productDetailModal"
-    >
+    <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="./images/web-c32.jpg" class="d-block w-100" alt="H 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
       </div>
@@ -544,185 +513,16 @@
     <p class="text-danger">價格：聯絡我們獲得報價</p>
   </div>
 </div>
-
-
-</div>
-
-<!-- 單一 Modal -->
-<div class="modal fade" id="productDetailModal" tabindex="-1"data-bs-interval="2000" aria-labelledby="productDetailLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="productDetailLabel">商品詳細內容</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
-      </div>
-      <div class="modal-body d-flex gap-3">
-        <!-- 左側輪播圖片（加外層容器包放大鏡） -->
-        <div style="flex:1; max-width: 1000px; position: relative;" class="img-magnifier-container">
-          <div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner" id="carouselInner"></div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">上一張</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">下一張</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 右側文字及購物 -->
-        <div style="flex:1;">
-          <h5 id="modalProductName"></h5>
-          <p id="modalProductDesc"></p>
-          <p class="text-danger fs-4" id="modalProductPrice"></p>
-
-          <div class="input-group mb-3" style="max-width: 150px;">
-            <span class="input-group-text">數量</span>
-            <input type="number" id="modalQuantity" class="form-control" min="1" value="1">
-          </div>
-          <button id="modalAddToCart" class="btn btn-primary">加入購物車</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 加入購物車提示 Modal -->
-<div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-sm modal-dialog-centered">
-    <div class="modal-content p-3 text-center">
-      <div id="modalMessage"></div>
-      <button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal">關閉</button>
-    </div>
-  </div>
-</div>
-
-<style>
-.img-magnifier-glass {
-  position: absolute;
-  border: 2px solid rgba(0,0,0,0.3);
-  border-radius: 50%;
-  cursor: none;
-  width: 120px;
-  height: 120px;
-  background-color: rgba(255,255,255,0.1);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  transition: left 0.05s ease-out, top 0.05s ease-out;
-  touch-action: none;
-  z-index: 10;
-}
-.img-magnifier-container {
-  position: relative;
-}
-</style>
-
-<!-- 這裡是引用外部放大鏡模組，並使用的程式碼 -->
-<script type="module">
-  import { setupMagnifier } from './magnifier.js';  // 注意：請確保magnifier.js路徑正確
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const productDetailModal = new bootstrap.Modal(document.getElementById('productDetailModal'));
-    const modalQuantity = document.getElementById('modalQuantity');
-    const modalProductName = document.getElementById('modalProductName');
-    const modalProductDesc = document.getElementById('modalProductDesc');
-    const modalProductPrice = document.getElementById('modalProductPrice');
-    const carouselInner = document.getElementById('carouselInner');
-
-    let currentProduct = null;
-
-    // 輪播內容動態生成
-    function loadCarousel(images) {
-      carouselInner.innerHTML = '';
-      images.forEach((src, idx) => {
-        const activeClass = idx === 0 ? 'active' : '';
-        const itemDiv = document.createElement('div');
-        itemDiv.className = `carousel-item ${activeClass}`;
-        const img = document.createElement('img');
-        img.src = src;
-        img.className = 'd-block w-100';
-        img.style.borderRadius = '6px';
-        img.alt = `商品圖${idx + 1}`;
-        itemDiv.appendChild(img);
-        carouselInner.appendChild(itemDiv);
+<script>
+      // 點擊輪播區塊跳轉
+      document.getElementById('carousel-teaset10').addEventListener('click', () => {
+        window.location.href = 'teaset_commodity/tenth.html?id=teacup10';
       });
-    }
+    </script>
+</div>
 
-    function getActiveImage() {
-      return carouselInner.querySelector('.carousel-item.active img');
-    }
-
-    // 監聽圖片外層（.carousel-inner）點擊事件，開啟 modal 並載入資料
-    document.querySelectorAll('.carousel-inner[data-bs-toggle="modal"]').forEach(div => {
-      div.addEventListener('click', () => {
-        const id = div.dataset.id;
-        const name = div.dataset.name;
-        const price = parseInt(div.dataset.price);
-        const priceText = div.dataset.priceText;
-        const desc = div.dataset.desc;
-        const images = JSON.parse(div.dataset.images);
-
-        currentProduct = { id, name, price, desc, images };
-
-        modalProductName.textContent = name;
-        modalProductDesc.textContent = desc;
-        modalProductPrice.textContent = `價格：${priceText}`;
-        modalQuantity.value = 1;
-
-        loadCarousel(images);
-        productDetailModal.show();
-      });
-    });
-
-    // Modal 顯示後啟用放大鏡
-    document.getElementById('productDetailModal').addEventListener('shown.bs.modal', () => {
-      const img = getActiveImage();
-      if (img) setupMagnifier(img, 2);
-    });
-
-    // 輪播滑動後重置放大鏡
-    const carouselElement = document.getElementById('carouselImages');
-    carouselElement.addEventListener('slid.bs.carousel', () => {
-      const img = getActiveImage();
-      if (img) setupMagnifier(img, 2);
-    });
-
-    // 加入購物車功能（略與你提供的相同）
-    document.getElementById('modalAddToCart').addEventListener('click', () => {
-      if (!currentProduct) return;
-
-      const quantity = parseInt(modalQuantity.value);
-      if (isNaN(quantity) || quantity <= 0) {
-        alert('請輸入正確數量');
-        return;
-      }
-
-      const productToAdd = {
-        id: currentProduct.id,
-        name: currentProduct.name,
-        price: currentProduct.price,
-        quantity: quantity,
-        image: currentProduct.images[0] || ''
-      };
-
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const found = cart.find(item => item.id === productToAdd.id);
-      if (found) {
-        found.quantity += quantity;
-      } else {
-        cart.push(productToAdd);
-      }
-      localStorage.setItem('cart', JSON.stringify(cart));
-
-      productDetailModal.hide();
-
-      document.getElementById('modalMessage').textContent = `已將「${productToAdd.name}」的 ${quantity} 件加入購物車！`;
-      const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
-      cartModal.show();
-    });
-  });
-</script>
-
+<footer class="text-center bg-dark text-white py-2">
+    All Rights Reserved &copy; 2025 Yiting Wu Tea Painting.
+  </footer>
 </body>
 </html>

@@ -39,7 +39,7 @@
     </header>
 
     <script>
-        fetch('menu.html')
+        fetch('menu-have-color.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbar').innerHTML = data;
@@ -120,8 +120,11 @@
     <script>
       // 點擊輪播區塊跳轉
       document.getElementById('carousel-teaset01').addEventListener('click', () => {
-        window.location.href = 'teaset_commodity/fir.html?id=teacup01';
+        window.location.href = 'teaset_commodity/first.html?id=teacup01';
       });
     </script>
+    <footer class="text-center bg-dark text-white py-2">
+    All Rights Reserved &copy; 2025 Yiting Wu Tea Painting.
+  </footer>
 </body>
 </html>
