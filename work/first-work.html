@@ -112,6 +112,13 @@
       <h1 id="productName">作品名稱</h1>
       <p id="productPrice" class="text-danger fs-4"></p>
       <p id="productDesc"></p>
+
+      <div class="mb-3">
+        <label for="quantityInput" class="form-label">數量</label>
+        <input type="number" class="form-control" id="quantityInput" value="1" min="1" style="width:100px;">
+      </div>
+
+      <button id="addToCartBtn" class="btn btn-primary">加入購物車</button>
     </div>
   </div>
 
@@ -180,6 +187,8 @@
       "work01": {
         id: "work01",
         name: "書怎麼讀也讀不完？",
+        price: 0,
+        priceText: "聯絡我們獲得報價",
         desc: "小小的身影，被書堆圍繞，日復一日地翻讀、背誦——"+
                 "這是我們許多人童年的日常。"+
                 "在課本的陰影下，笑聲漸漸淡去，取而代之的是一聲聲嘆息。"+
@@ -189,14 +198,15 @@
       }
     };
 
-    const urlParams = new URLSearchParams(window.location.search);
+const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
     if (!id || !products[id]) {
-      document.body.innerHTML = '<p class="text-danger fs-3">找不到作品資料</p><a href="../index.html">返回列表</a>';
+      document.body.innerHTML = '<p class="text-danger fs-3">找不到商品資料</p><a href="../index.html">返回商品列表</a>';
     } else {
       const product = products[id];
       document.getElementById('productName').textContent = product.name;
+      document.getElementById('productPrice').textContent = `價格：${product.priceText}`;
       document.getElementById('productDesc').textContent = product.desc;
 
       const carouselInner = document.getElementById('carouselInner');
@@ -233,7 +243,7 @@
       carouselEl.addEventListener('slid.bs.carousel', (e) => {
         const idx = Array.from(carouselInner.children).indexOf(e.relatedTarget);
         document.querySelectorAll('.thumbnail-img').forEach(img => img.classList.remove('active'));
-        if (idx >= 0) document.querySelectorAll('.thumbnail-img')[idx].addClass('active');
+        if (idx >= 0) document.querySelectorAll('.thumbnail-img')[idx].classList.add('active');
       });
 
       const firstImg = carouselInner.querySelector('.carousel-item.active img');
@@ -243,7 +253,46 @@
         const activeImg = e.relatedTarget.querySelector('img');
         setupMagnifier(activeImg, 3);
       });
-    }
+
+document.getElementById('addToCartBtn').addEventListener('click', () => {
+  const quantity = parseInt(document.getElementById('quantityInput').value);
+  if (isNaN(quantity) || quantity < 1) {
+    alert('請輸入有效的數量 (至少 1)');
+    return;
+  }
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const existingIndex = cart.findIndex(item => item.id === product.id);
+  if (existingIndex >= 0) {
+    cart[existingIndex].quantity += quantity;
+  } else {
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: quantity,
+      image: product.images[0]
+    });
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  
+  // 顯示 Toast 提示
+  const toastEl = document.getElementById('cartToast');
+  const toastBody = document.getElementById('cartToastBody');
+  toastBody.textContent = `已加入購物車：${product.name} x ${quantity}`;
+  const toast = new bootstrap.Toast(toastEl);
+  toast.show();
+});
+};
   </script>
+  <!-- Bootstrap Toast 提示訊息 -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+  <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="cartToastBody"></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="關閉"></button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

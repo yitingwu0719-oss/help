@@ -49,12 +49,15 @@
     <div class="container mb-3">
 
         <!-- 第一段品牌故事 -->
-         <br/><br/>
-        <div class="row g-0 mb-5">
-            <div class="col-lg order-lg-first" data-aos="zoom-in" data-aos-delay="100">
-                <img src="./images/web-p-1.jpg" class="img-fluid img-gap" />
-            </div>
-        </div>
+<div class="d-flex justify-content-center my-4">
+  <video autoplay muted loop playsinline
+         style="width: 600px; height: 600px; object-fit: cover; border-radius: 6px;">
+    <source src="./images/web-video.mp4" type="video/mp4" />
+    <source src="./images/web-video.MOV" type="video/quicktime" />
+    您的瀏覽器不支援影片播放
+  </video>
+</div>
+
 
         <br />
       <div class="product-grid">
@@ -203,14 +206,16 @@
         window.location.href = 'teaset_commodity/first.html?id=teacup01';
       });
     </script>
-        
-    </div>
 
+    
+    </div>
+    
     <!--<footer class="text-center bg-dark text-white py-2">
         All Rights Reserved &copy; 2025 Yiting Wu Tea Painting.
     </footer>-->
 
     <!-- AOS 動畫 JS -->
+     
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
         AOS.init({
@@ -218,5 +223,6 @@
             once: false
         });
     </script>
+    
 </body>
 </html>
