@@ -84,9 +84,42 @@
         <br/>
         <br/>
         <br/>
-      <h3 class="title my-3" style="color: #949449;">|產品介紹<small>Product</small></h3>
+      <h3 class="title my-3" style="color: #949449;">|作品介紹<small>Product</small></h3>
 
       <div class="product-grid">
+
+        <!-- 作品 1 -->
+        <div class="product-card card">
+          <div id="carousel-work01" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000"
+               style="cursor:pointer;">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img id="productImage11-1" src="./images/web-w1.jpg" class="d-block w-100" alt="書怎麼讀也讀不完？ 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-work01" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">上一張</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel-work01" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">下一張</span>
+            </button>
+          </div>
+
+          <div class="card-body">
+            <h5 class="card-title">書怎麼讀也讀不完？</h5>
+          </div>
+        </div>
+        <script>
+        // 點擊輪播區塊跳轉
+        document.getElementById('carousel-work01').addEventListener('click', () => {
+            window.location.href = 'work/first-work.html?id=work01';
+        });
+        </script>
+        
+        <br/>
+        <h3 class="title my-3" style="color: #949449;">|產品介紹<small>Product</small></h3>
         <!-- 商品 1 -->
         <div class="product-card card">
           <div id="carousel-teaset01" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000"
@@ -114,15 +147,17 @@
             <p class="text-danger">價格：$100</p>
           </div>
         </div>
+        <script>
+        // 點擊輪播區塊跳轉
+        document.getElementById('carousel-teaset01').addEventListener('click', () => {
+            window.location.href = 'teaset_commodity/first.html?id=teacup01';
+        });
+        </script>
+
       </div>
     </div>
 
-    <script>
-      // 點擊輪播區塊跳轉
-      document.getElementById('carousel-teaset01').addEventListener('click', () => {
-        window.location.href = 'teaset_commodity/first.html?id=teacup01';
-      });
-    </script>
+    
     <footer class="text-center bg-dark text-white py-2">
     All Rights Reserved &copy; 2025 Yiting Wu Tea Painting.
   </footer>
