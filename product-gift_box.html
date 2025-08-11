@@ -75,7 +75,7 @@
     </header>
 
     <script>
-        fetch('menu.html')
+        fetch('menu-have-color.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbar').innerHTML = data;
@@ -97,43 +97,74 @@
       <br />
       <div class="product-grid">
         <!-- 商品 1 -->
-<div class="product-card card">
-  <!-- 輪播圖片外層加 modal 觸發 -->
-  <div id="carousel-wood01" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000"
-        data-bs-toggle="modal" data-bs-target="#detailModal"
-        style="cursor:pointer;">
+<div class="product-card card" style="width: 250px;">
+  <div id="carousel-wood01" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="/images/web-cw1.jpg" class="d-block w-100" alt="木雕 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+        <img src="./images/web-cw1.jpg" class="d-block w-100" alt="木雕 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
       </div>
       <div class="carousel-item">
-        <img src="/images/web-cw2.jpg" class="d-block w-100" alt="木雕  圖2" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+        <img src="./images/web-cw2.jpg" class="d-block w-100" alt="木雕 圖2" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
       </div>
       <div class="carousel-item">
-        <img src="/images/web-cw3.jpg" class="d-block w-100" alt="木雕  圖3" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+        <img src="./images/web-cw3.jpg" class="d-block w-100" alt="木雕 圖3" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
       </div>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-wood01" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">上一張</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel-wood01" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">下一張</span>
+    </button>
+  </div>
+
+  <div class="card-body">
+    <h5 class="card-title">木雕</h5>
+    <p class="text-danger">價格：聯絡我們獲得報價</p>
   </div>
 </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-wood01" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">上一張</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carousel-wood01" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">下一張</span>
-            </button>
-          </div>
-
-          <div class="card-body">
-            <h5 class="card-title">木雕</h5>
-            <p class="text-danger">價格：聯絡我們取得報價</p>
-          </div>
-        </div>
-        <script>
+<script>
       // 點擊輪播區塊跳轉
       document.getElementById('carousel-wood01').addEventListener('click', () => {
         window.location.href = 'wood_commodity/first_w.html?id=wood01';
+      });
+    </script>
+
+        <!-- 商品 2 -->
+<div class="product-card card" style="width: 250px;">
+  <div id="carousel-wood02" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="./images/web-cw4.jpg" class="d-block w-100" alt="木雕 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+      </div>
+      <div class="carousel-item">
+        <img src="./images/web-cw5.jpg" class="d-block w-100" alt="木雕 圖2" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+      </div>
+      <div class="carousel-item">
+        <img src="./images/web-cw6.jpg" class="d-block w-100" alt="木雕 圖3" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-wood02" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">上一張</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel-wood02" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">下一張</span>
+    </button>
+  </div>
+
+  <div class="card-body">
+    <h5 class="card-title">木雕</h5>
+    <p class="text-danger">價格：聯絡我們獲得報價</p>
+  </div>
+</div>
+<script>
+      // 點擊輪播區塊跳轉
+      document.getElementById('carousel-wood02').addEventListener('click', () => {
+        window.location.href = 'wood_commodity/second_w.html?id=wood02';
       });
     </script>
 
