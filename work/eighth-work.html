@@ -113,6 +113,16 @@
       <p id="productPrice" class="text-danger fs-4"></p>
       <p id="productDesc"></p>
 
+      <!-- 尺寸選項 -->
+      <div class="mb-3">
+        <label for="sizeSelect" class="form-label">尺寸</label>
+        <select class="form-select" id="sizeSelect" style="width:200px;">
+          <option value="明信片 14.8 x 10.5 cm">明信片 14.8 公分 x 10.5 公分</option>
+          <option value="海報 4K">海報 4K</option>
+        </select>
+      </div>
+
+      <!-- 數量 -->
       <div class="mb-3">
         <label for="quantityInput" class="form-label">數量</label>
         <input type="number" class="form-control" id="quantityInput" value="1" min="1" style="width:100px;">
@@ -175,13 +185,13 @@
         magnifierGlass.addEventListener('mouseleave', () => magnifierGlass.style.display = 'none');
       }
 
-      // 等圖片載入完成才初始化
       if (img.complete) {
         initMagnifier();
       } else {
         img.onload = initMagnifier;
       }
     }
+
 
     const products = {
       "work08": {
@@ -253,45 +263,47 @@ const urlParams = new URLSearchParams(window.location.search);
         setupMagnifier(activeImg, 3);
       });
 
-document.getElementById('addToCartBtn').addEventListener('click', () => {
-  const quantity = parseInt(document.getElementById('quantityInput').value);
-  if (isNaN(quantity) || quantity < 1) {
-    alert('請輸入有效的數量 (至少 1)');
-    return;
-  }
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const existingIndex = cart.findIndex(item => item.id === product.id);
-  if (existingIndex >= 0) {
-    cart[existingIndex].quantity += quantity;
-  } else {
-    cart.push({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: quantity,
-      image: product.images[0]
-    });
-  }
-  localStorage.setItem('cart', JSON.stringify(cart));
-  
-  // 顯示 Toast 提示
-  const toastEl = document.getElementById('cartToast');
-  const toastBody = document.getElementById('cartToastBody');
-  toastBody.textContent = `已加入購物車：${product.name} x ${quantity}`;
-  const toast = new bootstrap.Toast(toastEl);
-  toast.show();
-});
-};
+      document.getElementById('addToCartBtn').addEventListener('click', () => {
+        const quantity = parseInt(document.getElementById('quantityInput').value);
+        const size = document.getElementById('sizeSelect').value;
+        if (isNaN(quantity) || quantity < 1) {
+          alert('請輸入有效的數量 (至少 1)');
+          return;
+        }
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existingIndex = cart.findIndex(item => item.id === product.id && item.size === size);
+        if (existingIndex >= 0) {
+          cart[existingIndex].quantity += quantity;
+        } else {
+          cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            quantity: quantity,
+            size: size,
+            image: product.images[0]
+          });
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        const toastEl = document.getElementById('cartToast');
+        const toastBody = document.getElementById('cartToastBody');
+        toastBody.textContent = `已加入購物車：${product.name} (${size}) x ${quantity}`;
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+      });
+    };
   </script>
+
   <!-- Bootstrap Toast 提示訊息 -->
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
-  <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body" id="cartToastBody"></div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="關閉"></button>
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+    <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="cartToastBody"></div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="關閉"></button>
+      </div>
     </div>
   </div>
-</div>
 
 </body>
 </html>

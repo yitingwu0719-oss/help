@@ -172,10 +172,13 @@
         const subtotal = item.price * item.quantity;
         total += subtotal;
 
+        // 顯示名稱 + 尺寸（若有）
+        const displayName = item.size ? `${item.name} (${item.size})` : item.name;
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><img src="${item.image}" alt="${item.name}" width="100"></td>
-          <td>${item.name}</td>
+          <td>${displayName}</td>
           <td>$${item.price}</td>
           <td><input type="number" value="${item.quantity}" min="1" class="form-control text-center" onchange="updateQty(${index}, this.value)"></td>
           <td>$${subtotal}</td>

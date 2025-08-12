@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>導覽列翻譯整合示範</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'zh-TW',
+        includedLanguages: 'en,zh-TW',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <style>
+    #google_translate_element {
+      display: none; /* 隱藏 Google 翻譯元件 */
+    }
+  </style>
+</head>
+<body class="container py-4">
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a href="#" id="translateTrigger" class="nav-link text-secondary px-3">繁體中文</a>
+      </li>
+    </ul>
+  </nav>
+
+  <h1>這是示範頁面</h1>
+  <p>點擊上方導覽列「繁體中文」會翻譯成英文。</p>
+
+  <div id="google_translate_element"></div>
+
+  <script>
+    const translateTrigger = document.getElementById('translateTrigger');
+
+    translateTrigger.addEventListener('click', e => {
+      e.preventDefault();
+
+      const gtFrame = document.querySelector('iframe.goog-te-menu-frame');
+
+      if (!gtFrame) {
+        alert('Google 翻譯元件尚未載入，請稍候再試');
+        return;
+      }
+
+      const langSelect = gtFrame.contentDocument.querySelector('select.goog-te-combo');
+
+      if (!langSelect) {
+        alert('找不到語言選擇元件，請稍候再試');
+        return;
+      }
+
+      // 只要點擊就切成英文（不切回繁體中文）
+      langSelect.value = 'en';
+      langSelect.dispatchEvent(new Event('change'));
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
