@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">茶葉時光</h5>
+                  <h5 class="card-title">茶頁時光</h5>
                   <p class="text-danger"></p>
                 </div>
               </div>
@@ -225,6 +225,52 @@
             duration: 800,
             once: false
         });
+    </script>
+
+    <!-- 加入購物車功能 -->
+    <script>
+      const addToCartBtn = document.querySelector('.btn.btn-primary');
+
+      addToCartBtn.addEventListener('click', () => {
+        const product = {
+          id: 'teaset01',
+          name: '茶頁時光',
+          price: 800,
+          image: './images/web-c3.jpg',
+          quantity: 1
+        };
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existingIndex = cart.findIndex(item => item.id === product.id);
+        if (existingIndex !== -1) {
+          cart[existingIndex].quantity += 1;
+        } else {
+          cart.push(product);
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        const modalHtml = `
+          <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">已加入購物車</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>${product.name} 已加入購物車！</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+        cartModal.show();
+        document.getElementById('cartModal').addEventListener('hidden.bs.modal', () => {
+          document.getElementById('cartModal').remove();
+        });
+      });
     </script>
 
 </body>

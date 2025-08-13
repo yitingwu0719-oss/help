@@ -8,17 +8,18 @@ export function setupMagnifier(img, zoomLevel = 3, glassSize = 200) {
   magnifierGlass.className = 'img-magnifier-glass';
   document.body.appendChild(magnifierGlass);
 
-  // 放大鏡外觀
+  // 放大鏡外觀（正方形）
   magnifierGlass.style.width = `${glassSize}px`;
   magnifierGlass.style.height = `${glassSize}px`;
   magnifierGlass.style.border = '1px solid #000';
+  magnifierGlass.style.borderRadius = '0'; // ✅ 正方形
   magnifierGlass.style.position = 'absolute';
-  magnifierGlass.style.right = '20px'; // 固定在圖片右邊
+  magnifierGlass.style.right = '20px';
   magnifierGlass.style.top = img.getBoundingClientRect().top + 'px';
   magnifierGlass.style.backgroundImage = `url('${img.src}')`;
   magnifierGlass.style.backgroundRepeat = 'no-repeat';
   magnifierGlass.style.backgroundSize = `${img.width * zoomLevel}px ${img.height * zoomLevel}px`;
-  magnifierGlass.style.display = 'none'; // 預設隱藏
+  magnifierGlass.style.display = 'none';
 
   function getCursorPos(e) {
     const a = img.getBoundingClientRect();

@@ -52,10 +52,12 @@
 
     <script>
         // JavaScript 載入 menu.html
-        fetch('./menu.html')
+        fetch('menu.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbar').innerHTML = data;
+                // 通知 translate.js，menu 已載入
+                document.dispatchEvent(new Event("menuLoaded"));
             });
     </script>
 
@@ -69,7 +71,52 @@
                 <h3 class="title mt-3">|關於我們<small>About Us</small></h3>
                 <br/>
                 <br/>
-                <p>吳宜庭茶繪，醞釀自我對生活美學的探索，與對細膩感知的追求。
+                <p 
+                    data-zh="吳宜庭茶繪，醞釀自我對生活美學的探索，與對細膩感知的追求。
+                             從小握起畫筆，繪畫成了我表達情感與收藏記憶的方式；長大後，我接觸了茶文化，發現泡茶與品茗的過程，
+                             不只是味覺的體驗，更是一種調整步調、與自己對話的藝術。
+                             於是，我開始將繪畫與茶融合，用筆觸描繪生活的溫度，用茶香串連回憶的片段。
+                             吳宜庭茶繪，不只是作品的呈現，更是一段段關於生活、感受與故事的延伸。
+                             我來自苗栗公館，客庄的田園風景與濃厚人情，是我記憶中的原點。
+                             我將這些生活片段轉化為插畫與茶香，邀請一同感受土地與心的溫度。
+                             對於千禧年世代而言，地方人文早已悄悄融入生活節奏。
+                             在台灣這片［四季宜人］的土地上，［一處庭院］、
+                             一盞清茶，就是與自然連結的方式，也是我們感受文化溫度的日常
+
+                            吳
+                            不是姓氏的界線，而是畫筆、茶香、與心意交會的起點。
+
+                            宜
+                            恰如一筆流暢的線條、一杯溫熱的茶，
+                            是生活中不多不少的幸福。
+
+                            庭
+                            生活的庭院，讓畫與茶自然流轉，
+                            容納故事、畫意與茶韻，
+                            讓人慢下來、品味生活。"
+                    data-en="Wu Yiting Tea Art is born from my personal exploration of life aesthetics and the pursuit of delicate perception.
+                             Since childhood, holding a paintbrush became my way to express emotions and preserve memories. As I grew up, I encountered tea culture and realized that the process of brewing and tasting tea is not only a sensory experience but also an art of slowing down and having a conversation with oneself.
+
+                             Therefore, I began to blend painting with tea, using brushstrokes to depict the warmth of life and tea aromas to connect fragments of memories.
+
+                             Wu Yiting Tea Art is not just a presentation of works, but an extension of life, feelings, and stories.
+
+                             I come from Gongguan, Miaoli — the rural scenery and rich human warmth of this Hakka village are the origins of my memories.
+                             I transform these life moments into illustrations and tea scents, inviting others to feel the warmth of the land and the heart.
+
+                             For the millennial generation, local culture has quietly blended into the rhythm of daily life.
+
+                             On this pleasantly temperate land of Taiwan, a courtyard and a cup of clear tea serve as a way to connect with nature and a daily means to feel the warmth of culture.
+                             
+                             
+                             
+                             
+                             
+                             
+                             
+                             
+                             ">
+                    吳宜庭茶繪，醞釀自我對生活美學的探索，與對細膩感知的追求。
                     從小握起畫筆，繪畫成了我表達情感與收藏記憶的方式；長大後，我接觸了茶文化，發現泡茶與品茗的過程，
                     不只是味覺的體驗，更是一種調整步調、與自己對話的藝術。
 
@@ -85,17 +132,36 @@
                     在台灣這片［四季宜人］的土地上，［一處庭院］、
                     一盞清茶，就是與自然連結的方式，也是我們感受文化溫度的日常
                 </p>
-                <p>
-                    <strong>吳</strong><br />
+                <p
+                    data-zh="吳|
+                             不是姓氏的界線，而是畫筆、茶香、與心意交會的起點。"
+                    data-en="Wu|
+                             Not just a boundary of a surname,|
+                             but the starting point where brush, tea fragrance, and heartfelt intention meet.">
+                    吳<br />
                     不是姓氏的界線，而是畫筆、茶香、與心意交會的起點。
                 </p>
-                <p>
-                    <strong>宜</strong><br />
+                <p
+                    data-zh="宜|
+                             恰如一筆流暢的線條、一杯溫熱的茶，|
+                             是生活中不多不少的幸福。"
+                    data-en="Yi|
+                             Like a smooth flowing line,a warm cup of tea,|
+                             just the right amount of happiness in life.">
+                    宜<br />
                     恰如一筆流暢的線條、一杯溫熱的茶，<br />
                     是生活中不多不少的幸福。
                 </p>
-                <p>
-                    <strong>庭</strong><br />
+                <p
+                    data-zh="庭|
+                             生活的庭院，讓畫與茶自然流轉，
+                             容納故事、畫意與茶韻，
+                             讓人慢下來、品味生活。"
+                    data-en="Ting|
+                             The courtyard of life where painting and tea naturally flow,|
+                             embracing stories, artistic meaning, and tea charm,|
+                             allowing people to slow down and savor life.">
+                    庭<br />
                     生活的庭院，讓畫與茶自然流轉，<br />
                     容納故事、畫意與茶韻，<br />
                     讓人慢下來、品味生活。
@@ -111,7 +177,12 @@
         <div class="d-flex justify-content-start align-items-center mb-4">
             <img src="./images/web-p-p1.jpg" class="square-img" style="margin-right: 1rem;" />
             <div class="content-text" style="max-width: 500px;">
-                <p>
+                <p                   
+                    data-zh="我是吳宜庭，我幫忙繪製插畫，以及圖文翻譯，
+                             並協助發想企劃，閒暇時我也熱愛與外國朋友們聊天。"
+                    data-en="I am Wu Yiting. I help with illustration, 
+                             text translation, and project ideation. In my free time, 
+                             I enjoy chatting with foreign friends.">
                     我是吳宜庭，我幫忙繪製插畫，以及圖文翻譯，
                     並協助發想企劃，閒暇時我也熱愛與外國朋友們聊天。
                 </p>
@@ -121,7 +192,16 @@
         <!-- 自我介紹2 (文字+圖片，整組靠右) -->
         <div class="d-flex justify-content-end align-items-center mb-4">
             <div class="content-text" style="max-width: 500px; margin-right: 1rem;">
-                <p>
+                <p
+                    data-zh="我是吳威樽，我負責設計及撰寫故事並協助吳宜庭思考題材。
+                             我也喜歡畫畫喝茶，我覺得以茶「繪」友是很好的習慣。
+                             我平時喜歡閱讀，我喜歡徜徉在文字海中，每當我閱讀小說的時候都會無法自拔。"
+                    data-en="I am Wu Weizun, responsible for designing and writing stories, 
+                             as well as assisting Wu Yiting in exploring themes.
+                             I also enjoy painting and drinking tea, 
+                             and I believe that using tea to “paint” with friends is a wonderful habit.
+                             In my daily life, I love reading and immersing myself in the sea of words. 
+                             Whenever I read a novel, I become completely absorbed.">
                     我是吳威樽，我負責設計及撰寫故事並協助吳宜庭思考題材。<br />
                     我也喜歡畫畫喝茶，我覺得以茶「繪」友是很好的習慣。<br />
                     我平時喜歡閱讀，我喜歡徜徉在文字海中，每當我閱讀小說的時候都會無法自拔。
@@ -134,12 +214,17 @@
         <!-- 店家資訊 -->
         <div class="row g-0">
             <div class="col-lg align-self-center content-text">
-                <h3 class="title mt-3">|店家資訊<small>Store Information</small></h3>
-                <p>
+                <h3 class="title mt-3">|吳宜庭茶繪<small>Yiting Wu Tea Painting</small></h3>
+                <p
+                    data-zh="電話：0921323311|
+                             Line ID：0968753277|
+                             Email：yitingwu1207@gmail.com"
+                    data-en="Phone: 0921-323-311|
+                             Line ID：0968753277|
+                             Email: yitingwu1207@gmail.com">
                     電話：0921323311<br />
-                    IG：wuyiting1207<br/>
+                    Line ID：0968753277<br/>
                     Email：yitingwu1207@gmail.com<br/>
-                    其他通路：蝦皮、Shopify
                 </p>
                 <a href="https://www.instagram.com/wuyiting1207?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">
                     <i class="bi bi-instagram fs-3"></i>
@@ -160,6 +245,8 @@
     <footer class="text-center bg-dark text-white py-2">
         All Rights Reserved &copy; 2025 Yiting Wu Tea Painting.
     </footer>
+
+    <script src="translate.js"></script>
 
     <!-- AOS 動畫 JS -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>

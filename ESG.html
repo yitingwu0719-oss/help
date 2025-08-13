@@ -49,6 +49,8 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbar').innerHTML = data;
+                // 通知 translate.js，menu 已載入
+                document.dispatchEvent(new Event("menuLoaded"));
             });
     </script>
 
@@ -64,7 +66,9 @@
         <div class="d-flex justify-content-start align-items-center mb-4">
             <img src="./images/web-p-p3.jpg" class="square-img" style="margin-right: 1rem;" />
             <div class="content-text" style="max-width: 500px;">
-                <p>
+                <p 
+                   data-zh="我是吳岳駿 我非常喜愛 吳宜庭茶繪 的創作團隊與作品，特別是充滿故事感的老茶壺與木雕。我參與品牌管理，負責實體行銷推廣與銷售整合，致力讓這些作品更順利地走進市場，與更多人相遇。若您對我們的作品或服務有興趣，歡迎透過 Line與我聯繫，我將提供更完整、貼心的諮詢服務。ID: 0968753277"
+                   data-en="I am Wu Yuejun. I greatly admire the Yiting Wu Tea Painting creative team and their works, especially the storytelling charm of old teapots and wood carvings. I handle brand management, physical marketing, and sales integration, aiming to bring these works to the market more smoothly and meet more people. If you are interested in our works or services, please contact me via Line, and I will provide more complete and thoughtful consultation. ID: 0968753277">
                     我是吳岳駿
                     我非常喜愛 吳宜庭茶繪 的創作團隊與作品，特別是充滿故事感的老茶壺與木雕。
                     我參與品牌管理，負責實體行銷推廣與銷售整合，致力讓這些作品更順利地走進市場，與更多人相遇。
@@ -79,7 +83,9 @@
         <div class="d-flex justify-content-start align-items-center mb-4">
             <img src="./images/web-p-p1.jpg" class="square-img" style="margin-right: 1rem;" />
             <div class="content-text" style="max-width: 500px;">
-                <p>
+                <p 
+                   data-zh="我是吳宜庭，我幫忙繪製插畫，以及圖文翻譯，並協助發想企劃，閒暇時我也熱愛與外國朋友們聊天。"
+                   data-en="I am Wu Yiting. I help with illustration, text translation, and project ideation. In my free time, I enjoy chatting with foreign friends.">
                     我是吳宜庭，我幫忙繪製插畫，以及圖文翻譯，
                     並協助發想企劃，閒暇時我也熱愛與外國朋友們聊天。
                 </p>
@@ -90,7 +96,9 @@
         <div class="d-flex justify-content-start align-items-center mb-4">
             <img src="./images/web-p-p1.jpg" class="square-img" style="margin-right: 1rem;" />
             <div class="content-text" style="max-width: 500px;">
-                <p>
+                <p 
+                   data-zh="我是吳宜庭，我幫忙繪製插畫，以及圖文翻譯，並協助發想企劃，閒暇時我也熱愛與外國朋友們聊天。"
+                   data-en="I am Wu Yiting. I help with illustration, text translation, and project ideation. In my free time, I enjoy chatting with foreign friends.">
                     我是吳宜庭，我幫忙繪製插畫，以及圖文翻譯，
                     並協助發想企劃，閒暇時我也熱愛與外國朋友們聊天。
                 </p>
@@ -110,5 +118,8 @@
             once: false      // 滾動時會重複觸發動畫
         });
     </script>
+
+    <!-- 引入共用翻譯功能 -->
+    <script src="translate.js"></script>
 </body>
 </html>
