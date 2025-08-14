@@ -44,7 +44,35 @@
             .then(data => {
                 document.getElementById('navbar').innerHTML = data;
             });
+      // 載入 menu-have-color.html 並啟用中英文切換
+      fetch('menu-have-color.html')
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById('navbar').innerHTML = data;
+
+          const toggleBtn = document.getElementById('toggle-lang');
+          if(toggleBtn){
+            toggleBtn.addEventListener('click', function(e){
+              e.preventDefault();
+              if(toggleBtn.innerText === "English"){
+                document.querySelectorAll('[data-en]').forEach(el=>{
+                  el.innerText = el.getAttribute('data-en');
+                  // 如果有 alt 屬性，也替換
+                  if(el.tagName === 'IMG' && el.dataset.altEn) el.alt = el.dataset.altEn;
+                });
+                toggleBtn.innerText = "繁體中文";
+              } else {
+                document.querySelectorAll('[data-zh]').forEach(el=>{
+                  el.innerText = el.getAttribute('data-zh');
+                  if(el.tagName === 'IMG' && el.dataset.altZh) el.alt = el.dataset.altZh;
+                });
+                toggleBtn.innerText = "English";
+              }
+            });
+          }
+        });
     </script>
+
 
 
     <div class="container mb-3">
@@ -86,7 +114,13 @@
         <br/>
         <br/>
       <div class="row g-0" style="color: #949449; font-size: 1rem; text-align: center;">
-  <h3 class="title my-3" style="font-size: clamp(0.9rem, 3vw, 1.5rem);font-weight: normal">
+  <h3 data-zh="畫出了我的心境，描繪我所關注的事物。
+               用色彩定格每一個珍貴的片刻。
+               邀請您 感受這份情感，一起分享生活裡的溫暖與故事。"
+      data-en="It portrays my state of mind and illustrates the things I care about.
+               Capture every precious moment with color.
+               We invite you to feel this sentiment and share the warmth and stories of everyday life together."
+  class="title my-3" style="font-size: clamp(0.9rem, 3vw, 1.5rem);font-weight: normal">
     畫出了我的心境，描繪我所關注的事物。<br/>
     用色彩定格每一個珍貴的片刻。<br/>
     邀請您 感受這份情感，一起分享生活裡的溫暖與故事。
@@ -116,7 +150,9 @@
           </div>
 
           <div class="card-body">
-            <h5 class="card-title">書怎麼讀也讀不完？</h5>
+            <h5 data-zh="書怎麼讀也讀不完？"
+                data-en="Books never seem to end."
+            class="card-title">書怎麼讀也讀不完？</h5>
           </div>
         </div>
         <script>
@@ -146,7 +182,9 @@
           </div>
 
           <div class="card-body">
-            <h5 class="card-title">穿山甲的祕境 —<br/>探索台灣的自然寶藏</h5>
+            <h5 data-zh="穿山甲的祕境 — 探索台灣的自然寶藏"
+                data-en="Pangolin’s Secret Realm — Exploring Taiwan’s Natural Treasures"
+              class="card-title">穿山甲的祕境 —<br/>探索台灣的自然寶藏</h5>
           </div>
         </div>
         <script>
@@ -176,7 +214,9 @@
           </div>
 
           <div class="card-body">
-            <h5 class="card-title">困獸之鬥 — <br/>守護苗栗的貓貍家園</h5>
+            <h5 data-zh="困獸之鬥 — 守護苗栗的貓貍家園"
+                data-en="Battle of the Trapped Beast — Protecting the Cat and Raccoon Habitat in Miaoli"
+            class="card-title">困獸之鬥 — <br/>守護苗栗的貓貍家園</h5>
           </div>
         </div>
         <script>
@@ -206,7 +246,9 @@
           </div>
 
           <div class="card-body">
-            <h5 class="card-title">環境永續 — <br/>我們共同守護的地球家園</h5>
+            <h5 data-zh="環境永續 — 我們共同守護的地球家園"
+                data-en="Environmental Sustainability — The Earth Home We Protect Together"
+              class="card-title">環境永續 — <br/>我們共同守護的地球家園</h5>
           </div>
         </div>
         <script>
@@ -236,7 +278,9 @@
           </div>
 
           <div class="card-body">
-            <h5 class="card-title">反思</h5>
+            <h5 data-zh="反思"
+                data-en="Reflection"
+              class="card-title">反思</h5>
           </div>
         </div>
         <script>
@@ -266,7 +310,9 @@
           </div>
 
           <div class="card-body">
-            <h5 class="card-title">一傘一故事</h5>
+            <h5 data-zh="一傘一故事"
+                data-en="One Umbrella, One Story"
+              class="card-title">一傘一故事</h5>
           </div>
         </div>
         <script>
@@ -296,7 +342,9 @@
           </div>
 
           <div class="card-body">
-            <h5 class="card-title">布馬傳奇</h5>
+            <h5 data-zh="布馬傳奇"
+                data-en="The Legend of Buma"
+              class="card-title">布馬傳奇</h5>
           </div>
         </div>
         <script>
@@ -326,7 +374,9 @@
           </div>
 
           <div class="card-body">
-            <h5 class="card-title">我與我的心</h5>
+            <h5 data-zh="我與我的心"
+                data-en="Me and My Heart"
+              class="card-title">我與我的心</h5>
           </div>
         </div>
         <script>
@@ -356,7 +406,9 @@
           </div>
 
           <div class="card-body">
-            <h5 class="card-title">打詐先鋒</h5>
+            <h5 data-zh="打詐先鋒"
+                data-en="Anti-Fraud Pioneer"
+              class="card-title">打詐先鋒</h5>
           </div>
         </div>
         <script>

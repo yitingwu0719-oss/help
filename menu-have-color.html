@@ -23,25 +23,28 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary px-3" href="/front-page.html" data-page="/front-page.html">吳宜庭茶繪</a>
+          <a class="nav-link text-secondary px-3" href="/front-page.html" data-page="/front-page.html"
+             data-zh="吳宜庭茶繪" data-en="Wu Yiting Tea Art">吳宜庭茶繪</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary px-3" href="/index.html" data-page="/index.html">手繪作品</a>
-        </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link text-secondary px-3" href="/product-tea.html" data-page="/product.html">茶葉</a>
-        </li> -->
-        <li class="nav-item">
-          <a class="nav-link text-secondary px-3" href="/product-tea_set.html" data-page="/product.html">歲月名壺</a>
+          <a class="nav-link text-secondary px-3" href="/index.html" data-page="/index.html"
+             data-zh="手繪作品" data-en="Hand-painted Works">手繪作品</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary px-3" href="/product-gift_box.html" data-page="/product.html">珍藏木雕</a>
+          <a class="nav-link text-secondary px-3" href="/product-tea_set.html" data-page="/product.html"
+             data-zh="歲月名壺" data-en="Famous Teapots">歲月名壺</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary px-3" href="/about.html" data-page="/about.html">關於我們</a>
+          <a class="nav-link text-secondary px-3" href="/product-gift_box.html" data-page="/product.html"
+             data-zh="珍藏木雕" data-en="Wooden Collectibles">珍藏木雕</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary px-3" href="/ESG.html" data-page="/product.html">溫馨夥伴</a>
+          <a class="nav-link text-secondary px-3" href="/about.html" data-page="/about.html"
+             data-zh="關於我們" data-en="About Us">關於我們</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary px-3" href="/ESG.html" data-page="/product.html"
+             data-zh="溫馨夥伴" data-en="Partners">溫馨夥伴</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-secondary px-3 d-flex align-items-center" href="/cart.html" data-page="/cart.html">
@@ -62,67 +65,64 @@
 </nav>
 
 <style>
-  .logo-img {
-    height: 80px;
-    width: auto;
-  }
+  .logo-img { height: 80px; width: auto; }
+  @media (max-width: 768px) { .logo-img { height: 40px; } }
+  @media (max-width: 576px) { .logo-img { height: 30px; } }
 
-  @media (max-width: 768px) {
-    .logo-img {
-      height: 40px;
-    }
-  }
+  .nav-link.active { color: #949449 !important; font-weight: 700; font-size: 1.4rem; }
+  .nav-link.text-secondary { color: #66B3FF !important; font-size: 1.3rem; transition: color 0.3s, font-size 0.3s; }
+  .nav-link.text-secondary:hover { color: #66B3FF !important; font-weight: 700; font-size: 1.5rem; }
+  .navbar-toggler-icon { filter: none !important; }
 
-  @media (max-width: 576px) {
-    .logo-img {
-      height: 30px;
-    }
-  }
-
-  /* 目前頁面選項 */
-  .nav-link.active {
-    color: #949449 !important;
-    font-weight: 700;
-    font-size: 1.4rem;
-  }
-
-  /* 預設非選取的文字顏色（藍色） */
-  .nav-link.text-secondary {
-    color: #66B3FF !important;
-    font-size: 1.3rem;
-    transition: color 0.3s, font-size 0.3s;
-  }
-
-  /* 滑鼠移入變綠色 */
-  .nav-link.text-secondary:hover {
-    color: #66B3FF !important;
-    font-weight: 700;
-    font-size: 1.5rem;
-  }
-
-  /* 調整漢堡 icon 顏色為黑色 */
-  .navbar-toggler-icon {
-    filter: none !important;
-  }
-
-  /* RWD：手機版選單字體稍微縮小避免擠壓 */
-  @media (max-width: 768px) {
-    .nav-link {
-      font-size: 1rem !important;
-    }
-  }
+  @media (max-width: 768px) { .nav-link { font-size: 1rem !important; } }
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const currentPage = location.pathname.split("/").pop() || "index.html"; // 預設 index.html
-    const links = document.querySelectorAll('.nav-link');
+document.addEventListener("DOMContentLoaded", function () {
+  const currentPage = location.pathname.split("/").pop() || "index.html";
+  const links = document.querySelectorAll('.nav-link');
 
+  // 設置當前頁面 active
+  links.forEach(link => {
+    if (link.getAttribute('data-page') === currentPage) {
+      link.classList.add('active');
+      link.classList.remove('text-secondary');
+    }
+  });
+
+  // 讀取 localStorage 語言偏好
+  let lang = localStorage.getItem('lang') || 'zh';
+  updateLanguage(lang);
+
+  // 語言切換按鈕事件
+  const toggleBtn = document.getElementById('toggle-lang');
+  toggleBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    lang = (lang === 'zh') ? 'en' : 'zh';
+    localStorage.setItem('lang', lang);
+    updateLanguage(lang);
+  });
+
+  function updateLanguage(lang) {
+    // 更新導覽列文字
     links.forEach(link => {
-      if (link.getAttribute('data-page') === currentPage) {
-        link.classList.add('active');
-        link.classList.remove('text-secondary');
+      const zhText = link.getAttribute('data-zh');
+      const enText = link.getAttribute('data-en');
+      if (zhText && enText) {
+        link.textContent = (lang === 'zh') ? zhText : enText;
       }
     });
-  });
+
+    // 更新切換按鈕文字
+    toggleBtn.textContent = (lang === 'zh') ? 'English' : '中文';
+
+    // 全站頁面文字自動翻譯
+    const allText = document.querySelectorAll('[data-zh][data-en]');
+    allText.forEach(el => {
+      const zhText = el.getAttribute('data-zh');
+      const enText = el.getAttribute('data-en');
+      if (zhText && enText) el.textContent = (lang === 'zh') ? zhText : enText;
+    });
+  }
+});
 </script>

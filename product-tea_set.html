@@ -85,6 +85,8 @@
   font-size: 2rem;
   color: black;
 }
+
+
     </style>
 </head>
 <body>
@@ -100,7 +102,35 @@
             .then(data => {
                 document.getElementById('navbar').innerHTML = data;
             });
+      // 載入 menu-have-color.html 並啟用中英文切換
+      fetch('menu-have-color.html')
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById('navbar').innerHTML = data;
+
+          const toggleBtn = document.getElementById('toggle-lang');
+          if(toggleBtn){
+            toggleBtn.addEventListener('click', function(e){
+              e.preventDefault();
+              if(toggleBtn.innerText === "English"){
+                document.querySelectorAll('[data-en]').forEach(el=>{
+                  el.innerText = el.getAttribute('data-en');
+                  // 如果有 alt 屬性，也替換
+                  if(el.tagName === 'IMG' && el.dataset.altEn) el.alt = el.dataset.altEn;
+                });
+                toggleBtn.innerText = "繁體中文";
+              } else {
+                document.querySelectorAll('[data-zh]').forEach(el=>{
+                  el.innerText = el.getAttribute('data-zh');
+                  if(el.tagName === 'IMG' && el.dataset.altZh) el.alt = el.dataset.altZh;
+                });
+                toggleBtn.innerText = "English";
+              }
+            });
+          }
+        });
     </script>
+
 
     <div id="banner"></div>
     <br/>
@@ -111,12 +141,20 @@
     
     <div class="container my-3">
 <div class="row g-0" style="color: #949449; font-size: 1rem; text-align: center;">
-  <h3 class="title my-3" style="font-size: clamp(0.9rem, 3vw, 1.5rem);font-weight: normal">
+  <h3 data-zh="時光為它們添上溫潤的光澤，也覆蓋了久遠的塵影。
+               三十餘年的老壺，各自蘊藏著獨有的氣息與故事。
+               壺上落款，是匠人留下的歲月簽名。"
+      data-en="Time has given them a warm, gentle sheen, while also veiling traces of the distant past.
+               Each of these teapots, over thirty years old, holds its own unique character and story.
+               The inscriptions on the teapots are the artisans’ signatures, marking the passage of time." 
+    class="title my-3" style="font-size: clamp(0.9rem, 3vw, 1.5rem);font-weight: normal">
     時光為它們添上溫潤的光澤，也覆蓋了久遠的塵影。<br/>
     三十餘年的老壺，各自蘊藏著獨有的氣息與故事。<br/>
     壺上落款，是匠人留下的歲月簽名。
   </h3>
-  <p style="margin-top: 1rem; font-size: clamp(0.8rem, 2vw, 1.2rem);">
+  <p data-zh="靜候茗香共賞的有緣人。"
+     data-en="Awaiting kindred spirits to enjoy the tea aroma together."
+    style="margin-top: 1rem; font-size: clamp(0.8rem, 2vw, 1.2rem);">
     靜候茗香共賞的有緣人。
   </p>
 </div>

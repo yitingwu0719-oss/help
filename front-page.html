@@ -38,11 +38,30 @@
     </header>
 
     <script>
-        fetch('menu.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('navbar').innerHTML = data;
+      // 載入 menu-have-color.html
+      fetch('menu.html')
+        .then(res => res.text())
+        .then(data => {
+          document.getElementById('navbar').innerHTML = data;
+
+          const toggleBtn = document.getElementById('toggle-lang');
+          if(toggleBtn){
+            toggleBtn.addEventListener('click', function(e){
+              e.preventDefault();
+              if(toggleBtn.innerText === "English"){
+                document.querySelectorAll('[data-en]').forEach(el=>{
+                  el.innerText = el.getAttribute('data-en');
+                });
+                toggleBtn.innerText = "繁體中文";
+              } else {
+                document.querySelectorAll('[data-zh]').forEach(el=>{
+                  el.innerText = el.getAttribute('data-zh');
+                });
+                toggleBtn.innerText = "English";
+              }
             });
+          }
+        });
     </script>
 
     <div id="banner"></div>
@@ -94,7 +113,9 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">茶頁時光</h5>
+                  <h5 data-zh="茶頁時光"
+                      data-en="Tea Time Chronicles"
+                    lass="card-title">茶頁時光</h5>
                   <p class="text-danger"></p>
                 </div>
               </div>
@@ -127,7 +148,9 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">茶包</h5>
+                  <h5 data-zh="茶包"
+                      data-en="Tea Bag"
+                    class="card-title">茶包</h5>
                   <p class="text-danger"></p>
                 </div>
               </div>
@@ -160,7 +183,9 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">茶葉</h5>
+                  <h5 data-zh="茶葉"
+                      data-en="Tea Leaves"
+                    class="card-title">茶葉</h5>
                   <p class="text-danger"></p>
                 </div>
               </div>
@@ -193,7 +218,9 @@
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">茶點</h5>
+                  <h5 data-zh="茶點"
+                      data-en="Tea Snacks"
+                    class="card-title">茶點</h5>
                   <p class="text-danger"></p>
                 </div>
               </div>
@@ -207,7 +234,9 @@
 
             <!-- 新增置中按鈕 -->
             <div class="text-center my-4">
-              <button type="button" class="btn btn-primary">加入購物車</button>
+              <button data-zh="加入購物車"
+                      data-en="Add to Cart"
+                type="button" class="btn btn-primary">加入購物車</button>
             </div>
 
         </div>
@@ -254,11 +283,14 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">已加入購物車</h5>
+                  <h5 data-zh="已加入購物車" data-en="Add to Cart" class="modal-title">已加入購物車</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <p>${product.name} 已加入購物車！</p>
+                  <p data-zh="已加入購物車！"
+                     data-en="Add to Cart!"
+                    >${product.name} 已加入購物車！ 
+                    Tea Time Chronicles Add to Cart!</p>
                 </div>
               </div>
             </div>

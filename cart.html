@@ -54,32 +54,32 @@
 
     <div id="empty-cart-message" class="text-center text-muted my-4" style="display:none;">
       <i class="bi bi-cart-x fs-1"></i>
-      <p class="mt-2">目前購物車沒有商品</p>
+      <p class="mt-2">目前購物車沒有商品 <br/>There are currently no items in the shopping cart.</p>
     </div>
 
     <div class="d-flex justify-content-between mt-3">
-      <button class="btn btn-outline-danger" onclick="clearCart()">清空購物車</button>
+      <button class="btn btn-outline-danger" onclick="clearCart()">清空購物車 Clear Shopping Cart</button>
     </div>
 
     <div class="row justify-content-end mt-4" id="summary-section">
       <div class="col-md-4">
         <div class="border p-3 bg-light rounded">
-          <h5 class="mb-3">訂單摘要</h5>
+          <h5 class="mb-3">訂單摘要 Order Summary</h5>
           <p class="d-flex justify-content-between">
-            <span>商品總計：</span>
+            <span>商品總計 Subtotal：</span>
             <span id="subtotal">$0</span>
           </p>
           <p class="d-flex justify-content-between">
-            <span>運費：</span>
+            <span>運費 Shipping Fee：</span>
             <span id="shipping">$0</span>
           </p>
           <p class="text-info small" id="free-shipping-msg"></p>
           <hr>
           <p class="d-flex justify-content-between fs-5">
-            <span>總金額：</span>
+            <span>總金額 Total Amount：</span>
             <span class="text-danger fw-bold" id="grand-total">$0</span>
           </p>
-          <button class="btn btn-danger w-100 mt-2" id="checkout-btn">前往結帳</button>
+          <button class="btn btn-danger w-100 mt-2" id="checkout-btn"> Proceed to Checkout</button>
         </div>
       </div>
     </div>
@@ -90,54 +90,59 @@
     <div class="modal-dialog modal-dialog-centered">
       <form class="modal-content" id="checkout-form" novalidate>
         <div class="modal-header">
-          <h5 class="modal-title" id="checkoutModalLabel">結帳資訊</h5>
+          <h5 class="modal-title" id="checkoutModalLabel">結帳資訊 Checkout Information</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
         </div>
         <div class="modal-body">
              <div class="mb-3">
-              <label for="name" class="form-label">姓名 <span class="text-danger">*</span></label>
+              <label for="name" class="form-label">姓名 Name<span class="text-danger">*</span></label>
               <input type="text" class="form-control" id="name" placeholder="請輸入姓名" required>
-              <div class="invalid-feedback">請填寫姓名</div>
+              <div class="invalid-feedback">請填寫姓名 Please enter your name</div>
             </div>
             <div class="mb-3">
-              <label for="phone" class="form-label">電話 <span class="text-danger">*</span></label>
+              <label for="phone" class="form-label">電話 Phone<span class="text-danger">*</span></label>
               <input type="tel" class="form-control" id="phone" placeholder="請輸入電話" required pattern="^[0-9\-+\s]{6,15}$">
-              <div class="invalid-feedback">請填寫有效電話</div>
+              <div class="invalid-feedback">請填寫有效電話 Please enter a valid phone number</div>
             </div>
             <div class="mb-3">
-              <label for="email" class="form-label">電子郵件 <span class="text-danger">*</span></label>
+              <label for="email" class="form-label">電子郵件 Email<span class="text-danger">*</span></label>
               <input type="email" class="form-control" id="email" placeholder="請輸入電子郵件" required>
-              <div class="invalid-feedback">請填寫有效電子郵件
+              <div class="invalid-feedback">請填寫有效電子郵件 Please enter a valid email address
               </div>
             </div>
           <div class="mb-3">
-            <label for="address" class="form-label">收貨地址 <span class="text-danger">*</span></label>
+            <label for="address" class="form-label">收貨地址 Shipping Address<span class="text-danger">*</span></label>
             <textarea class="form-control" id="address" rows="3" required placeholder="請輸入收貨地址"></textarea>
             <div class="invalid-feedback">
-              請填寫收貨地址
+              請填寫收貨地址 Please enter the shipping address
             </div>
           </div>
 
           <div class="mb-3">
-            <label class="form-label d-block">付款方式 <span class="text-danger">*</span></label>
+            <label class="form-label d-block">付款方式 ayment Method<span class="text-danger">*</span></label>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="paymentMethod" id="payATM" value="ATM" required>
-              <label class="form-check-label" for="payATM">ATM轉帳</label>
+              <label class="form-check-label" for="payATM">ATM轉帳 ATM Transfer</label>
             </div>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="paymentMethod" id="payCOD" value="貨到付款" required>
-              <label class="form-check-label" for="payCOD">貨到付款</label>
+              <label class="form-check-label" for="payCOD">貨到付款 Cash on Delivery(COD)</label>
             </div>
             <div class="invalid-feedback d-block" id="payment-invalid-feedback" style="display:none;">
-              請選擇付款方式
+              請選擇付款方式 Please select a payment method
             </div>
           </div>
 
           <!-- ATM 轉帳資訊與倒數計時 -->
           <div id="atm-info" class="border p-3 mt-3" style="display:none; background:#f8f9fa;">
-            <h6>ATM 轉帳資訊</h6>
-            <p>銀行：AB銀行<br>代碼：000<br>帳戶：123456789000</p>
+            <h6>ATM 轉帳資訊 </h6>
+            <p>銀行 ：AB銀行<br>代碼：000<br>帳戶：123456789000</p>
             <p>請在 <span id="atm-timer">15:00</span> 內完成付款，逾時訂單將自動取消。<br/>如未付款直接點擊送出訂單，也視為取消訂單</p>
+            <h6>ATM Transfer Information</h6>
+            <p>Bank：AB Bank Bank Code：000 Bank Account：123456789000</p>
+            <p>Please complete the payment within <span id="atm-timer">15:00</span>. 
+              Orders will be automatically canceled if payment is not made on time. <br/>
+              Clicking “Place Order” without payment will also be considered a canceled order.</p>
           </div>
         </div>
         <div class="modal-footer">
@@ -196,10 +201,10 @@
 
       const msgEl = document.getElementById('free-shipping-msg');
       if (total >= shippingThreshold) {
-        msgEl.innerText = '✅ 已達免運門檻';
+        msgEl.innerText = '✅ 已達免運門檻Free shipping threshold reached.';
       } else {
         const remaining = shippingThreshold - total;
-        msgEl.innerText = `⚠ 還差 $${remaining} 可免運費`;
+        msgEl.innerText = `⚠ 還差 ${remaining} 可免運費 Spend ${remaining} more to get free shipping.`;
       }
     }
 
@@ -218,7 +223,7 @@
     }
 
     function clearCart() {
-      if (confirm('確定清空購物車？')) {
+      if (confirm('確定清空購物車？Are you sure you want to clear the shopping cart?')) {
         localStorage.removeItem('cart');
         renderCart();
       }
@@ -228,7 +233,7 @@
     function checkout() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       if (cart.length === 0) {
-        alert('購物車是空的，無法結帳');
+        alert('購物車是空的，無法結帳 The shopping cart is empty. Checkout is not possible.');
         return;
       }
       const checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
@@ -258,7 +263,7 @@
 
         if (timeLeft <= 0) {
           clearInterval(atmCountdownInterval);
-          alert('ATM付款時間已超過15分鐘，訂單已取消。');
+          alert('ATM付款時間已超過15分鐘，訂單已取消。|The ATM payment time has exceeded 15 minutes. Your order has been canceled.');
           // 清除購物車並關閉結帳Modal
           localStorage.removeItem('cart');
           renderCart();
@@ -364,7 +369,7 @@
 
       // 顯示成功訊息
       const msgEl = document.getElementById('checkout-msg');
-      msgEl.innerText = '感謝您的訂購！訂單已送出。';
+      msgEl.innerText = '感謝您的訂購！訂單已送出。Thank you for your order! Your order has been placed.';
       msgEl.style.display = 'block';
 
       // 關閉 Modal
