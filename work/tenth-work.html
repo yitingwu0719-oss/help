@@ -115,11 +115,15 @@
 
       <!-- 尺寸選項 -->
       <div class="mb-3">
-        <label for="sizeSelect" class="form-label">尺寸</label>
-        <select class="form-select" id="sizeSelect" style="width:200px;">
-          <option value="明信片 14.8 x 10.5 cm">明信片 14.8 公分 x 10.5 公分</option>
-          <option value="海報 4K">海報 4K</option>
-        </select>
+        <label class="form-label d-block">尺寸</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="sizeOption" id="size1" value="明信片 14.8 x 10.5 cm" checked>
+          <label class="form-check-label" for="size1">明信片 14.8 公分 x 10.5 公分</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="sizeOption" id="size2" value="海報 4K">
+          <label class="form-check-label" for="size2">海報 4K</label>
+        </div>
       </div>
 
       <!-- 數量 -->
@@ -197,26 +201,35 @@
       "work10": {
         id: "work10",
         name: "山城故事",
+        name_en:"",
         price: 0,
         priceText: "聯絡我們獲得報價",
+        priceText_en: "Contact us for a quote",
         desc: "自行車與蒸汽火車，都是速度不快的交通工具，"+
                 "卻能讓旅人更細細感受沿途的風景與溫度。"+
                 "理念可強調「慢一點，看得更多」，用來呼應珍惜生活節奏、感受每一步的意義。"+
                 "喜歡慢活的朋友，可以與我分享你慢活的旅程。",
+        desc_en:"",
         images: ["../images/web-w10.jpg"]
       }
     };
 
-const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
     if (!id || !products[id]) {
       document.body.innerHTML = '<p class="text-danger fs-3">找不到商品資料</p><a href="../index.html">返回商品列表</a>';
     } else {
       const product = products[id];
-      document.getElementById('productName').textContent = product.name;
-      document.getElementById('productPrice').textContent = `價格：${product.priceText}`;
-      document.getElementById('productDesc').textContent = product.desc;
+
+      document.getElementById('productName').innerHTML = `${product.name}`;
+      document.getElementById("productPrice").innerHTML = `價格：${product.priceText}`;
+      document.getElementById('productDesc').innerHTML = `
+        ${product.desc}
+        <br><br><br>
+        ${product.name_en}<br><br>
+        Price: ${product.priceText_en}<br><br>
+        ${product.desc_en}`;
 
       const carouselInner = document.getElementById('carouselInner');
       const thumbnailContainer = document.getElementById('thumbnailContainer');
@@ -265,7 +278,7 @@ const urlParams = new URLSearchParams(window.location.search);
 
       document.getElementById('addToCartBtn').addEventListener('click', () => {
         const quantity = parseInt(document.getElementById('quantityInput').value);
-        const size = document.getElementById('sizeSelect').value;
+        const size = document.querySelector('input[name="sizeOption"]:checked').value;
         if (isNaN(quantity) || quantity < 1) {
           alert('請輸入有效的數量 (至少 1)');
           return;
