@@ -194,7 +194,11 @@ function setupMagnifier(img, zoomLevel = 3) {
         name: "C",
         price: 0,
         priceText: "聯絡我們獲得報價",
+        priceText_en: "Contact us for a quote",
         desc: "典藏多年，靜置櫃中從未啟用。歲月在壺身留下沉穩氣韻，願它第一次盛茶的溫度，屬於你。",
+        desc_en:"Kept in collection for many years, it has rested in the cabinet, never used."+
+                "Time has left a calm and steady charm upon its body."+
+                "May the warmth of its very first brew belong to you.",
         images: ["../images/web-c17.jpg", "../images/web-c18.jpg", "../images/web-c19.jpg", "../images/web-c17-1.jpg", "../images/web-c17-2.jpg"]
       }
     };
@@ -206,9 +210,15 @@ function setupMagnifier(img, zoomLevel = 3) {
       document.body.innerHTML = '<p class="text-danger fs-3">找不到商品資料</p><a href="../index.html">返回商品列表</a>';
     } else {
       const product = products[id];
-      document.getElementById('productName').textContent = product.name;
-      document.getElementById('productPrice').textContent = `價格：${product.priceText}`;
-      document.getElementById('productDesc').textContent = product.desc;
+
+      document.getElementById('productName').innerHTML = `${product.name}`;
+      document.getElementById("productPrice").innerHTML = `價格：${product.priceText}`;
+      document.getElementById('productDesc').innerHTML = `
+        ${product.desc}
+        <br><br><br>
+        ${product.name_en}<br><br>
+        Price: ${product.priceText_en}<br><br>
+        ${product.desc_en}`;
 
       const carouselInner = document.getElementById('carouselInner');
       const thumbnailContainer = document.getElementById('thumbnailContainer');
