@@ -55,84 +55,118 @@
         <ul id="productList" class="list-group"></ul>
     </div>
 
-    <script>
-        const form = document.getElementById('productForm');
-        const productList = document.getElementById('productList');
+<script>
+    const form = document.getElementById('productForm');
+    const productList = document.getElementById('productList');
+    let editIndex = null; // 紀錄編輯中的商品索引
 
-        function renderProductList() {
-            const products = JSON.parse(localStorage.getItem('gift_box')) || [];
-            productList.innerHTML = '';
-            if (products.length === 0) {
-                productList.innerHTML = '<li class="list-group-item text-muted">目前沒有任何作品。</li>';
-            } else {
-                products.forEach((product, index) => {
-                    const firstImage = product.images && product.images.length > 0 ? product.images[0] : '';
-                    const li = document.createElement('li');
-                    li.className = 'list-group-item d-flex justify-content-between align-items-start';
-                    li.innerHTML = `
-                        <div class="d-flex align-items-start">
-                            ${firstImage ? `<img src="${firstImage}" alt="商品圖片" class="product-img">` : ''}
-                            <div>
-                                <a href="${product.link}" target="_blank" class="fw-semibold">${index + 1}. ${product.zhTitle}</a>
-                                <div class="text-muted small text-truncate" style="max-width: 60ch;">
-                                    ${product.zhDesc ? product.zhDesc : ''}
-                                </div>
-                                <div class="small text-danger">
-                                    ${product.zhPrice ? product.zhPrice : ''}
-                                </div>
+    function renderProductList() {
+        const products = JSON.parse(localStorage.getItem('gift_box')) || [];
+        productList.innerHTML = '';
+        if (products.length === 0) {
+            productList.innerHTML = '<li class="list-group-item text-muted">目前沒有任何作品。</li>';
+        } else {
+            products.forEach((product, index) => {
+                const firstImage = product.images && product.images.length > 0 ? product.images[0] : '';
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-start';
+                li.innerHTML = `
+                    <div class="d-flex align-items-start">
+                        ${firstImage ? `<img src="${firstImage}" alt="商品圖片" class="product-img">` : ''}
+                        <div>
+                            <a href="${product.link}" target="_blank" class="fw-semibold">
+                                ${index + 1}. ${product.zhTitle} <span class="badge bg-secondary">#${product.id}</span>
+                            </a>
+                            <div class="text-muted small text-truncate" style="max-width: 60ch;">
+                                ${product.zhDesc ? product.zhDesc : ''}
+                            </div>
+                            <div class="small text-danger">
+                                ${product.zhPrice ? product.zhPrice : ''}
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-warning btn-sm edit-btn" data-index="${index}">編輯</button>
                         <button class="btn btn-danger btn-sm delete-btn" data-index="${index}">刪除</button>
-                    `;
-                    productList.appendChild(li);
-                });
-            }
+                    </div>
+                `;
+                productList.appendChild(li);
+            });
+        }
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const productZhTitle = document.getElementById('productZhTitle').value;
+        const productEnTitle = document.getElementById('productEnTitle').value;
+        const productZhPrice = document.getElementById('productZhPrice').value;
+        const productEnPrice = document.getElementById('productEnPrice').value;
+        const productZhDesc = document.getElementById('productZhDesc').value;
+        const productEnDesc = document.getElementById('productEnDesc').value;
+        const productImages = document.getElementById('productImages').value.split(',').map(url => url.trim());
+        const productLink = document.getElementById('productLink').value;
+
+        const newProduct = {
+            id: Date.now(), // 🔥 自動產生唯一商品 ID
+            zhTitle: productZhTitle,
+            enTitle: productEnTitle,
+            zhPrice: productZhPrice,
+            enPrice: productEnPrice,
+            zhDesc: productZhDesc,
+            enDesc: productEnDesc,
+            images: productImages,
+            link: productLink
+        };
+
+        const products = JSON.parse(localStorage.getItem('gift_box')) || [];
+
+        if (editIndex !== null) {
+            // 保留原本的 id，避免編輯時換掉
+            newProduct.id = products[editIndex].id;
+            products[editIndex] = newProduct; 
+            alert('作品已成功修改！');
+            editIndex = null;
+            document.getElementById('addProductBtn').textContent = '新增商品';
+        } else {
+            products.push(newProduct); 
+            alert('作品已成功新增！');
         }
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const productZhTitle = document.getElementById('productZhTitle').value;
-            const productEnTitle = document.getElementById('productEnTitle').value;
-            const productZhPrice = document.getElementById('productZhPrice').value;
-            const productEnPrice = document.getElementById('productEnPrice').value;
-            const productZhDesc = document.getElementById('productZhDesc').value;
-            const productEnDesc = document.getElementById('productEnDesc').value;
-            const productImages = document.getElementById('productImages').value.split(',').map(url => url.trim());
-            const productLink = document.getElementById('productLink').value;
-
-            const newProduct = {
-                zhTitle: productZhTitle,
-                enTitle: productEnTitle,
-                zhPrice: productZhPrice,
-                enPrice: productEnPrice,
-                zhDesc: productZhDesc,
-                enDesc: productEnDesc,
-                images: productImages,
-                link: productLink
-            };
-
-            const products = JSON.parse(localStorage.getItem('gift_box')) || [];
-            products.push(newProduct);
-            localStorage.setItem('gift_box', JSON.stringify(products));
-
-            alert('作品已成功新增！');
-            form.reset();
-            renderProductList();
-        });
-
-        productList.addEventListener('click', (e) => {
-            if (e.target.classList.contains('delete-btn')) {
-                const index = e.target.dataset.index;
-                const products = JSON.parse(localStorage.getItem('gift_box')) || [];
-                products.splice(index, 1);
-                localStorage.setItem('gift_box', JSON.stringify(products));
-                alert('作品已成功刪除！');
-                renderProductList();
-            }
-        });
-
+        localStorage.setItem('gift_box', JSON.stringify(products));
+        form.reset();
         renderProductList();
-    </script>
+    });
+
+    productList.addEventListener('click', (e) => {
+        const products = JSON.parse(localStorage.getItem('gift_box')) || [];
+
+        if (e.target.classList.contains('delete-btn')) {
+            const index = e.target.dataset.index;
+            products.splice(index, 1);
+            localStorage.setItem('gift_box', JSON.stringify(products));
+            alert('作品已成功刪除！');
+            renderProductList();
+        }
+
+        if (e.target.classList.contains('edit-btn')) {
+            editIndex = e.target.dataset.index;
+            const product = products[editIndex];
+
+            document.getElementById('productZhTitle').value = product.zhTitle;
+            document.getElementById('productEnTitle').value = product.enTitle;
+            document.getElementById('productZhPrice').value = product.zhPrice;
+            document.getElementById('productEnPrice').value = product.enPrice;
+            document.getElementById('productZhDesc').value = product.zhDesc;
+            document.getElementById('productEnDesc').value = product.enDesc;
+            document.getElementById('productImages').value = product.images.join(', ');
+            document.getElementById('productLink').value = product.link;
+
+            document.getElementById('addProductBtn').textContent = '更新商品';
+        }
+    });
+
+    renderProductList();
+</script>
 </body>
 </html>
