@@ -394,7 +394,6 @@ const orderData = cart.map(item => ({
   productId: item.id,      // 產品 ID 或名稱
   quantity: item.quantity, // 數量
   price: item.price,       // 價格
-  size: item.size          // 尺寸 (來自 radio button)
 }));
 
   const customer = {
@@ -440,9 +439,10 @@ const orderData = cart.map(item => ({
     document.getElementById('checkout-btn').addEventListener('click', checkout);
 
     // 頁面關閉或重新整理時清空購物車
-    window.addEventListener('beforeunload', () => {
-      localStorage.removeItem('cart');
-    });
+    const navEntries = performance.getEntriesByType("navigation");
+if (navEntries.length > 0 && navEntries[0].type === "reload") {
+  localStorage.removeItem('cart');
+}
 
     renderCart();
   </script>

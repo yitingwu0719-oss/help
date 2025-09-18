@@ -186,7 +186,7 @@
             const product = allProducts[productIndex];
 
             if (!product) {
-                document.body.innerHTML = '<p class="text-danger fs-3">找不到商品資料</p><a href="../product-gift_box.html">返回商品列表</a>';
+                document.body.innerHTML = '<p class="text-danger fs-3">找不到商品資料</p><a href="../index.html">返回商品列表</a>';
                 return;
             }
 
@@ -266,26 +266,16 @@
         if (existingIndex >= 0) {
             cart[existingIndex].quantity += quantity;
         } else {
-          document.getElementById('addToCartBtn').addEventListener('click', function() {
-    const quantity = parseInt(document.getElementById('quantity').value, 10) || 1;
-    const note = document.getElementById('note').value || '';
-
-    // 每次點擊才抓尺寸
-    const sizeOption = document.querySelector('input[name="sizeOption"]:checked').value;
-
-    cart.push({
-        id: product.zhTitle,
-        name: product.zhTitle,
-        price: product.zhPrice,
-        quantity: quantity,
-        image: product.images[0],
-        size: sizeOption,  // 這裡保證有值
-        note: note
-    });
-
-    console.log('加入購物車:', cart); // 確認有沒有正確加進去
-});
+            cart.push({
+                id: product.zhTitle,
+                name: product.zhTitle,
+                price: product.zhPrice,
+                quantity: quantity,
+                image: product.images[0]
+            });
         }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
 
         // 顯示 Toast 提示
         const toastEl = document.getElementById("cartToast");
