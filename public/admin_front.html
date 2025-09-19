@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>商品管理後台</title>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .product-img { max-width: 60px; max-height: 60px; object-fit: cover; margin-right: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>新增首頁商品</h2>
+        <form id="productForm">
+            <div class="form-group">
+                <label for="productZhTitle">商品名稱（中文）</label>
+                <input type="text" class="form-control" id="productZhTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="productEnTitle">商品名稱（英文）</label>
+                <input type="text" class="form-control" id="productEnTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="productZhPrice">價格（中文）</label>
+                <input type="text" class="form-control" id="productZhPrice" value="價格：聯絡我們獲得報價" required>
+            </div>
+            <div class="form-group">
+                <label for="productEnPrice">價格（英文）</label>
+                <input type="text" class="form-control" id="productEnPrice" value="Price: Contact us for a quote" required>
+            </div>
+            <div class="form-group">
+                <label for="productZhDesc">商品介紹（中文）</label>
+                <textarea class="form-control" id="productZhDesc" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="productEnDesc">商品介紹（英文）</label>
+                <textarea class="form-control" id="productEnDesc" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="productImages">商品圖片 URL（多張圖片以逗號 `,` 分隔）</label>
+                <input type="text" class="form-control" id="productImages" placeholder="例如: /images/web-cw1.jpg,/images/web-cw2.jpg" required>
+            </div>
+            <div class="form-group">
+                <label for="productLink">商品頁面連結</label>
+                <input type="text" class="form-control" id="productLink" placeholder="例如: wood_commodity/first.html" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="addProductBtn">新增商品</button>
+        </form>
+
+        <hr>
+
+        <h3>已新增商品列表</h3>
+        <ul id="productList" class="list-group"></ul>
+    </div>
+
+<script>
+    const form = document.getElementById('productForm');
+    const productList = document.getElementById('productList');
+    let editIndex = null; // 紀錄編輯中的商品索引
+
+    function renderProductList() {
+        const products = JSON.parse(localStorage.getItem('front')) || [];
+        productList.innerHTML = '';
+        if (products.length === 0) {
+            productList.innerHTML = '<li class="list-group-item text-muted">目前沒有任何作品。</li>';
+        } else {
+            products.forEach((product, index) => {
+                const firstImage = product.images && product.images.length > 0 ? product.images[0] : '';
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-start';
+                li.innerHTML = `
+                    <div class="d-flex align-items-start">
+                        ${firstImage ? `<img src="${firstImage}" alt="商品圖片" class="product-img">` : ''}
+                        <div>
+                            <a href="${product.link}" target="_blank" class="fw-semibold">
+                                ${index + 1}. ${product.zhTitle} <span class="badge bg-secondary">#${product.id}</span>
+                            </a>
+                            <div class="text-muted small text-truncate" style="max-width: 60ch;">
+                                ${product.zhDesc ? product.zhDesc : ''}
+                            </div>
+                            <div class="small text-danger">
+                                ${product.zhPrice ? product.zhPrice : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-warning btn-sm edit-btn" data-index="${index}">編輯</button>
+                        <button class="btn btn-danger btn-sm delete-btn" data-index="${index}">刪除</button>
+                    </div>
+                `;
+                productList.appendChild(li);
+            });
+        }
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const productZhTitle = document.getElementById('productZhTitle').value;
+        const productEnTitle = document.getElementById('productEnTitle').value;
+        const productZhPrice = document.getElementById('productZhPrice').value;
+        const productEnPrice = document.getElementById('productEnPrice').value;
+        const productZhDesc = document.getElementById('productZhDesc').value;
+        const productEnDesc = document.getElementById('productEnDesc').value;
+        const productImages = document.getElementById('productImages').value.split(',').map(url => url.trim());
+        const productLink = document.getElementById('productLink').value;
+
+        const newProduct = {
+            id: Date.now(), // 🔥 自動產生唯一商品 ID
+            zhTitle: productZhTitle,
+            enTitle: productEnTitle,
+            zhPrice: productZhPrice,
+            enPrice: productEnPrice,
+            zhDesc: productZhDesc,
+            enDesc: productEnDesc,
+            images: productImages,
+            link: productLink
+        };
+
+        const products = JSON.parse(localStorage.getItem('front')) || [];
+
+        if (editIndex !== null) {
+            // 保留原本的 id，避免編輯時換掉
+            newProduct.id = products[editIndex].id;
+            products[editIndex] = newProduct; 
+            alert('作品已成功修改！');
+            editIndex = null;
+            document.getElementById('addProductBtn').textContent = '新增商品';
+        } else {
+            products.push(newProduct); 
+            alert('作品已成功新增！');
+        }
+
+        localStorage.setItem('front', JSON.stringify(products));
+        form.reset();
+        renderProductList();
+    });
+
+    productList.addEventListener('click', (e) => {
+        const products = JSON.parse(localStorage.getItem('front')) || [];
+
+        if (e.target.classList.contains('delete-btn')) {
+            const index = e.target.dataset.index;
+            products.splice(index, 1);
+            localStorage.setItem('front', JSON.stringify(products));
+            alert('作品已成功刪除！');
+            renderProductList();
+        }
+
+        if (e.target.classList.contains('edit-btn')) {
+            editIndex = e.target.dataset.index;
+            const product = products[editIndex];
+
+            document.getElementById('productZhTitle').value = product.zhTitle;
+            document.getElementById('productEnTitle').value = product.enTitle;
+            document.getElementById('productZhPrice').value = product.zhPrice;
+            document.getElementById('productEnPrice').value = product.enPrice;
+            document.getElementById('productZhDesc').value = product.zhDesc;
+            document.getElementById('productEnDesc').value = product.enDesc;
+            document.getElementById('productImages').value = product.images.join(', ');
+            document.getElementById('productLink').value = product.link;
+
+            document.getElementById('addProductBtn').textContent = '更新商品';
+        }
+    });
+
+    renderProductList();
+</script>
+
+</body>
+</html>
