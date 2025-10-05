@@ -90,146 +90,91 @@
         <br />
         <div class="product-grid">
             <!-- 商品列表 -->
-            <div id="productList" class="d-flex flex-wrap gap-3 justify-content-center">
-              <!-- 商品 1 -->
-              <div class="product-card card" style="width: 250px;">
-                <div id="carousel-teaset01" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="./images/web-c3.jpg" class="d-block w-100" alt="雲朵茶壺 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="./images/web-c4.jpg" class="d-block w-100" alt="雲朵茶壺 圖2" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carousel-teaset01" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">上一張</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carousel-teaset01" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">下一張</span>
-                  </button>
-                </div>
 
-                <div class="card-body">
-                  <h5 data-zh="茶頁時光"
-                      data-en="Tea Time Chronicles"
-                    lass="card-title">茶頁時光</h5>
-                  <p class="text-danger"></p>
-                </div>
-              </div>
-              <script>
-                  // 點擊輪播區塊跳轉
-                  document.getElementById('carousel-teaset01').addEventListener('click', () => {
-                    window.location.href = 'teaset_commodity/first.html?id=teacup01';
-                  });
-              </script>
+            <div id="productList" class="d-flex flex-wrap gap-3 justify-content-center"></div>
+            
+<script>
+const staticProducts = [
+  {
+    zhTitle: "茶頁時光",
+    enTitle: "Tea Time Chronicles",
+    zhPrice: "價格：聯絡我們獲得報價",
+    enPrice: "Price: Contact us for a quote",
+    images: ["./images/web-c3.jpg","./images/web-c4.jpg"],
+    link: "teaset_commodity/first.html?id=teacup01"
+  },
+  {
+    zhTitle: "茶包",
+    enTitle: "Tea Bag",
+    zhPrice: "價格：聯絡我們獲得報價",
+    enPrice: "Price: Contact us for a quote",
+    images: ["./images/web-c3.jpg","./images/web-c4.jpg"],
+    link: "teaset_commodity/first.html?id=teacup02"
+  },
+  {
+    zhTitle: "茶葉",
+    enTitle: "Tea Leaves",
+    zhPrice: "價格：聯絡我們獲得報價",
+    enPrice: "Price: Contact us for a quote",
+    images: ["./images/web-c3.jpg","./images/web-c4.jpg"],
+    link: "teaset_commodity/first.html?id=teacup03"
+  },
+  {
+    zhTitle: "茶點",
+    enTitle: "Tea Snacks",
+    zhPrice: "價格：聯絡我們獲得報價",
+    enPrice: "Price: Contact us for a quote",
+    images: ["./images/web-c3.jpg","./images/web-c4.jpg"],
+    link: "teaset_commodity/first.html?id=teacup04"
+  }
+];
 
-              <!-- 商品 2 -->
-              <div class="product-card card" style="width: 250px;">
-                <div id="carousel-teaset02" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="./images/web-c3.jpg" class="d-block w-100" alt="雲朵茶壺 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="./images/web-c4.jpg" class="d-block w-100" alt="雲朵茶壺 圖2" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carousel-teaset02" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">上一張</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carousel-teaset02" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">下一張</span>
-                  </button>
-                </div>
+function renderAllProducts() {
+  const productContainer = document.querySelector('#productList');
+  const dynamicProducts = JSON.parse(localStorage.getItem('tea_products')) || [];
+  const allProducts = [...staticProducts, ...dynamicProducts];
 
-                <div class="card-body">
-                  <h5 data-zh="茶包"
-                      data-en="Tea Bag"
-                    class="card-title">茶包</h5>
-                  <p class="text-danger"></p>
-                </div>
-              </div>
-              <script>
-                  // 點擊輪播區塊跳轉
-                  document.getElementById('carousel-teaset02').addEventListener('click', () => {
-                    window.location.href = 'teaset_commodity/first.html?id=teacup01';
-                  });
-              </script>
+  allProducts.forEach((product, index) => {
+    const productId = `product-${index}`;
+    const imagesHtml = product.images.map((imgUrl, imgIndex) => `
+      <div class="carousel-item ${imgIndex===0?'active':''}">
+        <img src="${imgUrl}" class="d-block w-100" alt="${product.zhTitle}" 
+          style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+      </div>
+    `).join('');
 
-              <!-- 商品 3 -->
-              <div class="product-card card" style="width: 250px;">
-                <div id="carousel-teaset03" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="./images/web-c3.jpg" class="d-block w-100" alt="雲朵茶壺 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="./images/web-c4.jpg" class="d-block w-100" alt="雲朵茶壺 圖2" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carousel-teaset03" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">上一張</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carousel-teaset03" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">下一張</span>
-                  </button>
-                </div>
+    const productCard = document.createElement('div');
+    productCard.className = 'product-card card';
+    productCard.style.width = "250px";
+    productCard.innerHTML = `
+      <div id="${productId}" class="carousel slide" data-bs-ride="carousel" 
+           data-bs-interval="2000" style="cursor:pointer;">
+        <div class="carousel-inner">${imagesHtml}</div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#${productId}" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">上一張</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#${productId}" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">下一張</span>
+        </button>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title" data-zh="${product.zhTitle}" data-en="${product.enTitle}">${product.zhTitle}</h5>
+        <p class="text-danger" data-zh="${product.zhPrice}" data-en="${product.enPrice}">${product.zhPrice}</p>
+      </div>
+    `;
 
-                <div class="card-body">
-                  <h5 data-zh="茶葉"
-                      data-en="Tea Leaves"
-                    class="card-title">茶葉</h5>
-                  <p class="text-danger"></p>
-                </div>
-              </div>
-              <script>
-                  // 點擊輪播區塊跳轉
-                  document.getElementById('carousel-teaset03').addEventListener('click', () => {
-                    window.location.href = 'teaset_commodity/first.html?id=teacup01';
-                  });
-              </script>
+    productCard.querySelector('.carousel').addEventListener('click', () => {
+      window.location.href = product.link;
+    });
 
-              <!-- 商品 4 -->
-              <div class="product-card card" style="width: 250px;">
-                <div id="carousel-teaset04" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="./images/web-c3.jpg" class="d-block w-100" alt="雲朵茶壺 圖1" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
-                    </div>
-                    <div class="carousel-item">
-                      <img src="./images/web-c4.jpg" class="d-block w-100" alt="雲朵茶壺 圖2" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
-                    </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carousel-teaset04" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">上一張</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carousel-teaset04" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">下一張</span>
-                  </button>
-                </div>
+    productContainer.appendChild(productCard);
+  });
+}
 
-                <div class="card-body">
-                  <h5 data-zh="茶點"
-                      data-en="Tea Snacks"
-                    class="card-title">茶點</h5>
-                  <p class="text-danger"></p>
-                </div>
-              </div>
-              <script>
-                  // 點擊輪播區塊跳轉
-                  document.getElementById('carousel-teaset04').addEventListener('click', () => {
-                    window.location.href = 'teaset_commodity/first.html?id=teacup01';
-                  });
-              </script>
+renderAllProducts();
+</script>
             </div>
 
             <!-- 新增置中按鈕 -->

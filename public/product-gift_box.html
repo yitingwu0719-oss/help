@@ -48,8 +48,8 @@
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar"></nav>
     </header>
 
-    <!-- 語言切換按鈕 -->
-    <button id="langToggleBtn" class="btn btn-sm btn-outline-light">EN/中</button>
+    <!-- 語言切換按鈕 
+    <button id="langToggleBtn" class="btn btn-sm btn-outline-light">EN/中</button>-->
 
     <div id="banner"></div>
     <br/><br/><br/><br/><br/>
@@ -77,53 +77,88 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
+const API_URL = "http://localhost:3000/products"; 
+const WOOD_CATEGORY = "wood"; // **定義木雕類別**
 
-        // 載入 menu-have-color.html
-        fetch('menu-have-color.html')
-            .then(res => res.text())
-           
-            .then(data => {
-                document.getElementById('navbar').innerHTML = data;
+document.addEventListener('DOMContentLoaded', () => {
 
-                const toggleBtn = document.getElementById('toggle-lang');
-                if(toggleBtn){
-                    toggleBtn.addEventListener('click', function(e){
-                        e.preventDefault();
-                        if(toggleBtn.innerText === "English"){
-                            document.querySelectorAll('[data-en]').forEach(el=>{
-                                el.innerText = el.getAttribute('data-en');
-                            });
-                            toggleBtn.innerText = "繁體中文";
-                        } else {
-                            document.querySelectorAll('[data-zh]').forEach(el=>{
-                                el.innerText = el.getAttribute('data-zh');
-                            });
-                            toggleBtn.innerText = "English";
-                        }
+    // 載入 menu-have-color.html 及語言切換邏輯
+    fetch('menu-have-color.html')
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById('navbar').innerHTML = data;
+
+            const toggleBtn = document.getElementById('toggle-lang');
+            if(toggleBtn){
+                const applyLanguage = (lang) => {
+                    const selector = lang === "en" ? "[data-en]" : "[data-zh]";
+                    document.querySelectorAll(selector).forEach(el => {
+                        el.innerText = el.getAttribute(`data-${lang}`);
                     });
-                }
-            });
-        
-        const staticProducts = [
-            //{ zhTitle: "A", enTitle: "A", zhPrice: "價格：聯絡我們獲得報價", enPrice: "Price: Contact us for a quote",
-              //images: ["./images/web-cw1.jpg","./images/web-cw2.jpg","./images/web-cw3.jpg"], link: "wood_commodity/first_w.html" },
-            //{ zhTitle: "B", enTitle: "B", zhPrice: "價格：聯絡我們獲得報價", enPrice: "Price: Contact us for a quote",
-              //images: ["./images/web-cw4.jpg","./images/web-cw5.jpg","./images/web-cw6.jpg"], link: "wood_commodity/first_w.html" }
-        ];
+                    toggleBtn.innerText = lang === "en" ? "繁體中文" : "English";
+                    // 這裡可以選擇將當前語言存入 localStorage
+                    // localStorage.setItem('siteLang', lang); 
+                };
 
-        function renderAllProducts() {
-            const productContainer = document.querySelector('.product-grid');
-            const dynamicProducts = JSON.parse(localStorage.getItem('gift_box')) || [];
-            const allProducts = [...staticProducts, ...dynamicProducts];
+                toggleBtn.addEventListener('click', function(e){
+                    e.preventDefault();
+                    const currentLang = toggleBtn.innerText === "English" ? "zh" : "en";
+                    applyLanguage(currentLang);
+                });
 
-            allProducts.forEach((product, index) => {
-                const productId = `product-${index}`;
-                const imagesHtml = product.images.map((imgUrl, imgIndex) => `
+                // 初始語言套用 (如果你的 navbar 邏輯需要)
+                // applyLanguage(localStorage.getItem('siteLang') || 'zh');
+            }
+        });
+    
+    // 渲染木雕商品
+    async function renderWoodProducts() { // 函數名稱改為更明確
+        const productContainer = document.querySelector('.product-grid');
+        productContainer.innerHTML = '<div class="col-12 text-center text-muted">載入中...</div>'; // 顯示載入中
+
+        try {
+            // 從後端 API 撈商品資料
+            const res = await fetch(API_URL);
+            if (!res.ok) throw new Error("API 請求失敗");
+
+            const allProducts = await res.json();
+            
+            // =======================================================
+            // **核心修正：篩選出 category 為 'wood' 的商品**
+            const filteredProducts = allProducts.filter(p => p.category === WOOD_CATEGORY);
+            // 由於你的原始程式碼中包含靜態商品，這裡我們合併靜態和篩選後的動態商品
+            // 假設你的靜態商品 (staticProducts) 已經確定是木雕
+            const staticProducts = []; // 為了安全，將靜態商品清空或直接在後台新增
+            const productsToRender = [...staticProducts, ...filteredProducts];
+            // =======================================================
+
+            if (productsToRender.length === 0) {
+                 productContainer.innerHTML = '<div class="col-12 text-center text-muted">目前沒有任何木雕作品。</div>';
+                 return;
+            }
+
+            productContainer.innerHTML = ''; // 清空載入中提示
+
+            productsToRender.forEach((product, index) => {
+                const productId = `product-${product.id || index}`; // 使用 ID 或索引當作輪播 ID
+
+                // 確保 images 是一個陣列
+                const images = Array.isArray(product.images) ? product.images : (product.image ? [product.image] : []);
+                
+                // 處理無圖情況
+                if (images.length === 0) images.push("/uploads/no-image.png");
+
+                const imagesHtml = images.map((imgUrl, imgIndex) => `
                     <div class="carousel-item ${imgIndex===0?'active':''}">
                         <img src="${imgUrl}" class="d-block w-100" alt="${product.zhTitle}" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
                     </div>
                 `).join('');
+
+                const zhTitle = product.zhTitle || product.name || '';
+                const enTitle = product.enTitle || product.name || '';
+                const zhPrice = product.zhPrice || product.price || '聯絡我們獲得報價';
+                const enPrice = product.enPrice || product.price || 'Contact us for a quote';
+
 
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card card';
@@ -140,23 +175,46 @@
                         </button>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title" data-zh="${product.zhTitle}" data-en="${product.enTitle}">${product.zhTitle}</h5>
-                        <p class="text-danger" data-zh="${product.zhPrice}" data-en="${product.enPrice}">${product.zhPrice}</p>
+                        <h5 class="card-title" data-zh="${zhTitle}" data-en="${enTitle}">
+                            ${zhTitle}
+                        </h5>
+                        <p class="text-danger" data-zh="價格：${zhPrice}" data-en="Price: ${enPrice}">
+                            價格：${zhPrice}
+                        </p>
                     </div>
                 `;
 
+                // 點擊商品跳轉
                 productCard.querySelector('.carousel').addEventListener('click', () => {
-                    window.location.href = `./wood_commodity/first_w.html?index=${index}`;
+                    // 使用資料庫中的 link 欄位，如果沒有則使用預設路徑
+                    window.location.href = product.link || `./wood_commodity/first_w.html?id=${product.id || index}`;
                 });
 
                 productContainer.appendChild(productCard);
             });
+            
+            // 初始化所有輪播
+            document.querySelectorAll('.carousel').forEach(carouselEl => {
+                new bootstrap.Carousel(carouselEl, {
+                    interval: 2000,
+                    ride: 'carousel'
+                });
+            });
 
-            // 立即套用語言設定
-            applyLanguage(localStorage.getItem('siteLang') || 'zh');
+            // 語言套用 (如果語言切換邏輯是放在這個頁面)
+            // 假設你的語言設定是存在 localStorage
+            // if (typeof applyLanguage === 'function') {
+            //     applyLanguage(localStorage.getItem('siteLang') || 'zh');
+            // }
+
+        } catch (err) {
+            console.error('載入商品失敗:', err);
+            productContainer.innerHTML = '<div class="col-12 text-center text-danger">載入商品資料失敗，請檢查後端伺服器是否運行。</div>';
         }
-        renderAllProducts();
-    });
-    </script>
+    }
+
+    renderWoodProducts();
+});
+</script>
 </body>
 </html>

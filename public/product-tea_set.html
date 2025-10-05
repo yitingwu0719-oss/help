@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>茶壺商品展示</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -48,7 +48,6 @@
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navbar"></nav>
     </header>
 
-    <!-- 語言切換按鈕 -->
     <button id="langToggleBtn" class="btn btn-sm btn-outline-light">EN/中</button>
 
     <div id="banner"></div>
@@ -65,7 +64,6 @@
                 時光為它們添上溫潤的光澤，也覆蓋了久遠的塵影。<br/>
                 三十餘年的老壺，各自蘊藏著獨有的氣息與故事。<br/>
                 壺上落款，是匠人留下的歲月簽名。
-
             </h3>
             <p style="margin-top: 1rem; font-size: clamp(0.8rem, 2vw, 1.2rem);"
                data-zh="靜候茗香共賞的有緣人。"
@@ -74,89 +72,121 @@
             </p>
         </div>
         <br />
-        <div class="product-grid" id="product-container"></div>
+        <div class="product-grid" id="product-container">
+            </div>
     </div>
 
     <script>
+    const API_URL = "http://localhost:3000/products"; 
+    const TEA_CATEGORY = "teapot"; 
+    let currentLang = 'zh'; // 預設語言
+
     document.addEventListener('DOMContentLoaded', () => {
 
-        // 載入 menu-have-color.html
+        // 載入 menu-have-color.html (這部分依賴你的 menu-have-color.html 檔案)
         fetch('menu-have-color.html')
             .then(res => res.text())
-           
             .then(data => {
                 document.getElementById('navbar').innerHTML = data;
-
-                const toggleBtn = document.getElementById('toggle-lang');
-                if(toggleBtn){
-                    toggleBtn.addEventListener('click', function(e){
-                        e.preventDefault();
-                        if(toggleBtn.innerText === "English"){
-                            document.querySelectorAll('[data-en]').forEach(el=>{
-                                el.innerText = el.getAttribute('data-en');
-                            });
-                            toggleBtn.innerText = "繁體中文";
-                        } else {
-                            document.querySelectorAll('[data-zh]').forEach(el=>{
-                                el.innerText = el.getAttribute('data-zh');
-                            });
-                            toggleBtn.innerText = "English";
-                        }
+                
+                // 假設語言切換按鈕 ID 是 'langToggleBtn'
+                const langToggleBtn = document.getElementById('langToggleBtn'); 
+                if (langToggleBtn) {
+                    langToggleBtn.addEventListener('click', () => {
+                        currentLang = currentLang === 'zh' ? 'en' : 'zh';
+                        applyLanguage(currentLang);
+                        localStorage.setItem('siteLang', currentLang); // 儲存語言設定
                     });
                 }
-            });
+                // 確保初始載入後語言正確
+                const savedLang = localStorage.getItem('siteLang') || 'zh';
+                applyLanguage(savedLang);
+            })
+            .catch(error => console.error("載入導航欄失敗:", error));
         
-        const staticProducts = [
-            //{ zhTitle: "A", enTitle: "A", zhPrice: "價格：聯絡我們獲得報價", enPrice: "Price: Contact us for a quote",
-              //images: ["./images/web-cw1.jpg","./images/web-cw2.jpg","./images/web-cw3.jpg"], link: "wood_commodity/first_w.html" },
-            //{ zhTitle: "B", enTitle: "B", zhPrice: "價格：聯絡我們獲得報價", enPrice: "Price: Contact us for a quote",
-              //images: ["./images/web-cw4.jpg","./images/web-cw5.jpg","./images/web-cw6.jpg"], link: "wood_commodity/first_w.html" }
-        ];
+        // 語言切換邏輯
+        function applyLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-zh], [data-en]').forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) el.textContent = text;
+            });
+            const langBtn = document.getElementById('langToggleBtn');
+            if (langBtn) {
+                langBtn.textContent = lang === 'zh' ? 'EN/中' : '中/EN';
+            }
+        }
 
-        function renderAllProducts() {
+        // 核心：從 API 取得商品並篩選茶壺
+        async function fetchAndRenderTeapots() {
             const productContainer = document.querySelector('.product-grid');
-            const dynamicProducts = JSON.parse(localStorage.getItem('tea_set')) || [];
-            const allProducts = [...staticProducts, ...dynamicProducts];
+            productContainer.innerHTML = '<div class="col-12 text-center text-muted">載入中...</div>';
 
-            allProducts.forEach((product, index) => {
-                const productId = `product-${index}`;
-                const imagesHtml = product.images.map((imgUrl, imgIndex) => `
-                    <div class="carousel-item ${imgIndex===0?'active':''}">
-                        <img src="${imgUrl}" class="d-block w-100" alt="${product.zhTitle}" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
-                    </div>
-                `).join('');
+            try {
+                const res = await fetch(API_URL);
+                if (!res.ok) throw new Error("API 請求失敗");
+                
+                let allProducts = await res.json();
 
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card card';
-                productCard.innerHTML = `
-                    <div id="${productId}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
-                        <div class="carousel-inner">${imagesHtml}</div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#${productId}" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">上一張</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#${productId}" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">下一張</span>
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title" data-zh="${product.zhTitle}" data-en="${product.enTitle}">${product.zhTitle}</h5>
-                        <p class="text-danger" data-zh="${product.zhPrice}" data-en="${product.enPrice}">${product.zhPrice}</p>
-                    </div>
-                `;
+                // 篩選出 category 為 'teapot' 的商品
+                const teapotProducts = allProducts.filter(p => p.category === TEA_CATEGORY);
+                
+                if (teapotProducts.length === 0) {
+                    productContainer.innerHTML = '<div class="col-12 text-center text-muted">目前沒有任何茶壺商品。</div>';
+                    return;
+                }
 
-                productCard.querySelector('.carousel').addEventListener('click', () => {
-                    window.location.href = `./teaset_commodity/first.html?index=${index}`;
+                productContainer.innerHTML = ''; // 清空載入中提示
+
+                teapotProducts.forEach((product) => {
+                    const productId = `product-${product.id}`; 
+                    
+                    const imagesList = Array.isArray(product.images) ? product.images : (product.image ? [product.image] : []);
+                    
+                    const imagesHtml = imagesList.map((imgUrl, imgIndex) => `
+                        <div class="carousel-item ${imgIndex===0?'active':''}">
+                            <img src="${imgUrl}" class="d-block w-100" alt="${product.zhTitle}" style="height:240px; object-fit:cover; border-radius: 6px 6px 0 0;">
+                        </div>
+                    `).join('');
+
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card card';
+                    productCard.innerHTML = `
+                        <div id="${productId}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000" style="cursor:pointer;">
+                            <div class="carousel-inner">${imagesHtml}</div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#${productId}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">上一張</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#${productId}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">下一張</span>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title" data-zh="${product.zhTitle}" data-en="${product.enTitle}">${product.zhTitle}</h5>
+                            <p class="text-danger" data-zh="${product.zhPrice}" data-en="${product.enPrice}">${product.zhPrice}</p>
+                        </div>
+                    `;
+
+                    productCard.querySelector('.carousel').addEventListener('click', () => {
+                        // 導向商品詳細頁，使用資料庫中的 link 欄位
+                        window.location.href = product.link || `./teaset_commodity/default.html?id=${product.id}`;
+                    });
+
+                    productContainer.appendChild(productCard);
                 });
 
-                productContainer.appendChild(productCard);
-            });
+                // 載入商品後再次套用語言，確保新生成的文字也切換
+                applyLanguage(currentLang);
 
-            // 立即套用語言設定
-            applyLanguage(localStorage.getItem('siteLang') || 'zh');
+            } catch (error) {
+                console.error("載入茶壺商品失敗:", error);
+                productContainer.innerHTML = `<div class="col-12 text-center text-danger">商品載入失敗：${error.message}</div>`;
+            }
         }
-        renderAllProducts();
+        
+        fetchAndRenderTeapots();
     });
     </script>
 </body>

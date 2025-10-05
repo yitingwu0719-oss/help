@@ -1,291 +1,230 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>商品詳細資訊</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch('../menu-no-english.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('navbar').innerHTML = data;
-                })
-                .catch(err => console.error("載入 menu.html 錯誤:", err));
-        });
-  </script>
-  <style>
-    .square-img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      border-radius: 8px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      position: relative;
-    }
-    .carousel-control-prev,
-    .carousel-control-next {
-      width: 40px;
-    }
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-      background-image: none !important;
-    }
-    .carousel-control-prev-icon::after {
-      content: '‹';
-      font-size: 3rem;
-      color: black;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      user-select: none;
-      pointer-events: none;
-    }
-    .carousel-control-next-icon::after {
-      content: '›';
-      font-size: 3rem;
-      color: black;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      user-select: none;
-      pointer-events: none;
-    }
-    .thumbnail-img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 6px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: border-color 0.3s;
-      user-select: none;
-    }
-    .thumbnail-img.active {
-      border-color: #b1cbe7;
-    }
-    .img-magnifier-glass {
-      position: absolute;
-      border: 3px solid #000;
-      border-radius: 50%;
-      cursor: none;
-      width: 120px;
-      height: 120px;
-      box-shadow: 0 0 8px 2px rgba(0,0,0,0.3);
-      z-index: 10;
-      display: none;
-    }
-    .img-magnifier-container {
-      position: relative;
-      display: inline-block;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>商品詳細資訊</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .square-img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 8px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 40px;
+        }
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-image: none !important;
+        }
+        .carousel-control-prev-icon::after {
+            content: '‹';
+            font-size: 3rem;
+            color: black;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            user-select: none;
+            pointer-events: none;
+        }
+        .carousel-control-next-icon::after {
+            content: '›';
+            font-size: 3rem;
+            color: black;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            user-select: none;
+            pointer-events: none;
+        }
+        .thumbnail-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+            user-select: none;
+        }
+        .thumbnail-img.active {
+            border-color: #b1cbe7;
+        }
+        .img-magnifier-glass {
+            position: absolute;
+            border: 3px solid #000;
+            border-radius: 50%;
+            cursor: none;
+            width: 120px;
+            height: 120px;
+            box-shadow: 0 0 8px 2px rgba(0,0,0,0.3);
+            z-index: 10;
+            display: none;
+        }
+        .img-magnifier-container {
+            position: relative;
+            display: inline-block;
+        }
+    </style>
 </head>
 <body class="container-fluid py-4">
 
-  <div id="navbar"></div>
-  <br/>
-  <a href="../index.html" class="btn btn-outline-secondary mb-3">← 回商品列表</a>
+    <div id="navbar"></div>
+    <br/>
+    <a href="../index.html" class="btn btn-outline-secondary mb-3">← 回商品列表</a>
 
-  <div class="row gx-0">
-    <div class="col-md-6">
-      <div id="carouselExample" class="carousel slide mb-2" data-bs-ride="carousel">
-        <div class="carousel-inner" id="carouselInner"></div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">上一張</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">下一張</span>
-        </button>
-      </div>
-      <div class="d-flex justify-content-center gap-2 mb-4" id="thumbnailContainer"></div>
+    <div class="row gx-0">
+        <div class="col-md-6">
+            <div id="carouselExample" class="carousel slide mb-2" data-bs-ride="carousel">
+                <div class="carousel-inner" id="carouselInner"></div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">上一張</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">下一張</span>
+                </button>
+            </div>
+            <div class="d-flex justify-content-center gap-2 mb-4" id="thumbnailContainer"></div>
+        </div>
+        <div class="col-md-6">
+            <h1 id="productName">商品名稱</h1>
+            <p id="productPrice" class="text-danger fs-4"></p>
+            <p id="productDesc"></p>
+
+            <div class="mb-3">
+                <label for="quantityInput" class="form-label">數量</label>
+                <input type="number" class="form-control" id="quantityInput" value="1" min="1" style="width:100px;">
+            </div>
+            
+            <button id="addToCartBtn" class="btn btn-primary">加入購物車</button>
+        </div>
     </div>
 
-    <div class="col-md-6">
-      <h1 id="productName">作品名稱</h1>
-      <p id="productPrice" class="text-danger fs-4"></p>
-      <p id="productDesc"></p>
-
-            <!-- 尺寸選項 -->
-      <div class="mb-3">
-        <label class="form-label d-block">尺寸</label>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="sizeOption" id="size1" value="明信片 14.8 x 10.5 cm" checked>
-          <label class="form-check-label" for="size1">明信片 14.8 公分 x 10.5 公分</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="sizeOption" id="size2" value="海報 4K">
-          <label class="form-check-label" for="size2">海報 4K</label>
-        </div>
-      </div>
-
-      <!-- 數量 -->
-      <div class="mb-3">
-        <label for="quantityInput" class="form-label">數量</label>
-        <input type="number" class="form-control" id="quantityInput" value="1" min="1" style="width:100px;">
-      </div>
-
-      <button id="addToCartBtn" class="btn btn-primary">加入購物車</button>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // 放大鏡功能
-        function setupMagnifier(img, zoomLevel = 3) {
-            if (!img) return;
-            // ... (函式內容不變)
+document.addEventListener("DOMContentLoaded", async function () {
+    // Step 1: 載入導覽列
+    try {
+        const menuRes = await fetch('../menu-have-color.html');
+        document.getElementById('navbar').innerHTML = await menuRes.text();
+    } catch (err) {
+        console.error("載入 menu.html 錯誤:", err);
+    }
+
+    // Step 2: 從 URL 取得商品 id
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id'); // 改用 id
+
+    if (!productId) {
+        document.body.innerHTML = '<p class="text-danger fs-3">未提供商品 ID</p><a href="../index.html">返回商品列表</a>';
+        return;
+    }
+
+    // Step 3: 從後端抓取單一商品
+    let product;
+    try {
+        const res = await fetch(`http://localhost:3000/products/${productId}`);
+        if (!res.ok) throw new Error("找不到商品資料");
+        product = await res.json();
+        if (!product) throw new Error("找不到商品資料");
+    } catch (err) {
+        console.error(err);
+        document.body.innerHTML = '<p class="text-danger fs-3">找不到商品資料</p><a href="../index.html">返回商品列表</a>';
+        return;
+    }
+
+    // Step 4: 更新頁面資訊
+    document.getElementById('productName').textContent = product.zhTitle;
+    document.getElementById("productPrice").textContent = product.zhPrice;
+    const zhDesc = product.zhDesc || '暫無中文描述';
+    const enDesc = product.enDesc || 'No English description available.';
+    document.getElementById('productDesc').innerHTML = `
+        ${zhDesc}<br><br>
+        ${product.enTitle || ''}<br><br>
+        Price: ${product.enPrice || ''}<br><br>
+        ${enDesc}
+    `;
+
+    // Step 5: 載入圖片輪播
+    const carouselInner = document.getElementById('carouselInner');
+    const thumbnailContainer = document.getElementById('thumbnailContainer');
+    const images = Array.isArray(product.images) ? product.images : [];
+
+    images.forEach((src, index) => {
+        const div = document.createElement('div');
+        div.className = 'carousel-item' + (index === 0 ? ' active' : '');
+        const imgContainer = document.createElement('div');
+        imgContainer.className = 'img-magnifier-container';
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `${product.zhTitle} 圖${index + 1}`;
+        img.className = 'd-block square-img';
+        imgContainer.appendChild(img);
+        div.appendChild(imgContainer);
+        carouselInner.appendChild(div);
+
+        const thumb = document.createElement('img');
+        thumb.src = src;
+        thumb.className = 'thumbnail-img' + (index === 0 ? ' active' : '');
+        thumb.alt = `${product.zhTitle} 預覽圖${index + 1}`;
+        thumb.dataset.bsSlideTo = index;
+        thumb.addEventListener('click', () => {
+            const carousel = bootstrap.Carousel.getOrCreateInstance(document.getElementById('carouselExample'));
+            carousel.to(index);
+        });
+        thumbnailContainer.appendChild(thumb);
+    });
+
+    const carouselEl = document.getElementById('carouselExample');
+    carouselEl.addEventListener('slid.bs.carousel', (e) => {
+        const idx = Array.from(carouselInner.children).indexOf(e.relatedTarget);
+        document.querySelectorAll('.thumbnail-img').forEach(img => img.classList.remove('active'));
+        if (idx >= 0) document.querySelectorAll('.thumbnail-img')[idx].classList.add('active');
+    });
+
+    // 綁定加入購物車
+document.getElementById("addToCartBtn").addEventListener("click", async () => {
+  const quantity = parseInt(document.getElementById("quantityInput").value);
+  if (isNaN(quantity) || quantity < 1) return alert("請輸入有效數量");
+
+  const productId = new URLSearchParams(window.location.search).get("id");
+
+  try {
+    // 呼叫後端 API，只傳 productId 和 quantity
+    const response = await fetch("http://localhost:3000/cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId, quantity })
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "加入購物車失敗");
+
+            // 顯示 Toast 提示
+            const toastEl = document.getElementById("cartToast");
+            const toastBody = document.getElementById("cartToastBody");
+            toastBody.textContent = `已加入購物車：${product.zhTitle} x ${quantity}`;
+            new bootstrap.Toast(toastEl).show();
+        } catch (err) {
+            console.error(err);
+            alert("加入購物車失敗");
         }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            // Step 1: 載入導覽列
-            fetch('../menu-have-color.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('navbar').innerHTML = data;
-                })
-                .catch(err => console.error("載入 menu.html 錯誤:", err));
-
-            // Step 2: 從 URL 參數和 localStorage 讀取作品資料
-            const urlParams = new URLSearchParams(window.location.search);
-            const productIndex = parseInt(urlParams.get('index'), 10);
-
-            // 靜態作品資料
-            const staticProducts = [
-                //{
-                    //zhTitle: "A",
-                    //enTitle: "A",
-                    //zhPrice: "價格：聯絡我們獲得報價",
-                    //enPrice: "Price: Contact us for a quote",
-                    //zhDesc: "家中珍藏的木雕，靜靜直立櫃中多年。如今再次與你相伴，成為屬於你最佳的後盾。",
-                    //enDesc: "The wooden carving treasured at home has stood quietly in the cabinet for many years. Now, reunited with you, it becomes your strongest support.",
-                    //images: ["../images/web-cw1.jpg", "../images/web-cw2.jpg", "../images/web-cw3.jpg"]
-                //},
-                //{
-                    //zhTitle: "B",
-                    //enTitle: "B",
-                    //zhPrice: "價格：聯絡我們獲得報價",
-                    //enPrice: "Price: Contact us for a quote",
-                    //zhDesc: "家中珍藏的木雕，靜靜直立櫃中多年。如今再次與你相伴，成為屬於你最佳的後盾。",
-                    //enDesc: "The wooden carving treasured at home has stood quietly in the cabinet for many years. Now, reunited with you, it becomes your strongest support.",
-                    //images: ["../images/web-cw4.jpg", "../images/web-cw5.jpg", "../images/web-cw6.jpg"]
-                //}
-            ];
-
-            const dynamicProducts = JSON.parse(localStorage.getItem('work')) || [];
-            const allProducts = [...staticProducts, ...dynamicProducts];
-
-            const product = allProducts[productIndex];
-
-            if (!product) {
-                document.body.innerHTML = '<p class="text-danger fs-3">找不到商品資料</p><a href="../index.html">返回商品列表</a>';
-                return;
-            }
-
-            // 更新頁面上的產品資訊
-            document.getElementById('productName').innerHTML = product.zhTitle;
-            document.getElementById("productPrice").innerHTML = product.zhPrice;
-            
-            // *** 這裡新增了檢查 product.zhDesc 是否存在，若無則顯示自定義訊息 ***
-            const zhDesc = product.zhDesc || '暫無中文描述';
-            const enDesc = product.enDesc || 'No English description available.';
-
-            document.getElementById('productDesc').innerHTML = `
-                ${zhDesc}<br><br>
-                ${product.enTitle}<br><br>
-                Price: ${product.enPrice}<br><br>
-                ${enDesc}`;
-
-            // 動態生成圖片輪播和縮圖
-            const carouselInner = document.getElementById('carouselInner');
-            const thumbnailContainer = document.getElementById('thumbnailContainer');
-
-            product.images.forEach((src, index) => {
-                const div = document.createElement('div');
-                div.className = 'carousel-item' + (index === 0 ? ' active' : '');
-                const imgContainer = document.createElement('div');
-                imgContainer.className = 'img-magnifier-container';
-                const img = document.createElement('img');
-                img.src = src;
-                img.alt = `${product.zhTitle} 圖${index + 1}`;
-                img.className = 'd-block square-img';
-                imgContainer.appendChild(img);
-                div.appendChild(imgContainer);
-                carouselInner.appendChild(div);
-
-                const thumb = document.createElement('img');
-                thumb.src = src;
-                thumb.className = 'thumbnail-img' + (index === 0 ? ' active' : '');
-                thumb.alt = `${product.zhTitle} 預覽圖${index + 1}`;
-                thumb.dataset.bsSlideTo = index;
-                thumb.addEventListener('click', () => {
-                    const carousel = bootstrap.Carousel.getOrCreateInstance(document.getElementById('carouselExample'));
-                    carousel.to(index);
-                });
-                thumbnailContainer.appendChild(thumb);
-            });
-
-            // 監聽輪播事件，同步更新縮圖的 active 狀態
-            const carouselEl = document.getElementById('carouselExample');
-            carouselEl.addEventListener('slid.bs.carousel', (e) => {
-                const idx = Array.from(carouselInner.children).indexOf(e.relatedTarget);
-                document.querySelectorAll('.thumbnail-img').forEach(img => img.classList.remove('active'));
-                if (idx >= 0) document.querySelectorAll('.thumbnail-img')[idx].classList.add('active');
-            });
-
-            // 放大鏡功能 (保持不變)
-            const firstImg = carouselInner.querySelector('.carousel-item.active img');
-            setupMagnifier(firstImg, 3);
-            carouselEl.addEventListener('slid.bs.carousel', e => {
-                const activeImg = e.relatedTarget.querySelector('img');
-                setupMagnifier(activeImg, 3);
-            });
-
-  // 加入購物車
-    // 修改加入購物車按鈕事件
-    document.getElementById("addToCartBtn").addEventListener("click", () => {
-        const quantity = parseInt(document.getElementById("quantityInput").value);
-        if (isNaN(quantity) || quantity < 1) {
-            alert("請輸入有效的數量 (至少 1)");
-            return;
-        }
-
-        const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-        // 以 product.zhTitle 當 id 判斷是否存在
-        const existingIndex = cart.findIndex(item => item.id === product.zhTitle);
-
-        if (existingIndex >= 0) {
-            cart[existingIndex].quantity += quantity;
-        } else {
-            cart.push({
-                id: product.zhTitle,
-                name: product.zhTitle,
-                price: product.zhPrice,
-                quantity: quantity,
-                image: product.images[0]
-            });
-        }
-
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        // 顯示 Toast 提示
-        const toastEl = document.getElementById("cartToast");
-        const toastBody = document.getElementById("cartToastBody");
-        toastBody.textContent = `已加入購物車：${product.zhTitle} x ${quantity}`;
-        const toast = new bootstrap.Toast(toastEl);
-        toast.show();
     });
 });
 </script>
+
 
     </script>
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
