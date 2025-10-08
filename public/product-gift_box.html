@@ -76,12 +76,11 @@
     <script>
     // 修正 Vercel 部署問題：使用相對路徑
     const API_URL = "/products.js"
-    const WOOD_CATEGORY = "wood"; // **定義木雕類別**
+    const WOOD_CATEGORY = "wood"; 
     let currentLang = 'zh'; // 假設語言切換需要
 
     document.addEventListener('DOMContentLoaded', () => {
 
-        // 載入 menu-have-color.html 及語言切換邏輯 (簡化)
         fetch('menu-have-color.html')
             .then(res => res.text())
             .then(data => {
