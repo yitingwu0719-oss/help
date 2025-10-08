@@ -7,7 +7,7 @@
         "price": 0,
         "zhPrice": "聯絡我們獲得報價",
         "enPrice": "Contact us for a quote",
-        "images": ["/images/web-cw1.jpg, /images/web-cw2.jpg, /images/web-cw3.jpg"]
+        "images": ["/images/web-cw1.jpg", "/images/web-cw2.jpg", "/images/web-cw3.jpg"]
     },
     { 
         "id": 2, 
@@ -17,6 +17,6 @@
         "price": 0,
         "zhPrice": "聯絡我們獲得報價",
         "enPrice": "Contact us for a quote",
-        "images": ["/images/web-cw4.jpg, /images/web-cw5.jpg, /images/web-cw6.jpg"]
+        "images": ["/images/web-cw4.jpg", "/images/web-cw5.jpg", "/images/web-cw6.jpg"]
     }
 ]
