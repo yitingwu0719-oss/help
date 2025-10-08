@@ -18,5 +18,15 @@
         "zhPrice": "聯絡我們獲得報價",
         "enPrice": "Contact us for a quote",
         "images": ["/images/web-cw4.jpg", "/images/web-cw5.jpg", "/images/web-cw6.jpg"]
+    },
+    { 
+        "id": 3, 
+        "zhTitle": "雲朵茶壺", 
+        "enTitle": "Cloud Teapot",
+        "category": "teaset", 
+        "price": 5000,
+        "zhPrice": "5000",
+        "enPrice": "5000",
+        "images": ["/images/web-c3.jpg", "/images/web-c4.jpg"]
     }
 ]
