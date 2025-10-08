@@ -1,22 +1,22 @@
 [
     { 
         "id": 1, 
-        "zhTitle": "木雕茶壺 - 歲月痕跡", 
-        "enTitle": "Carved Teapot - Traces of Time",
+        "zhTitle": "A", 
+        "enTitle": "A",
         "category": "wood", 
-        "price": 1200,
-        "zhPrice": "NT$1200",
-        "enPrice": "USD$40",
-        "images": ["/uploads/teapot-1.jpg", "/uploads/teapot-2.jpg"]
+        "price": 0,
+        "zhPrice": "聯絡我們獲得報價",
+        "enPrice": "Contact us for a quote",
+        "images": ["/images/web-cw1.jpg, /images/web-cw2.jpg, /images/web-cw3.jpg"]
     },
     { 
         "id": 2, 
-        "zhTitle": "茶具組", 
-        "enTitle": "Tea Set",
-        "category": "tea_set", 
-        "price": 5000,
+        "zhTitle": "B", 
+        "enTitle": "B",
+        "category": "B", 
+        "price": 0,
         "zhPrice": "聯絡我們獲得報價",
         "enPrice": "Contact us for a quote",
-        "images": ["/uploads/set-1.jpg"]
+        "images": ["/images/web-cw4.jpg, /images/web-cw5.jpg, /images/web-cw6.jpg"]
     }
 ]
